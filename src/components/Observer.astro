@@ -1,0 +1,129 @@
+<!--
+    Scroll-triggered fade-in animations.
+
+    `.js-anim` is set in the head blocking script (BaseLayout) — sync,
+    before paint. All `.animate*` elements start hidden only when that
+    class is present, so the first paint with JS disabled still shows
+    content at full opacity (no LCP penalty).
+
+    This observer watches those elements and flips `.visible` when they
+    intersect the viewport, triggering the CSS transition.
+
+    CRITICAL for SPA nav performance:
+    Previous version was `<script is:inline>` which re-executed on every
+    ClientRouter navigation, creating a NEW IntersectionObserver without
+    disconnecting the previous one. After 5 navs you had 5 observers all
+    firing callbacks on scroll/resize — the dominant source of main-thread
+    jank during the user's "stronka laguje" report.
+
+    Now it's a processed script bound once per session to astro:page-load.
+    Each nav disconnects the prior observer before creating a new one, so
+    exactly one IO is alive at any moment. Element-scoped listeners are
+    GC'd with the DOM on swap anyway.
+
+    Why requestAnimationFrame around classList.add:
+    Defers the class flip to the next frame so the browser sees a clean
+    "before" state (opacity 0) and "after" state (opacity 1), guaranteeing
+    the CSS transition plays. Also batches N class additions into a single
+    style recalc.
+
+    Why no getBoundingClientRect / innerHeight:
+    Both force synchronous layout. With `content-visibility: auto` on
+    below-fold sections, reading rects also un-skips those sections'
+    layout, defeating that optimization and producing 20ms+ forced
+    reflow blocks in Lighthouse. IntersectionObserver computes intersection
+    in the browser's internal rendering pipeline — no main-thread layout
+    read, no forced reflow.
+-->
+<script>
+    declare global {
+        interface Window { __rtdpfObserver?: IntersectionObserver }
+    }
+
+    const ANIMATE_SELECTOR = '.animate, .animate-fade-up, .animate-fade-left, .animate-scale'
+
+    function initObserver() {
+        // Disconnect the observer from the previous page before spinning
+        // up a new one. This is the whole point of the refactor — without
+        // it, every nav leaks another live IO.
+        if (window.__rtdpfObserver) {
+            window.__rtdpfObserver.disconnect()
+            window.__rtdpfObserver = undefined
+        }
+
+        // Enable ambient/bg infinite animations AFTER first paint — fires
+        // on astro:page-load which is post-LCP on the initial load, so the
+        // 4 bg layer loops + above-fold pulse/bounce never compete with
+        // the critical render. Idempotent on SPA nav (class stays set).
+        document.documentElement.classList.add('bg-anim')
+
+        // Defensive: if the head script didn't run (blocked/CSP), elements
+        // are visible by default — nothing to reveal, skip IO entirely.
+        if (!document.documentElement.classList.contains('js-anim')) return
+
+        const targets = document.querySelectorAll(ANIMATE_SELECTOR)
+        if (!targets.length) return
+
+        // With reduced motion the CSS transition is suppressed anyway, so
+        // skip the whole will-change dance and just flip the class.
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+        const observer = new IntersectionObserver((entries) => {
+            let toReveal: Element[] | null = null
+            for (const entry of entries) {
+                if (entry.isIntersecting) {
+                    if (!toReveal) toReveal = []
+                    toReveal.push(entry.target)
+                    observer.unobserve(entry.target)
+                }
+            }
+            if (toReveal) {
+                const batch = toReveal
+                requestAnimationFrame(() => {
+                    for (const el of batch) {
+                        const node = el as HTMLElement
+                        if (reduceMotion) { node.classList.add('visible'); continue }
+
+                        /* `will-change` promotes the element to its own
+                           compositor layer so the fade+slide never repaints
+                           its ancestors. It must be temporary: a permanent
+                           will-change keeps every revealed section in GPU
+                           memory for the life of the page, which on a long
+                           page costs more than the animation saves. Cleared
+                           on transitionend, with a timeout as the safety net
+                           for the case where the transition never fires
+                           (element scrolled out, display toggled, etc.). */
+                        node.style.willChange = 'transform, opacity'
+                        let cleared = false
+                        const clear = () => {
+                            if (cleared) return
+                            cleared = true
+                            node.style.willChange = ''
+                            node.removeEventListener('transitionend', onEnd)
+                        }
+                        const onEnd = (e: TransitionEvent) => {
+                            // opacity is the last property to settle — one
+                            // event per element instead of one per property.
+                            if (e.propertyName === 'opacity') clear()
+                        }
+                        node.addEventListener('transitionend', onEnd)
+                        setTimeout(clear, 2000)
+
+                        node.classList.add('visible')
+                    }
+                })
+            }
+        }, { threshold: 0.01, rootMargin: '0px 0px 50px 0px' })
+
+        window.__rtdpfObserver = observer
+        // Elements already revealed by the after-swap pass in BaseLayout
+        // don't need watching — observing them would just re-run the
+        // reveal work for no visual change.
+        for (const t of targets) {
+            if (!t.classList.contains('visible')) observer.observe(t)
+        }
+    }
+
+    // Fires on initial page load AND after every SPA nav (ClientRouter).
+    document.addEventListener('astro:page-load', initObserver)
+</script>

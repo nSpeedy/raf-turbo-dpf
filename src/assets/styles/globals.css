@@ -1,0 +1,672 @@
+/* Local fonts — served from public/fonts/, preloaded in BaseLayout.
+   Strategy: `font-display: swap` on ALL faces so the LCP element paints
+   with the system fallback immediately, then swaps to the web font when
+   it arrives (~10–50ms later from preloaded local woff2). This is the
+   only way to score 100 on Lighthouse Performance — `block` makes LCP
+   wait for the font and eats the render budget. */
+@font-face {
+    font-family: 'Inter Variable';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('/fonts/inter-variable.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter Variable';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 100 900;
+    src: url('/fonts/inter-variable-ext.woff2') format('woff2');
+    /* Subsetted to Latin Extended-A (PL/CZ/SK/HU diacritics) + capital
+       eszett (DE) + common typography (dashes, smart quotes, €, ™).
+       Vietnamese, IPA, phonetic extensions etc. dropped — not used by
+       PL/EN/DE locales. Cuts file 85 KB → ~15 KB without affecting
+       any rendered glyph in current content. */
+    unicode-range: U+0100-017F, U+1E9E, U+2010-2015, U+2018-201F, U+20AC, U+2122;
+}
+@font-face {
+    font-family: 'Syncopate';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url('/fonts/syncopate-ext-400.woff2') format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+    font-family: 'Syncopate';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url('/fonts/syncopate-400.woff2') format('woff2');
+    /* Subsetted to ASCII printable + Latin-1 supplement only. Chars outside
+       this range (Polish/German diacritics in U+0100+) fall through to the
+       ext face below. Hero LCP text ("NOWOCZESNE STRONY OD A DO Z." and
+       sister locales) is fully covered here. */
+    unicode-range: U+0020-007E,U+00A0-00FF;
+}
+/* Bold face for the LCP H1 (`font-bold font-heading`). Without it the
+   browser synthesizes bold from the 400 face — blurry, widened glyphs.
+   Same base subset as the 400 face; diacritics outside the range fall
+   through to the ext-400 face (auto-emboldened — acceptable for the rare
+   accented heading glyph). */
+@font-face {
+    font-family: 'Syncopate';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 700;
+    src: url('/fonts/syncopate-700.woff2') format('woff2');
+    unicode-range: U+0020-007E,U+00A0-00FF;
+}
+@font-face {
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url('/fonts/orbitron-400.woff2') format('woff2');
+}
+/* Covers `font-semibold`/`font-bold` on .font-mono UI labels (browser
+   picks 700 as the closest declared weight — no synthetic bold). */
+@font-face {
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 700;
+    src: url('/fonts/orbitron-700.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Zen Dots';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url('/fonts/zen-dots-400.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Doto';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 500;
+    src: url('/fonts/doto-500.woff2') format('woff2');
+}
+
+/* Metric-matched fallback for Syncopate (LCP H1 font). Renders as system
+   Arial but stretched to roughly Syncopate's cap-height + advance width,
+   so the fallback→real swap doesn't shift the LCP element. Without this,
+   `font-display: swap` works but the swap moment introduces measurable
+   CLS on the H1, costing 1–2 Lighthouse points. Conservative values for
+   a wide all-caps display font. Chained into `--font-heading` below. */
+@font-face {
+    font-family: 'Syncopate Fallback';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arial'), local('Helvetica');
+    size-adjust: 102%;
+    ascent-override: 88%;
+    descent-override: 22%;
+    line-gap-override: 0%;
+}
+
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════
+   TAILWIND THEME BRIDGE
+   Maps the runtime theme tokens (below) into Tailwind v4
+   utilities, so markup says `bg-accent/10`, `text-fg`,
+   `border-line`, `shadow-panel`, `rounded-card` instead of
+   arbitrary values like `bg-[var(--accent-glow)]` or inline
+   styles. `inline` keeps the var() reference inside the
+   generated utility, so every utility follows the active
+   single palette below; opacity modifiers
+   (`bg-accent/10`) compile to color-mix() over the live var.
+   ═══════════════════════════════════════════════════════ */
+@theme inline {
+    --color-accent:       var(--accent-solid);
+    --color-accent-soft:  var(--accent-glow);
+    --color-surface:      var(--color-bg);
+    --color-surface-soft: var(--color-bg-soft);
+    --color-surface-nav:  var(--color-bg-nav);
+    --color-fg:           var(--color-text);
+    --color-line:         var(--color-border);
+    --shadow-panel:       var(--elev-panel);
+}
+
+/* Non-color design tokens with literal defaults — emitted as CSS vars,
+   so a project (or a theme block) can still override them. */
+@theme {
+    --radius-card: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RAF TURBO DPF — SINGLE LIGHT THEME (white + red)
+   ═══════════════════════════════════════════════════════
+   One palette, no [data-theme] variants, no runtime switcher. Re-skinning
+   is done by editing the tokens below — that is the whole surface.
+
+   The greys are NEUTRAL, not slate: slate carries a blue cast that reads
+   as dirty next to red. Swapping the accent family without swapping the
+   greys is the usual reason a red re-skin looks off.
+
+   Contrast (WCAG, all measured on --color-bg #ffffff):
+     --color-text        #171717   17.86:1  AAA
+     --color-text-muted  #525252    7.82:1  AAA
+     --color-text-dim    #737373    4.74:1  AA
+     --accent-solid      #dc2626    4.83:1  AA   (safe for icons AND text)
+     --badge-text        #991b1b    8.31:1  AAA
+     --cta-bg            #dc2626    4.83:1  AA   (against white button text)
+   Gradient stops run #ef4444 (3.76:1) -> #991b1b (8.31:1); all clear the
+   3:1 bar for the large display text they are used on. Never put a
+   gradient stop on body copy.
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+    color-scheme: light;
+
+    /* ── Core palette ── */
+    --color-bg:              #ffffff;
+    --color-bg-soft:         #f7f6f6;  /* section tint, a hair warm so it sits under red */
+    --color-bg-nav:          rgba(255,255,255,0.88);
+    --color-text:            #171717;  /* neutral-900 */
+    --color-text-muted:      #525252;  /* neutral-600 */
+    --color-text-dim:        #737373;  /* neutral-500 */
+    --color-border:          #e5e5e5;  /* neutral-200 */
+
+    /* ── Elevation (dropdown panels etc.) ── */
+    --elev-panel:            0 10px 30px rgba(0,0,0,0.10);
+
+    /* ── Accent — red, stepped dark enough for a white ground ──
+       red-500 is the lightest stop that still clears 3:1, so the ramp
+       starts there rather than at the brighter reds. */
+    --accent-from:           #ef4444;  /* red-500 — 3.76:1 */
+    --accent-via:            #dc2626;  /* red-600 — 4.83:1 */
+    --accent-to:             #991b1b;  /* red-800 — 8.31:1 */
+    --accent-solid:          #dc2626;  /* red-600 */
+    --accent-glow:           rgba(220,38,38,0.10);
+
+    /* ── Grid — off. Kept as tokens so the fixed layers in BaseLayout
+         stay inert rather than needing their markup removed. ── */
+    --grid-color:            rgba(0,0,0,0.03);
+    --grid-size:             80px;
+    --grid-speed:            20s;
+    --grid-opacity:          0;
+    --grid2-color:           rgba(0,0,0,0.02);
+    --grid2-size:            120px;
+    --grid2-speed:           15s;
+
+    /* ── Typography ── */
+    /* Inter, not Syncopate: the Syncopate 700 subset stops at Latin-1, so
+       Polish diacritics in a bold heading fell back to another face
+       mid-word. One family for headings and body — differentiate with
+       weight and tracking, not with a second typeface that cannot spell
+       "turbosprężarek". */
+    --font-heading:          'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-body:             'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono:             'Orbitron', 'Inter Variable', sans-serif;
+    --font-display:          'Zen Dots', sans-serif;
+    --font-alt:              'Doto', sans-serif;
+
+    /* ── Theme overlay ── */
+    --theme-overlay:         none;
+    --theme-overlay-opacity: 0;
+
+    /* ── Cards — white on white needs a shadow, not a glow ── */
+    --card-bg:               #ffffff;
+    --card-border:           #e5e5e5;
+    --card-shadow:           0 1px 2px rgba(0,0,0,0.05);
+    --card-hover-border:     rgba(220,38,38,0.35);
+    --card-hover-glow:       rgba(0,0,0,0.06);
+    --card-shadow-hover:     0 12px 28px rgba(0,0,0,0.10);
+
+    /* ── Badges / tags ── */
+    --badge-bg:              rgba(220,38,38,0.10);
+    --badge-text:            #991b1b;
+
+    /* ── CTA button ── */
+    --cta-bg:                #dc2626;
+    --cta-text:              #ffffff;
+    --cta-hover-bg:          #991b1b;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════ */
+
+body {
+    --sb-track-color: #f5f5f5;
+    --sb-thumb-color: #d4d4d4;
+    --sb-size: 6px;
+}
+
+body::-webkit-scrollbar {
+    width: var(--sb-size);
+}
+body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 3px;
+}
+body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 3px;
+}
+@supports not selector(::-webkit-scrollbar) {
+    body {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SELECTION & SCROLL PROGRESS
+   ═══════════════════════════════════════════════════════ */
+
+/* Text selection follows the active theme accent. The translucent bg
+   keeps the original glyph colours readable on every theme (incl. light). */
+::selection {
+    background: color-mix(in srgb, var(--accent-solid) 30%, transparent);
+    color: var(--color-text);
+}
+
+/* Reading-progress hairline pinned above the navbar (nav is z-50).
+   Scroll-driven animation = zero JS, compositor-only transform, no
+   scroll listener to jank the main thread. Browsers without
+   `animation-timeline` (Firefox stable) simply never grow the bar past
+   scaleX(0) — invisible, so no fallback is needed. */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 60;
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--accent-from), var(--accent-via), var(--accent-to));
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    animation: scroll-progress-grow linear both;
+    animation-timeline: scroll(root);
+}
+
+@keyframes scroll-progress-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════ */
+
+/* Gradient text — generous padding prevents clipping on letters like J, g, y */
+.gradient-text {
+    background: linear-gradient(135deg, var(--accent-from), var(--accent-via), var(--accent-to));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    padding-bottom: 0.3em;
+    padding-top: 0.1em;
+    margin-bottom: -0.2em;
+}
+
+.font-heading { font-family: var(--font-heading); }
+.font-mono    { font-family: var(--font-mono); }
+.font-display { font-family: var(--font-display); }
+.font-alt     { font-family: var(--font-alt); }
+
+/* ── Cards ── */
+.theme-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.theme-card:hover {
+    border-color: var(--card-hover-border);
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ── Gradient-bordered card (accent glow) ── */
+.glow-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.glow-card:hover {
+    border-color: var(--card-hover-border);
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ── Nav ── */
+.theme-nav {
+    background: var(--color-bg-nav);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(16px) saturate(1.5);
+}
+.group:hover .nav-link-text:not(.gradient-text) {
+    color: var(--color-text) !important;
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ── Footer ── */
+.theme-footer {
+    background: var(--color-bg-nav);
+    border-top: 1px solid var(--color-border);
+    backdrop-filter: blur(16px);
+}
+
+/* Drop the expensive backdrop-filter on mobile. A sticky navbar with blur
+   forces a full repaint of the blur region on every scroll frame, which is
+   main-thread-heavy on low-end Android (Lighthouse's Moto G4 profile). On a
+   small viewport the visual difference is marginal; an opaque background
+   keeps the same contrast without the per-frame paint cost. */
+@media (max-width: 768px) {
+    .theme-nav,
+    .theme-footer {
+        backdrop-filter: none;
+        background: var(--color-bg);
+    }
+}
+
+/* ── Badges ── */
+.theme-badge {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    transition: background 0.2s, color 0.2s;
+}
+.theme-badge:hover {
+    background: color-mix(in srgb, var(--accent-from) 12%, transparent);
+    color: var(--color-text);
+}
+
+/* ── CTA button ── */
+.theme-cta {
+    background: var(--cta-bg);
+    color: var(--cta-text);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.theme-cta:hover {
+    background: var(--cta-hover-bg);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+/* ── Ghost button (outline) ── */
+.theme-ghost {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    transition: border-color 0.2s, background 0.2s;
+}
+.theme-ghost:hover {
+    border-color: var(--accent-solid);
+    background: var(--accent-glow);
+}
+
+/* ── Text utilities ── */
+.text-muted  { color: var(--color-text-muted); }
+.text-dim    { color: var(--color-text-dim); }
+.border-theme { border-color: var(--color-border); }
+
+/* ── Decorative ── */
+.accent-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-solid);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+.accent-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-solid), transparent);
+    opacity: 0.3;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BACKGROUND LAYERS — fixed, GPU-composited
+   Styles extracted from inline (smaller HTML, cached style parse).
+   ═══════════════════════════════════════════════════════ */
+
+.bg-grid-layer {
+    position: fixed;
+    pointer-events: none;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    contain: strict;
+}
+
+/* Two grid patterns share the same linear-gradient shape — one on X
+   (90deg) and one on Y (0deg) — intersecting as a grid. Over-sized by
+   2× tile via negative inset so the one-tile translate3d drift never
+   reveals a bare edge. */
+.bg-grid-1 {
+    inset: calc(var(--grid-size) * -2);
+    opacity: var(--grid-opacity);
+    background:
+        linear-gradient(90deg, transparent 24%, var(--grid-color) 25% 26%, transparent 27% 74%, var(--grid-color) 75% 76%, transparent 77%),
+        linear-gradient( 0deg, transparent 24%, var(--grid-color) 25% 26%, transparent 27% 74%, var(--grid-color) 75% 76%, transparent 77%);
+    background-size: var(--grid-size) var(--grid-size);
+}
+.bg-grid-2 {
+    inset: calc(var(--grid2-size) * -2);
+    opacity: var(--grid-opacity);
+    background:
+        linear-gradient(90deg, transparent 24%, var(--grid2-color) 25% 26%, transparent 27% 74%, var(--grid2-color) 75% 76%, transparent 77%),
+        linear-gradient( 0deg, transparent 24%, var(--grid2-color) 25% 26%, transparent 27% 74%, var(--grid2-color) 75% 76%, transparent 77%);
+    background-size: var(--grid2-size) var(--grid2-size);
+}
+.bg-glow {
+    top: 0;
+    left: 50%;
+    width: 800px;
+    height: 500px;
+    transform: translate(-50%, 0);
+    transform-origin: top center;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+}
+.bg-scanline {
+    inset: -100px 0;
+    background: var(--theme-overlay);
+    opacity: var(--theme-overlay-opacity);
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACCESSIBILITY: prefers-reduced-motion
+   ═══════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .animate, .animate-fade-up, .animate-fade-left, .animate-scale {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLL-TRIGGERED ANIMATIONS (IntersectionObserver)
+   ═══════════════════════════════════════════════════════
+   Default (no JS): elements fully visible so LCP isn't gated on a
+   `.visible` class flip. Only when `<html>` has `.js-anim` (set
+   synchronously in <head>) do elements start hidden and animate in. */
+
+html.js-anim .animate           { opacity: 0; transform: translateY(30px); }
+html.js-anim .animate-fade-up   { opacity: 0; transform: translateY(40px); }
+html.js-anim .animate-fade-left { opacity: 0; transform: translateX(40px); }
+html.js-anim .animate-scale     { opacity: 0; transform: scale(0.9); }
+
+:is(.animate, .animate-fade-up, .animate-fade-left, .animate-scale) {
+    /* Opacity and transform share one duration & easing. Unsynced, opacity
+       finishes at 250ms while transform keeps moving until 600ms, which on
+       slower mobile CPUs reads as two separate phases (fade-in, then
+       fade-up). One curve = one motion. */
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-anim :is(.animate, .animate-fade-up, .animate-fade-left, .animate-scale).visible {
+    opacity: 1;
+    transform: none;
+}
+
+.animate-delay-100 { transition-delay: 0.1s; }
+.animate-delay-200 { transition-delay: 0.2s; }
+.animate-delay-300 { transition-delay: 0.3s; }
+.animate-delay-400 { transition-delay: 0.4s; }
+.animate-delay-500 { transition-delay: 0.5s; }
+
+/* ═══════════════════════════════════════════════════════
+   INFINITE ANIMATIONS — gated on html.bg-anim (added post-LCP).
+   Keeps style-recalc + compositor setup out of the LCP window.
+   ═══════════════════════════════════════════════════════ */
+
+html.bg-anim .bg-grid-1      { animation: gridMoveRight var(--grid-speed) linear infinite both; }
+html.bg-anim .bg-grid-2      { animation: gridMoveLeft  var(--grid2-speed) linear infinite both; }
+html.bg-anim .bg-glow        { animation: glowPulse 6s ease-in-out infinite; }
+html.bg-anim .bg-scanline    { animation: scanlineDrift 8s linear infinite; }
+html.bg-anim .ambient-pulse  { animation: ambientPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+html.bg-anim .ambient-bounce { animation: bounce-slow 2s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION SPACING
+   ═══════════════════════════════════════════════════════ */
+
+/* `padding-block`, never the `padding` shorthand: these rules are
+   unlayered and therefore outrank Tailwind's `px-*` utilities, so a
+   shorthand here silently zeroes the horizontal padding of every section
+   that combines the two. */
+.section-padding-small { padding-block: 4rem; }
+.section-padding       { padding-block: 8rem; }
+.section-padding-large { padding-block: 12rem; }
+
+@media (max-width: 768px) {
+    .section-padding       { padding-block: 4rem; }
+    .section-padding-large { padding-block: 6rem; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO PHOTO (split layout)
+   ═══════════════════════════════════════════════════════
+   The headline lives in its own column on the page background and the
+   photograph takes the other half — so there is no wash over the text and
+   the photo keeps its full contrast. This is why the layout is a split:
+   turbocharger photography is dark and busy, and the amount of white
+   needed to make dark text readable on top of it would flatten the image
+   to grey.
+
+   There is deliberately NO gradient fade where the photo meets the text
+   column. A white-to-transparent wash over a dark, cluttered photo edge
+   does not read as a soft transition — it reads as haze smeared across a
+   third of the image. The edge is a clean rounded corner instead (set in
+   the markup), which is a decision rather than an apology for one. */
+.hero-photo {
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BELOW-THE-FOLD SECTIONS
+   ═══════════════════════════════════════════════════════
+   `content-visibility: auto` lets the browser skip layout AND paint for
+   a section until it approaches the viewport. `contain-intrinsic-size`
+   supplies a placeholder height so the scrollbar does not jump as each
+   section is realised — omitting it turns the optimisation into a CLS
+   source. `auto <len>` means "use the real size once measured, this
+   estimate until then".
+
+   Do NOT put this on the hero: an element inside the first viewport is
+   painted anyway, and the containment only adds work. */
+.cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   KEYFRAMES — all transform/opacity (compositable, zero paint).
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes gridMoveRight {
+    to { transform: translate3d(var(--grid-size), var(--grid-size), 0); }
+}
+@keyframes gridMoveLeft {
+    to { transform: translate3d(calc(var(--grid2-size) * -1), calc(var(--grid2-size) * 0.5), 0); }
+}
+@keyframes scanlineDrift {
+    to { transform: translate3d(0, 100px, 0); }
+}
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, 0) scale(1); }
+    50%      { opacity: 0.8; transform: translate(-50%, 0) scale(1.05); }
+}
+@keyframes ambientPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+}
+@keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+}
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+}
+@keyframes expand {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+.animate-expand { animation: expand 0.3s ease-out forwards; }
+
+/* ── Tech stack / About info cards ── */
+.tech-card, .about-card-wrap {
+    background: color-mix(in srgb, var(--accent-from) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-from) 20%, transparent);
+}
+.tech-card:hover {
+    border-color: color-mix(in srgb, var(--accent-from) 50%, transparent);
+}
+.about-card-item {
+    background: color-mix(in srgb, var(--accent-from) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-from) 20%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════
+   VIEW TRANSITIONS — one-sided fade, bg persists
+   ═══════════════════════════════════════════════════════
+   Old snapshot stays fully opaque as a solid cover; new snapshot
+   fades in on top (180ms). Prevents bg ghosting through alpha AND
+   avoids the blank middle-frame of a sequential fade.
+   `mix-blend-mode: normal` overrides the default `plus-lighter`. */
+
+@keyframes vt-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-new(root) { animation: vt-fade-in 180ms ease-out both; mix-blend-mode: normal; }
+}
+
+/* Honour reduced-motion: instant swap, no cross-fade. */
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+}

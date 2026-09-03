@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { useTranslations, defaultLocale } from '@/lib/i18n'
+import type { Locale } from '@/lib/i18n'
+
+/* CRITICAL: Astro 404.astro returns HTTP 200 by default. Without this line
+   crawlers index empty pages as "soft 404s" — SEO penalty. */
+Astro.response.status = 404
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale
+const t = useTranslations(locale)
+const prefix = locale === defaultLocale ? '' : `/${locale}`
+const home = prefix || '/'
+
+/* Escape hatches. A 404 that only links home is a dead end — the SEO
+   checklist wants routes to the main sections from here. Extend this list
+   as the site grows. */
+const sections = [
+    { label: t('nav.features'), href: `${prefix}/features` },
+    { label: t('footer.privacy'), href: `${prefix}/privacy` },
+    { label: t('footer.terms'), href: `${prefix}/terms` },
+]
+---
+
+<BaseLayout title={t('404.title')} description={t('404.message')} noindex>
+    <section class="min-h-svh flex flex-col items-center justify-center gap-4 text-center px-4">
+        <p
+            class="glitch-404 relative text-8xl font-black tracking-tight leading-none gradient-text font-heading"
+            data-text="404"
+        >404</p>
+        <h1 class="text-xl sm:text-2xl font-normal text-muted">{t('404.title')}</h1>
+        <p class="text-sm text-dim max-w-sm">{t('404.message')}</p>
+        <a href={home} class="theme-ghost inline-block mt-4 px-6 py-2.5 rounded-lg text-xs font-mono font-semibold uppercase tracking-wider">
+            {t('404.cta')}
+        </a>
+
+        <p class="text-xs text-dim font-mono uppercase tracking-widest mt-6">{t('404.explore')}</p>
+        <nav aria-label={t('404.explore')} class="flex flex-wrap items-center justify-center gap-2">
+            {sections.map((s) => (
+                <a
+                    href={s.href}
+                    class="px-4 py-2 rounded-full text-xs font-mono text-muted border border-line transition-all duration-200 hover:text-fg hover:bg-surface-soft"
+                >
+                    {s.label}
+                </a>
+            ))}
+        </nav>
+    </section>
+</BaseLayout>
+
+<style>
+    /* Chromatic-aberration glitch on the numerals. The ghosts are solid
+       accent-coloured clones (the gradient stays on the base text); they
+       flicker in via clip-path slices only a few times per cycle, so the
+       page stays calm most of the time. Pure CSS — no JS, no layout work
+       (transform + clip-path are compositor-only). */
+    .glitch-404::before,
+    .glitch-404::after {
+        content: attr(data-text);
+        position: absolute;
+        inset: 0;
+        -webkit-text-fill-color: currentColor;
+        background: none;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .glitch-404::before {
+            color: var(--accent-from);
+            animation: glitch-shift-a 3.2s infinite steps(1);
+        }
+        .glitch-404::after {
+            color: var(--accent-to);
+            animation: glitch-shift-b 3.2s infinite steps(1);
+        }
+    }
+
+    @keyframes glitch-shift-a {
+        0%, 86%   { opacity: 0; transform: none; clip-path: none; }
+        87%       { opacity: 1; transform: translate(-4px, 2px);  clip-path: inset(12% 0 58% 0); }
+        90%       { opacity: 1; transform: translate(3px, -1px);  clip-path: inset(62% 0 8% 0); }
+        93%       { opacity: 0; }
+        95%       { opacity: 1; transform: translate(-2px, 0);    clip-path: inset(38% 0 42% 0); }
+        97%, 100% { opacity: 0; }
+    }
+
+    @keyframes glitch-shift-b {
+        0%, 87%   { opacity: 0; transform: none; clip-path: none; }
+        88%       { opacity: 1; transform: translate(4px, -2px);  clip-path: inset(55% 0 18% 0); }
+        91%       { opacity: 1; transform: translate(-3px, 1px);  clip-path: inset(8% 0 72% 0); }
+        94%       { opacity: 0; }
+        96%       { opacity: 1; transform: translate(2px, 1px);   clip-path: inset(28% 0 55% 0); }
+        98%, 100% { opacity: 0; }
+    }
+</style>

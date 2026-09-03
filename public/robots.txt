@@ -1,0 +1,41 @@
+# robots.txt — open to classic search crawlers AND AI scrapers by default.
+# Per CLAUDE.md: maximum visibility in Google AND AI-answer surfaces.
+# Override per-project as needed (block scrapers if client requests it).
+
+User-agent: *
+Allow: /
+
+# Classic search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI scrapers / answer engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Replace with production hostname before deploy.
+Sitemap: https://example.com/sitemap-index.xml

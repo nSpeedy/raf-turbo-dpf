@@ -1,0 +1,95 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navbar from '@/components/Navbar.astro'
+import Footer from '@/components/Footer.astro'
+import { useTranslations } from '@/lib/content'
+import type { Locale } from '@/lib/locales'
+
+const locale = Astro.currentLocale as Locale
+const t = useTranslations(locale)
+
+const features = [
+    { key: 'f1', icon: '⚡' },
+    { key: 'f2', icon: '🎨' },
+    { key: 'f3', icon: '🔷' },
+    { key: 'f4', icon: '🌐' },
+    { key: 'f5', icon: '✂️' },
+    { key: 'f6', icon: '🎭' },
+    { key: 'f7', icon: '🗄️' },
+    { key: 'f8', icon: '🔍' },
+    { key: 'f9', icon: '🚀' },
+    { key: 'f10', icon: '📦' },
+] as const
+---
+
+<BaseLayout title={t('features.title')} description={t('features.description')}>
+    <Navbar />
+    <main class="flex-1">
+
+        <!-- Hero -->
+        <section class="section-padding-large text-center px-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="inline-flex items-center gap-2 theme-badge px-4 py-1.5 rounded-full text-xs font-mono mb-8 animate animate-delay-100">
+                    <span class="text-accent">●</span>
+                    <span>{t('features.badge')}</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-bold font-heading tracking-tight mb-6 animate animate-delay-200">
+                    <span class="gradient-text">{t('features.hero.heading')}</span>
+                </h1>
+                <p class="text-lg text-muted max-w-xl mx-auto animate animate-delay-300">
+                    {t('features.hero.sub')}
+                </p>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="accent-line"></div>
+        </div>
+
+        <!-- Features grid -->
+        <section class="section-padding px-4">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {features.map(({ key, icon }, i) => (
+                    <div
+                        class:list={['theme-card rounded-card p-6 flex flex-col gap-3 animate', `animate-delay-${Math.min((i % 4 + 1) * 100, 400)}`]}
+                    >
+                        <div
+                            class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 bg-accent/10 border border-accent/20"
+                        >
+                            {icon}
+                        </div>
+                        <div>
+                            <h2 class="font-semibold text-base mb-1.5" style="color: var(--color-text);">
+                                {t(`features.${key}.title`)}
+                            </h2>
+                            <p class="text-sm leading-relaxed text-muted">
+                                {t(`features.${key}.desc`)}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section-padding text-center px-4">
+            <div class="max-w-xl mx-auto animate">
+                <div
+                    class="rounded-card p-8 sm:p-12 bg-accent/5 border border-accent/15"
+                >
+                    <p class="text-2xl font-bold font-heading mb-3 gradient-text">npm run dev</p>
+                    <p class="text-sm text-muted mb-6">{t('features.cta.note')}</p>
+                    <a
+                        href="/en"
+                        class="theme-ghost inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium"
+                    >
+                        ← {t('features.cta.back')}
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <Footer />
+</BaseLayout>

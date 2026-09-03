@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navbar from '@/components/Navbar.astro'
+import Footer from '@/components/Footer.astro'
+import { useTranslations } from '@/lib/content'
+import { LEGAL_LAST_UPDATED } from '@/lib/locales'
+import type { Locale } from '@/lib/locales'
+
+const locale = Astro.currentLocale as Locale
+const t = useTranslations(locale)
+
+/* Noon UTC — see the note in src/pages/privacy.astro. */
+const lastUpdated = new Intl.DateTimeFormat(locale, { dateStyle: 'long' })
+    .format(new Date(`${LEGAL_LAST_UPDATED}T12:00:00Z`))
+
+const sections = [
+    { heading: t('terms.definitions.heading'), text: t('terms.definitions.text') },
+    { heading: t('terms.rules.heading'), text: t('terms.rules.text') },
+    { heading: t('terms.ip.heading'), text: t('terms.ip.text') },
+    { heading: t('terms.liability.heading'), text: t('terms.liability.text') },
+    { heading: t('terms.changes.heading'), text: t('terms.changes.text') },
+    { heading: t('terms.contact.heading'), text: t('terms.contact.text') },
+]
+---
+
+<BaseLayout title={t('terms.title')} description={t('terms.description')}>
+    <Navbar />
+    <main class="flex-1">
+        <article class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <h1 class="text-3xl sm:text-4xl font-bold font-heading tracking-tight gradient-text mb-4">
+                {t('terms.title')}
+            </h1>
+            <p class="text-xs text-dim font-mono mb-10">
+                {t('common.lastUpdated')}: {lastUpdated}
+            </p>
+
+            <p class="text-muted leading-relaxed mb-10">
+                {t('terms.intro')}
+            </p>
+
+            {sections.map((section) => (
+                <section class="mb-8">
+                    <h2 class="text-lg font-semibold mb-3 text-accent">
+                        {section.heading}
+                    </h2>
+                    <p class="text-sm text-muted leading-relaxed">
+                        {section.text}
+                    </p>
+                </section>
+            ))}
+        </article>
+    </main>
+    <Footer />
+</BaseLayout>

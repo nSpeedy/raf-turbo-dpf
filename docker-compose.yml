@@ -1,0 +1,19 @@
+# Edit `SITE_URL` to your production hostname before deploy.
+# Both build arg and runtime env should match.
+services:
+  app:
+    build:
+      context: .
+      args:
+        SITE_URL: https://example.com
+    container_name: raf-turbo-dpf-app
+    ports:
+      - "4321:4321"
+    environment:
+      - NODE_ENV=production
+      - PORT=4321
+      - HOST=0.0.0.0
+      - SITE_URL=https://example.com
+      # Astro 6 CSRF guard. Must match the public origin of the site.
+      - ASTRO_ORIGIN=https://example.com
+    restart: unless-stopped

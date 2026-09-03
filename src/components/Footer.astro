@@ -1,0 +1,68 @@
+---
+import { useTranslations } from '@/lib/content'
+import { defaultLocale } from '@/lib/locales'
+import { localizePath } from '@/lib/i18n'
+import { siteConfig } from '@/lib/site.config'
+import Logo from '@/components/Logo.astro'
+import type { Locale } from '@/lib/locales'
+
+interface NavLink {
+    label: string
+    href: string
+}
+
+interface Props {
+    /** Override the default link column from site.config.ts
+        (legal links from siteConfig.legalNav render either way). */
+    links?: NavLink[]
+}
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale
+const t = useTranslations(locale)
+const year = new Date().getFullYear()
+const homeHref = localizePath(locale, '/')
+
+const defaultLinks: NavLink[] = siteConfig.footerNav.map((l) => ({
+    label: t(l.labelKey),
+    href: localizePath(locale, l.path),
+}))
+const legalLinks: NavLink[] = siteConfig.legalNav.map((l) => ({
+    label: t(l.labelKey),
+    href: localizePath(locale, l.path),
+}))
+
+const { links = defaultLinks } = Astro.props
+---
+
+<footer class="theme-footer mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
+            <div class="space-y-4">
+                <slot name="logo">
+                    <Logo href={homeHref} label={t('site.name')} />
+                </slot>
+                <p class="text-xs text-dim leading-relaxed max-w-[240px]">
+                    {t('footer.tagline')}
+                </p>
+            </div>
+
+            <div>
+                <nav class="flex flex-col gap-2.5" aria-label={t('footer.aria.nav')}>
+                    {[...links, ...legalLinks].map((item) => (
+                        <a href={item.href} class="text-sm text-muted transition-colors duration-200 hover:text-fg w-fit">
+                            {item.label}
+                        </a>
+                    ))}
+                </nav>
+            </div>
+        </div>
+
+        <div class="accent-line"></div>
+
+        <div class="py-6 flex items-center justify-center">
+            <span class="text-xs text-dim">
+                &copy; {year} {t('footer.company')}. {t('footer.rights')}.
+            </span>
+        </div>
+    </div>
+</footer>

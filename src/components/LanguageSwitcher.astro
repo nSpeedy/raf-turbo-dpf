@@ -1,0 +1,39 @@
+---
+/**
+    * Floating side language switcher — appears on the right edge of the viewport.
+    * Vertical pill with flag + locale code for each available language.
+    * Optional — not rendered by default (Navbar has its own switcher).
+    */
+import { locales, defaultLocale } from '@/lib/locales'
+import { localeLabels, localeFlags } from '@/lib/locales'
+import { localizePath } from '@/lib/i18n'
+import { useTranslations } from '@/lib/content'
+import type { Locale } from '@/lib/locales'
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale
+const t = useTranslations(locale)
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
+---
+
+<aside
+        class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-1 py-2 px-1 rounded-l-xl bg-surface-nav border border-line border-r-0 backdrop-blur-[16px] backdrop-saturate-150"
+        aria-label={t('nav.aria.language')}
+>
+    {locales.map((l) => (
+            <a
+                    href={localizePath(l, currentPath)}
+                    class:list={[
+                        'group flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg text-[10px] font-mono uppercase tracking-widest transition-all duration-200',
+                        l === locale
+                            ? 'font-bold text-fg bg-accent-soft'
+                            : 'text-dim hover:text-fg',
+                    ]}
+                    aria-label={localeLabels[l]}
+                    aria-current={l === locale ? 'page' : undefined}
+                    title={localeLabels[l]}
+            >
+                <span class="text-base leading-none">{localeFlags[l]}</span>
+                <span>{l}</span>
+            </a>
+    ))}
+</aside>

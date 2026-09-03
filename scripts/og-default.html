@@ -1,0 +1,153 @@
+<!doctype html>
+<!--
+    Source for public/og-default.jpg — the default social card rendered by
+    BaseLayout on every page. Lives in scripts/ (not public/) so it is never
+    served as a crawlable page.
+
+    Regenerate after re-branding:
+        node scripts/gen-og.mjs
+
+    Palette is hardcoded rather than pulled from globals.css: the card is a
+    baked raster, so it can't follow the runtime theme anyway, and headless
+    Chrome renders this file straight from disk with no build step. Keep the
+    values in sync with the :root tokens by hand when the accent changes.
+
+    Set in Inter, matching --font-heading. Syncopate is deliberately not used
+    here: its subset stops at Latin-1 and this card carries Polish copy.
+-->
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<style>
+    @font-face {
+        font-family: 'Inter Variable';
+        src: url('../public/fonts/inter-variable.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: block;
+    }
+    /* Latin Extended-A — the Polish diacritics in the copy below live here.
+       Without this face they render from a fallback and the card ships with
+       two different typefaces in one sentence. */
+    @font-face {
+        font-family: 'Inter Variable';
+        src: url('../public/fonts/inter-variable-ext.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: block;
+        unicode-range: U+0100-017F, U+1E9E, U+2010-2015, U+2018-201F, U+20AC, U+2122;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        width: 1200px;
+        height: 630px;
+        background: #ffffff;
+        font-family: 'Inter Variable', sans-serif;
+        color: #171717;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 96px;
+    }
+
+    /* Soft red wash in the corner — the light-theme counterpart of the
+       site's background glow layer. */
+    .glow {
+        position: absolute;
+        top: -34%;
+        right: -12%;
+        width: 820px;
+        height: 820px;
+        background: radial-gradient(circle, rgba(220,38,38,0.16) 0%, transparent 65%);
+    }
+
+    /* Full-bleed accent bar down the left edge — reads as a brand mark at
+       thumbnail size, where finer detail disappears. */
+    .edge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 20px;
+        background: linear-gradient(180deg, #ef4444, #dc2626 45%, #991b1b);
+    }
+
+    .content { position: relative; z-index: 1; }
+
+    .mark {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 42px;
+    }
+    .mark-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+        background: rgba(220,38,38,0.10);
+        border: 1px solid rgba(220,38,38,0.28);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .mark-label {
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #737373;
+    }
+
+    h1 {
+        font-size: 76px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.022em;
+        max-width: 900px;
+    }
+    h1 .accent {
+        background: linear-gradient(120deg, #ef4444 0%, #dc2626 45%, #991b1b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    p {
+        margin-top: 30px;
+        font-size: 29px;
+        line-height: 1.4;
+        color: #525252;
+        max-width: 860px;
+    }
+
+    .rule {
+        margin-top: 46px;
+        width: 220px;
+        height: 4px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #dc2626, #991b1b, transparent);
+    }
+</style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="edge"></div>
+
+    <div class="content">
+        <div class="mark">
+            <span class="mark-box">
+                <svg width="32" height="32" viewBox="0 0 20 20" fill="none">
+                    <path d="M10 1C10 1 4.5 7.5 4.5 12.5a5.5 5.5 0 0 0 11 0C15.5 9 13.5 6 12.5 5.5c0 2-1.5 3-2.5 3C11.5 7 10.5 3.5 10 1Z" fill="#ef4444"/>
+                    <path d="M10 10.5C10 10.5 8 12 8 13.5a2 2 0 0 0 4 0C12 12 10 10.5 10 10.5Z" fill="#991b1b" opacity="0.65"/>
+                </svg>
+            </span>
+            <span class="mark-label">RAF Turbo DPF</span>
+        </div>
+
+        <h1>Czyszczenie DPF<br />i regeneracja <span class="accent">turbosprężarek</span></h1>
+        <p>Pomiar przed i po, raport z każdego zlecenia, gwarancja. Obsługa kurierska w całej Polsce.</p>
+        <div class="rule"></div>
+    </div>
+</body>
+</html>

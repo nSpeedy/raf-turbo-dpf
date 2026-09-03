@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Navbar from '@/components/Navbar.astro'
+import Footer from '@/components/Footer.astro'
+import { useTranslations } from '@/lib/content'
+import { LEGAL_LAST_UPDATED } from '@/lib/locales'
+import type { Locale } from '@/lib/locales'
+
+const locale = Astro.currentLocale as Locale
+const t = useTranslations(locale)
+
+/* Noon UTC, not midnight: `new Date('2026-04-09')` is parsed as UTC
+   midnight, which formats as the previous day in any timezone west of
+   Greenwich. */
+const lastUpdated = new Intl.DateTimeFormat(locale, { dateStyle: 'long' })
+    .format(new Date(`${LEGAL_LAST_UPDATED}T12:00:00Z`))
+
+const sections = [
+    { heading: t('privacy.collect.heading'), text: t('privacy.collect.text') },
+    { heading: t('privacy.use.heading'), text: t('privacy.use.text') },
+    { heading: t('privacy.cookies.heading'), text: t('privacy.cookies.text') },
+    { heading: t('privacy.thirdparty.heading'), text: t('privacy.thirdparty.text') },
+    { heading: t('privacy.rights.heading'), text: t('privacy.rights.text') },
+    { heading: t('privacy.contact.heading'), text: t('privacy.contact.text') },
+    { heading: t('privacy.changes.heading'), text: t('privacy.changes.text') },
+]
+---
+
+<BaseLayout title={t('privacy.title')} description={t('privacy.description')}>
+    <Navbar />
+    <main class="flex-1">
+        <article class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <h1 class="text-3xl sm:text-4xl font-bold font-heading tracking-tight gradient-text mb-4">
+                {t('privacy.title')}
+            </h1>
+            <p class="text-xs text-dim font-mono mb-10">
+                {t('common.lastUpdated')}: {lastUpdated}
+            </p>
+
+            <p class="text-muted leading-relaxed mb-10">
+                {t('privacy.intro')}
+            </p>
+
+            {sections.map((section) => (
+                <section class="mb-8">
+                    <h2 class="text-lg font-semibold mb-3 text-accent">
+                        {section.heading}
+                    </h2>
+                    <p class="text-sm text-muted leading-relaxed">
+                        {section.text}
+                    </p>
+                </section>
+            ))}
+        </article>
+    </main>
+    <Footer />
+</BaseLayout>

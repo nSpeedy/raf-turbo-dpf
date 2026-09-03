@@ -1,0 +1,240 @@
+---
+/* Global stylesheet imported ONCE here — every page renders through
+   BaseLayout, so pages never need their own import (forgetting it used
+   to mean an unstyled page). With `inlineStylesheets: 'always'` the CSS
+   is inlined into the HTML either way. */
+import '@/assets/styles/globals.css'
+import { canonicalUrl, hreflangTags, ogLocale, useTranslations, defaultLocale } from '@/lib/i18n'
+import type { Locale } from '@/lib/i18n'
+import Observer from '@/components/Observer.astro'
+import { ClientRouter } from 'astro:transitions'
+
+interface Props {
+    title: string
+    description: string
+    ogImage?: string
+    noindex?: boolean
+}
+
+const { title, description, ogImage, noindex = false } = Astro.props
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale
+const t = useTranslations(locale)
+const canonical = canonicalUrl(Astro.url.pathname)
+const hreflang = hreflangTags(Astro.url.pathname)
+const og = ogLocale[locale]
+const siteName = t('site.name')
+const fullTitle = `${title} | ${siteName}`
+const siteOrigin = Astro.site?.origin ?? new URL(canonical).origin
+
+/* Social scrapers need an ABSOLUTE og:image URL — a relative path is
+   silently dropped by LinkedIn/Slack/X. Every page gets the default card
+   unless it passes its own via the `ogImage` prop. Rendering it
+   unconditionally is the point: with the old `{ogImage && ...}` guard,
+   pages that didn't set one shared with no preview image at all. */
+const ogImageUrl = new URL(ogImage ?? '/og-default.jpg', siteOrigin).href
+
+/* Organization JSON-LD — helps Google rich snippets + gives AI scrapers
+   (GPTBot / ClaudeBot / PerplexityBot) a clean structured summary of who
+   operates the site. Rendered inline once per page. */
+const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteName,
+    url: siteOrigin,
+    logo: `${siteOrigin}/favicon.svg`,
+    description,
+    inLanguage: [locale, ...Object.keys(ogLocale).filter((l) => l !== locale)],
+}
+---
+
+<html lang={locale} class="h-full">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Charset kept as the first child of <head> — HTML5 spec requires
+         it within first 1024 bytes; any comments/scripts above push it
+         toward that limit. -->
+
+    <!-- Flips on `.js-anim` BEFORE body renders so `.animate*` elements
+         start hidden from first paint — avoids the visible → hidden →
+         animate flash that would occur if the class were added by the
+         end-of-body Observer. If JS is disabled the class never gets set
+         → default CSS keeps elements visible → no broken layout.
+
+         This script also used to restore a saved theme; the site has a
+         single palette now, so there is nothing left to restore. It stays
+         blocking because the animation gate must be set before paint. -->
+    <script is:inline>
+        document.documentElement.classList.add('js-anim');
+    </script>
+    <!-- Mobile browser chrome color — one light palette, no media split -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Preload only the fonts rendered above the fold. Inter now carries
+         both the LCP heading and the body copy (see --font-heading in
+         globals.css), so the base face gets fetchpriority; the ext face
+         holds the Polish diacritics in that same heading, which is why it
+         is preloaded rather than left to lazy @font-face discovery.
+         Orbitron, Zen Dots and the Syncopate faces stay lazy — they only
+         load if a glyph in their range is actually rendered. -->
+    <link rel="preload" href="/fonts/inter-variable.woff2"     as="font" type="font/woff2" crossorigin fetchpriority="high" />
+    <link rel="preload" href="/fonts/inter-variable-ext.woff2" as="font" type="font/woff2" crossorigin />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {hreflang.map((tag) => (
+        <link rel="alternate" hreflang={tag.hreflang} href={tag.href} />
+    ))}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={og} />
+    <!-- Explicit dimensions let scrapers reserve the card slot before the
+         image loads; `og:image:alt` is required for a11y-correct previews.
+         Regenerate the card after re-branding: `node scripts/gen-og.mjs`
+         (design lives in scripts/og-default.html). -->
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={siteName} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fonts are self-hosted from public/fonts (subsetted woff2, declared
+         in globals.css) — zero external requests, zero font packages. -->
+
+    <!-- Structured data (Organization) for Google rich snippets + AI scrapers.
+         `is:inline` keeps Astro's bundler out of it — the JSON is already
+         serialized, and a processed script would be deferred past the point
+         where a scraper reads the document. -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(orgJsonLd)} />
+
+    <!-- SPA navigation with View Transitions API. `fallback="swap"` gives
+         non-VT browsers (Safari <18) an instant DOM swap instead of the
+         default crossfade, which avoids an animation flicker there too.
+         Content fade is handled explicitly in globals.css via
+         `::view-transition-old/new(root)` — sequential (no overlap) so
+         there's no alpha ghosting between pages. -->
+    <ClientRouter fallback="swap" />
+
+    <!-- SPA navigation hooks — processed script, runs ONCE per session.
+         Three concerns, all tiny per-nav work:
+
+         1. before-swap: copy `html.js-anim` from the current document to
+            the incoming one. Astro replaces <html>'s attributes with the
+            fresh SSR output on swap; without this every nav loses the
+            animation gate.
+
+         2. after-swap: bg layer animations are `transition:persist`'d,
+            but the browser still resets the CSS animation clock on
+            DOM reattach, so the grid would visibly jump back to (0,0).
+            We compensate with a negative animation-delay equal to
+            `performance.now()` at the time of swap — infinite + linear
+            animations resume exactly where they left off, sub-pixel.
+
+         3. after-swap: reveal `.animate*` elements that land inside the
+            viewport, with the transition suppressed. ClientRouter snapshots
+            the new page AFTER swap, when those elements are still at
+            opacity:0 — so the cross-fade would show a page full of holes
+            and THEN the observer would fade them in, reading as two stacked
+            animations. Revealing them first makes the snapshot a complete
+            page. Below-the-fold elements stay hidden and scroll-reveal
+            normally. -->
+    <script>
+        const scriptStart = performance.now()
+        const bgSelectors = ['.bg-grid-1', '.bg-grid-2', '.bg-glow', '.bg-scanline']
+
+        /* Chrome throws InvalidStateError from the View Transitions API when
+           a navigation interrupts a transition mid-flight (fast clicking
+           through the nav). It's unactionable — the swap already happened —
+           but it surfaces as an unhandled rejection in the console and in
+           error reporting. Swallow only that exact case. */
+        window.addEventListener('unhandledrejection', (e) => {
+            const r = e.reason
+            if (r && r.name === 'InvalidStateError' && /transition/i.test(r.message || '')) {
+                e.preventDefault()
+            }
+        })
+
+        document.addEventListener('astro:before-swap', (e) => {
+            const src = document.documentElement
+            const dst = e.newDocument.documentElement
+
+            if (src.classList.contains('js-anim')) dst.classList.add('js-anim')
+            if (src.classList.contains('bg-anim')) dst.classList.add('bg-anim')
+        })
+
+        document.addEventListener('astro:after-swap', () => {
+            const elapsed = performance.now() - scriptStart
+            for (const selector of bgSelectors) {
+                const el = document.querySelector<HTMLElement>(selector)
+                if (el) el.style.animationDelay = `-${elapsed}ms`
+            }
+
+            if (!document.documentElement.classList.contains('js-anim')) return
+
+            /* Reading rects here is safe (and necessary): this runs after the
+               DOM swap, before the VT snapshot, and there is no IntersectionObserver
+               result to consult yet for the incoming page. */
+            const vh = window.innerHeight
+            const revealed: HTMLElement[] = []
+            const animatedEls = document.querySelectorAll<HTMLElement>(
+                '.animate, .animate-fade-up, .animate-fade-left, .animate-scale'
+            )
+            for (const el of animatedEls) {
+                const rect = el.getBoundingClientRect()
+                if (rect.top < vh && rect.bottom > 0) {
+                    el.style.transition = 'none'
+                    el.classList.add('visible')
+                    revealed.push(el)
+                }
+            }
+            if (revealed.length) {
+                // Two frames: one for the no-transition paint to commit, one
+                // to restore the stylesheet transition before anything else
+                // touches these elements.
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    for (const el of revealed) el.style.transition = ''
+                }))
+            }
+        })
+    </script>
+
+    <slot name="head" />
+</head>
+<body class="h-full relative overflow-x-hidden">
+    <!-- Reading progress — CSS scroll-driven animation, zero JS
+         (globals.css .scroll-progress). Browsers without
+         `animation-timeline` simply never grow the bar. -->
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Background layers. All styling in globals.css (.bg-grid-layer +
+         variant classes). Animations gated on `html.bg-anim` added
+         post-LCP by Observer, so this markup adds zero animation work
+         to the critical render. -->
+    <div transition:persist="bg-grid-1"  class="bg-grid-layer bg-grid-1"></div>
+    <div transition:persist="bg-grid-2"  class="bg-grid-layer bg-grid-2"></div>
+    <div transition:persist="bg-glow"    class="bg-grid-layer bg-glow"></div>
+    <div transition:persist="bg-scanline" class="bg-grid-layer bg-scanline"></div>
+
+    <div class="min-h-full flex flex-col relative z-10">
+        <slot />
+    </div>
+
+    <Observer />
+</body>
+</html>

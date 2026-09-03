@@ -1,0 +1,52 @@
+# RAF Turbo DPF
+
+> Warsztat specjalistyczny: czyszczenie filtrów DPF/FAP i regeneracja
+> turbosprężarek. Pomiar przed i po każdym zleceniu, raport, gwarancja.
+
+Regenerujemy filtry cząstek stałych, turbosprężarki, katalizatory i układy
+SCR do parametrów fabrycznych — bez wycinania filtra i bez wymiany na nową
+część. Obsługujemy samochody osobowe, dostawcze i ciężarowe (diesel i
+benzyna), kierowców indywidualnych oraz warsztaty i floty. Części
+przyjmujemy osobiście i kurierem z całej Polski.
+
+Nie oferujemy usuwania (wycinania) DPF ani modyfikacji oprogramowania
+silnika — usunięcie filtra oznacza utratę homologacji i niezaliczony
+przegląd techniczny.
+
+## Usługi
+
+- **Czyszczenie DPF i FAP** — mycie hydrodynamiczne i ultradźwiękowe wkładu,
+  bez wypalania i bez wycinania.
+- **Regeneracja turbosprężarek** — rozbiór, wymiana uszczelnień i łożysk,
+  wyważanie dynamiczne rdzenia.
+- **Katalizatory i układy SCR** — czyszczenie katalizatorów, filtrów SCR
+  i modułów dozujących AdBlue.
+- **Diagnostyka i pomiary** — odczyt sterownika, pomiar ciśnienia
+  różnicowego i przepływu przed przyjęciem zlecenia.
+- **Geometria zmienna i aktuatory** — naprawa, wymiana czujników położenia,
+  kalibracja aktuatorów.
+- **Wysyłka kurierska** — odbiór i zwrot części na terenie całej Polski.
+
+## Jak wygląda zlecenie
+
+1. Kontakt i wstępna wycena (telefon lub zdjęcie części z numerem katalogowym)
+2. Diagnostyka i pomiar — jeśli regeneracja nie ma sensu, informujemy przed pracami
+3. Regeneracja
+4. Pomiar kontrolny, raport przed/po, odbiór z dokumentem gwarancyjnym
+
+Typowy czas realizacji: 24–48 h od dostarczenia części.
+
+## Kluczowe strony
+
+- Strona główna (PL): /
+- Homepage (EN): /en
+- Polityka prywatności: /privacy
+- Regulamin: /terms
+
+## Kontakt
+
+<!-- TODO: podmień na dane rzeczywiste (patrz `business` w src/lib/site.config.ts) -->
+- Telefon: +48 000 000 000
+- E-mail: kontakt@example.com
+- Adres: ul. Przykładowa 1, 00-000 Warszawa
+- Godziny: pon.–pt. 8:00–17:00, sob. 9:00–13:00
