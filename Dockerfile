@@ -18,7 +18,7 @@ COPY . .
 # SITE_URL is baked at build time into HTML (canonicals, OG, sitemap,
 # hreflang). Without it, every URL in the build defaults to
 # http://localhost:4321 — wrecks SEO. Pass via docker-compose build args.
-ARG SITE_URL=http://localhost:4321
+ARG SITE_URL=http://localhost:4323
 ENV SITE_URL=$SITE_URL
 RUN npm run build
 
@@ -36,8 +36,8 @@ COPY --chown=astro:nodejs package.json ./
 
 USER astro
 
-EXPOSE 4321
+EXPOSE 4323
 ENV HOST=0.0.0.0
-ENV PORT=4321
+ENV PORT=4323
 
 CMD ["node", "./dist/server/entry.mjs"]
