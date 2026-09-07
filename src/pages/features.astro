@@ -29,7 +29,7 @@ const features = [
         <!-- Hero -->
         <section class="section-padding-large text-center px-4">
             <div class="max-w-3xl mx-auto">
-                <div class="inline-flex items-center gap-2 theme-badge px-4 py-1.5 rounded-full text-xs font-mono mb-8 animate animate-delay-100">
+                <div class="theme-badge rounded-control inline-flex items-center gap-2 px-4 py-2 text-xs font-mono mb-8 animate animate-delay-100">
                     <span class="text-accent">●</span>
                     <span>{t('features.badge')}</span>
                 </div>
@@ -49,18 +49,22 @@ const features = [
 
         <!-- Features grid -->
         <section class="section-padding px-4">
+            <!-- Gapped cards, not the landing page's `.card-grid`: ten items
+                 in a three-column grid leave two empty cells in the last row,
+                 and in a hairline grid an empty cell is a bare rectangle of
+                 line colour. Use `.card-grid` only when the count fills it. -->
             <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {features.map(({ key, icon }, i) => (
                     <div
-                        class:list={['theme-card rounded-card p-6 flex flex-col gap-3 animate', `animate-delay-${Math.min((i % 4 + 1) * 100, 400)}`]}
+                        class:list={['theme-card rounded-card p-7 flex flex-col gap-5 animate', `animate-delay-${Math.min((i % 4 + 1) * 100, 400)}`]}
                     >
                         <div
-                            class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 bg-accent/10 border border-accent/20"
+                            class="rounded-control w-11 h-11 flex items-center justify-center text-xl flex-shrink-0 border border-line"
                         >
                             {icon}
                         </div>
                         <div>
-                            <h2 class="font-semibold text-base mb-1.5" style="color: var(--color-text);">
+                            <h2 class="font-semibold text-base mb-2 text-fg">
                                 {t(`features.${key}.title`)}
                             </h2>
                             <p class="text-sm leading-relaxed text-muted">
@@ -82,7 +86,7 @@ const features = [
                     <p class="text-sm text-muted mb-6">{t('features.cta.note')}</p>
                     <a
                         href="/"
-                        class="theme-ghost inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium"
+                        class="theme-ghost rounded-control inline-flex items-center gap-2 px-6 py-3 text-sm font-medium"
                     >
                         ← {t('features.cta.back')}
                     </a>
