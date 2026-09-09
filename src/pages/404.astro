@@ -13,10 +13,12 @@ const prefix = locale === defaultLocale ? '' : `/${locale}`
 const home = prefix || '/'
 
 /* Escape hatches. A 404 that only links home is a dead end — the SEO
-   checklist wants routes to the main sections from here. Extend this list
-   as the site grows. */
+   checklist wants routes to the main sections from here. These point at
+   the landing anchors, not at /features: that page is starter material
+   from the template and has nothing to do with the workshop. */
 const sections = [
-    { label: t('nav.features'), href: `${prefix}/features` },
+    { label: t('nav.services'), href: `${prefix}/#services` },
+    { label: t('nav.contact'), href: `${prefix}/#contact` },
     { label: t('footer.privacy'), href: `${prefix}/privacy` },
     { label: t('footer.terms'), href: `${prefix}/terms` },
 ]

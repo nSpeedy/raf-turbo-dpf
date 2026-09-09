@@ -29,6 +29,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
     nav: [
         { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.injectors', path: '/#injectors' },
         { labelKey: 'nav.process', path: '/#process' },
         { labelKey: 'nav.why', path: '/#why' },
         { labelKey: 'nav.faq', path: '/#faq' },
@@ -37,6 +38,7 @@ export const siteConfig: SiteConfig = {
     footerNav: [
         { labelKey: 'nav.home', path: '/' },
         { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.injectors', path: '/#injectors' },
         { labelKey: 'nav.contact', path: '/#contact' },
     ],
     legalNav: [
@@ -70,7 +72,10 @@ export interface BusinessInfo {
     /** schema.org `openingHours` syntax — machine-readable form of
         `home.contact.hoursValue`, which is the human one. Keep in sync. */
     openingHours: string[]
-    /** JSON-LD `areaServed`. */
+    /** JSON-LD `areaServed` — the city/region people actually drive in
+        from. This is a walk-in workshop with no courier service, so a
+        country-wide value here would tell Google something the business
+        does not offer. */
     areaServed: string
 }
 
@@ -84,5 +89,5 @@ export const business: BusinessInfo = {
     city: 'Warszawa',
     country: 'PL',
     openingHours: ['Mo-Fr 08:00-17:00', 'Sa 09:00-13:00'],
-    areaServed: 'PL',
+    areaServed: 'Warszawa',
 }
