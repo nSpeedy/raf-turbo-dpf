@@ -8,7 +8,7 @@ export const defaultLocale: Locale = 'pl'
    formatted per-locale at render time via Intl.DateTimeFormat, so the date
    lives in ONE place instead of being hardcoded in each page and locale.
    Bump it whenever the legal copy in content.ts changes. */
-export const LEGAL_LAST_UPDATED = '2026-04-09'
+export const LEGAL_LAST_UPDATED = '2026-09-10'
 
 export const localeLabels: Record<Locale, string> = {
     pl: 'Polski',

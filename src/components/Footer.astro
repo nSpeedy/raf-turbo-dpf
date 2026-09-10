@@ -2,7 +2,7 @@
 import { useTranslations } from '@/lib/content'
 import { defaultLocale } from '@/lib/locales'
 import { localizePath } from '@/lib/i18n'
-import { siteConfig } from '@/lib/site.config'
+import { siteConfig, business } from '@/lib/site.config'
 import Logo from '@/components/Logo.astro'
 import type { Locale } from '@/lib/locales'
 
@@ -43,6 +43,22 @@ const { links = defaultLinks } = Astro.props
                 </slot>
                 <p class="text-xs text-dim leading-relaxed max-w-[240px]">
                     {t('footer.tagline')}
+                </p>
+
+                <!-- Registered identity. A Polish business has to be
+                     identifiable on its own site, and the same block feeds
+                     the address a local-search crawler looks for. Values
+                     come from `business` so the landing page, the JSON-LD
+                     and the legal pages can never drift apart. Labels are
+                     not translated: NIP and REGON are proper nouns. -->
+                <address class="text-xs text-dim not-italic leading-relaxed">
+                    {business.legalName}<br />
+                    {business.street}<br />
+                    {business.postalCode} {business.city}
+                </address>
+                <p class="text-xs text-dim font-mono leading-relaxed">
+                    NIP {business.nip}<br />
+                    REGON {business.regon}
                 </p>
             </div>
 

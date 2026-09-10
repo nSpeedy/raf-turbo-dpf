@@ -17,7 +17,7 @@ const services = [
     { key: 's1', icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3.6 7.5h16.8M3.6 16.5h16.8"/>' },
     { key: 's2', icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M12 9.8V3.2M13.9 13.1l5.7 3.3M10.1 13.1l-5.7 3.3"/>' },
     { key: 's3', icon: '<path d="M10 3.5h4v7l-2 2.5-2-2.5z"/><path d="M12 15.5v5M9.3 16.8l-1.2 3.3M14.7 16.8l1.2 3.3"/>' },
-    { key: 's4', icon: '<rect x="2.5" y="7" width="19" height="10" rx="3"/><path d="M8 7v10M13 7v10M18 7v10"/>' },
+    { key: 's4', icon: '<rect x="2.5" y="9" width="12" height="9"/><path d="M6.5 9V5M5.2 5h2.6M10.5 9V5M9.2 5h2.6M14.5 12H21M14.5 15H21"/>' },
     { key: 's5', icon: '<path d="M3.5 18a8.5 8.5 0 1 1 17 0"/><path d="M12 18l4.6-5.8"/><circle cx="12" cy="18" r="1.2"/>' },
     { key: 's6', icon: '<path d="M12 3 20 7.5v9L12 21 4 16.5v-9z"/><circle cx="12" cy="12" r="3.2"/>' },
 ] as const
@@ -25,11 +25,14 @@ const services = [
 const stats = ['s1', 's2', 's3', 's4'] as const
 const steps = ['p1', 'p2', 'p3', 'p4'] as const
 const reasons = ['w1', 'w2', 'w3', 'w4'] as const
-const faq = ['1', '2', '3', '4', '5', '6', '7'] as const
+const faq = ['1', '2', '3', '4', '5', '6', '7', '8'] as const
 
-/* Injector section: what the job includes (left column) and the symptoms
-   that bring people in (right column). Two short lists rather than one
-   long paragraph — a driver scanning for their own symptom finds it. */
+/* Injector/pump section: what the job includes (left column) and the
+   symptoms that bring people in (right column). Two short lists rather
+   than one long paragraph — a driver scanning for their own symptom
+   finds it. Injectors and injection pumps share both the symptoms and
+   the test bench, so they share the section; splitting them would mean
+   two blocks repeating the same list. */
 const injectorWork = ['d1', 'd2', 'd3', 'd4'] as const
 const injectorSymptoms = ['y1', 'y2', 'y3', 'y4', 'y5'] as const
 
@@ -70,15 +73,28 @@ const businessJsonLd = {
     '@type': 'AutoRepair',
     '@id': `${siteOrigin}/#business`,
     name: business.name,
+    legalName: business.legalName,
     description: t('home.meta.description'),
     url: siteOrigin,
     telephone: business.phone,
     email: business.email,
+    /* NIP is the VAT number Google and the AI scrapers can match against
+       public registries — the strongest identity signal a one-location
+       business has. REGON has no schema.org property of its own, so it
+       goes in as a named `identifier`. */
+    vatID: business.nip,
+    identifier: {
+        '@type': 'PropertyValue',
+        propertyID: 'REGON',
+        value: business.regon,
+    },
+    founder: { '@type': 'Person', name: business.owner },
     address: {
         '@type': 'PostalAddress',
         streetAddress: business.street,
         postalCode: business.postalCode,
         addressLocality: business.city,
+        addressRegion: business.region,
         addressCountry: business.country,
     },
     areaServed: { '@type': 'City', name: business.areaServed },
@@ -250,11 +266,11 @@ const faqJsonLd = {
             </div>
         </section>
 
-        <!-- ═══ Wtryskiwacze ═══
-             The one service that gets its own block: it is the newest line
-             of work and the one people search for by symptom rather than by
-             part name, so it needs room for the symptom list that the
-             six-cell service grid has no space for.
+        <!-- ═══ Wtryskiwacze i pompy wtryskowe ═══
+             The one pair of services that gets its own block: these are the
+             ones people search for by symptom rather than by part name, so
+             they need room for the symptom list that the six-cell service
+             grid has no space for.
 
              Sits on the white background like the section above it, so the
              hairline panel is what separates the two — a second tinted band

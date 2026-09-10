@@ -8,7 +8,7 @@ import { defaultLocale } from '@/lib/locales'
 const ui = {
     pl: {
         'site.name':            'RAF Turbo DPF',
-        'site.description':     'Warsztat: czyszczenie DPF, regeneracja turbo i wtryskiwaczy',
+        'site.description':     'Warsztat: regeneracja turbosprężarek, wtryskiwaczy i pomp wtryskowych, czyszczenie DPF',
         'nav.home':             'Strona główna',
         'nav.features':         'Funkcje',
         'nav.services':         'Usługi',
@@ -26,7 +26,7 @@ const ui = {
         'footer.privacy':       'Polityka prywatności',
         'footer.terms':         'Regulamin',
         'footer.company':       'RAF Turbo DPF',
-        'footer.tagline':       'Czyszczenie DPF, regeneracja turbo i wtryskiwaczy. Pomiar przed i po każdej naprawie.',
+        'footer.tagline':       'Regeneracja turbosprężarek, wtryskiwaczy i pomp wtryskowych. Czyszczenie filtrów DPF. Pomiar przed i po każdej naprawie.',
 
         'common.readMore':      'Czytaj więcej',
         'common.backToTop':     'Wróć na górę',
@@ -39,13 +39,13 @@ const ui = {
         '404.explore':          'Albo sprawdź',
 
         // ── Landing: meta ──
-        'home.meta.title':         'Czyszczenie DPF, regeneracja turbo i wtryskiwaczy',
-        'home.meta.description':   'Czyścimy filtry DPF i FAP, regenerujemy turbosprężarki i wtryskiwacze. Pomiar przed i po, gwarancja, zwykle 24–48 h. Demontaż i montaż na miejscu w warsztacie.',
+        'home.meta.title':         'Regeneracja turbo, wtryskiwaczy i pomp wtryskowych',
+        'home.meta.description':   'Regenerujemy turbosprężarki, wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Czyścimy filtry DPF. Auta osobowe, dostawcze, ciężarowe, maszyny budowlane i rolnicze.',
 
         // ── Landing: hero ──
-        'home.hero.heading':       'Czyszczenie DPF, regeneracja turbo i',
-        'home.hero.headingAccent': 'wtryskiwaczy',
-        'home.hero.sub':           'Naprawiamy zamiast wymieniać. Filtr, turbina i wtryskiwacze wracają do Ciebie sprawne — z pomiarem przed i po oraz gwarancją. Zwykle w 24–48 godzin.',
+        'home.hero.heading':       'Regeneracja turbo, wtryskiwaczy i pomp.',
+        'home.hero.headingAccent': 'Czyszczenie DPF',
+        'home.hero.sub':           'Turbosprężarki, wtryskiwacze diesla i benzynowe, pompy wtryskowe — do aut osobowych, dostawczych i ciężarowych oraz maszyn budowlanych i rolniczych. Naprawiamy zamiast wymieniać: pomiar przed i po, gwarancja, zwykle 24–48 godzin.',
         'home.hero.photoAlt':      'Zbliżenie turbosprężarki z widocznym kołem kompresora, zamontowanej w komorze silnika',
         'home.hero.cta':           'Zadzwoń po wycenę',
         'home.hero.ctaAlt':        'Zobacz, co robimy',
@@ -63,36 +63,36 @@ const ui = {
 
         // ── Landing: usługi ──
         'home.services.title':     'Co robimy',
-        'home.services.sub':       'Auta osobowe, dostawcze i ciężarowe — diesel i benzyna.',
+        'home.services.sub':       'Samochody osobowe, dostawcze i ciężarowe, maszyny budowlane i rolnicze — diesel i benzyna.',
         'home.services.s1.title':  'Czyszczenie DPF i FAP',
         'home.services.s1.desc':   'Wypłukujemy sadzę, popiół i olej z wkładu — na mokro i ultradźwiękami. Bez wypalania i bez wycinania filtra.',
         'home.services.s2.title':  'Regeneracja turbosprężarek',
-        'home.services.s2.desc':   'Rozkładamy turbinę na części, sprawdzamy wał i łożyska, dajemy nowe uszczelnienia i wyważamy rdzeń. Naprawiamy też geometrię i aktuatory.',
-        'home.services.s3.title':  'Naprawa wtryskiwaczy',
-        'home.services.s3.desc':   'Common Rail i pompowtryskiwacze. Czyszczenie, nowy rozpylacz, ustawienie dawki i test na stole probierczym.',
-        'home.services.s4.title':  'Katalizatory i AdBlue',
-        'home.services.s4.desc':   'Czyścimy katalizatory, filtry SCR i moduły dozujące AdBlue. Bez grzebania w oprogramowaniu silnika.',
+        'home.services.s2.desc':   'Wszystkie typy — od osobowych po ciężarowe i maszynowe. Rozbiór, wał i łożyska, nowe uszczelnienia, wyważanie rdzenia, geometria zmienna i aktuatory.',
+        'home.services.s3.title':  'Regeneracja wtryskiwaczy',
+        'home.services.s3.desc':   'Diesel i benzyna: Common Rail, pompowtryskiwacze, wtrysk bezpośredni. Czyszczenie, nowy rozpylacz, ustawienie dawki i test na stole probierczym.',
+        'home.services.s4.title':  'Regeneracja pomp wtryskowych',
+        'home.services.s4.desc':   'Pompy rzędowe, rotacyjne i wysokiego ciśnienia. Rozbiór, wymiana zużytych elementów, ustawienie dawki i próba na stole.',
         'home.services.s5.title':  'Diagnostyka i pomiary',
         'home.services.s5.desc':   'Odczyt sterownika, pomiar ciśnienia i przepływu. Oceniamy część, zanim weźmiemy zlecenie — i zanim wydasz złotówkę.',
         'home.services.s6.title':  'Demontaż i montaż',
-        'home.services.s6.desc':   'Przyjeżdżasz autem, my wykręcamy część, naprawiamy i wkładamy z powrotem. Nie musisz nic rozkręcać sam.',
+        'home.services.s6.desc':   'Przyjeżdżasz autem, my wykręcamy część, naprawiamy i wkładamy z powrotem. Części z maszyn przyjmujemy też wykręcone.',
 
-        // ── Landing: wtryskiwacze ──
-        'home.injectors.title':    'Regeneracja wtryskiwaczy',
-        'home.injectors.sub':      'Sprawdzamy każdy wtryskiwacz osobno na stole probierczym — dawkę, przelew i szczelność. Zużyte części wymieniamy na nowe i ustawiamy dawkę od nowa. Na koniec dostajesz wydruk z wynikami.',
+        // ── Landing: wtryskiwacze i pompy ──
+        'home.injectors.title':    'Regeneracja wtryskiwaczy i pomp wtryskowych',
+        'home.injectors.sub':      'Wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Każdy element sprawdzamy osobno na stole probierczym — dawkę, przelew i szczelność. Zużyte części wymieniamy na nowe i ustawiamy dawkę od nowa. Na koniec dostajesz wydruk z wynikami.',
         'home.injectors.doTitle':  'Co robimy',
-        'home.injectors.d1':       'Test na stole probierczym — przed naprawą i po niej',
-        'home.injectors.d2':       'Rozbiór i mycie ultradźwiękowe',
-        'home.injectors.d3':       'Nowy rozpylacz, uszczelki i miedziane podkładki',
+        'home.injectors.d1':       'Próba na stole probierczym — przed naprawą i po niej',
+        'home.injectors.d2':       'Rozbiór, mycie ultradźwiękowe i pomiar zużycia',
+        'home.injectors.d3':       'Nowe rozpylacze, elementy tłoczące, uszczelnienia i podkładki',
         'home.injectors.d4':       'Ustawienie dawki i nowe kody korekty do sterownika',
-        'home.injectors.symTitle': 'Kiedy przywieźć wtryskiwacze',
+        'home.injectors.symTitle': 'Kiedy przywieźć wtryskiwacze albo pompę',
         'home.injectors.y1':       'Auto ciężko odpala, zwłaszcza na zimno',
         'home.injectors.y2':       'Nierówna praca na wolnych obrotach',
         'home.injectors.y3':       'Dymi z rury i pali więcej niż zwykle',
         'home.injectors.y4':       'Stuka, szarpie, brakuje mocy',
-        'home.injectors.y5':       'Świeci kontrolka silnika, błędy od przelewu',
-        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO). Nie wiesz, który wtryskiwacz siada? Sprawdzamy cały komplet i mówimy, co da się naprawić, a co jest do wymiany.',
-        'home.injectors.cta':      'Zadzwoń w sprawie wtryskiwaczy',
+        'home.injectors.y5':       'Świeci kontrolka silnika, błędy od przelewu lub ciśnienia paliwa',
+        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO), Continental. Common Rail, pompowtryskiwacze, wtrysk bezpośredni benzyny, pompy rzędowe i rotacyjne. Nie wiesz, co siada? Sprawdzamy cały komplet i mówimy, co da się naprawić, a co jest do wymiany.',
+        'home.injectors.cta':      'Zadzwoń i opisz objawy',
 
         // ── Landing: proces ──
         'home.process.title':      'Jak to wygląda',
@@ -109,7 +109,7 @@ const ui = {
         // ── Landing: dlaczego my ──
         'home.why.title':          'Dlaczego naprawa, a nie nowa część',
         'home.why.w1.title':       'Kosztuje ułamek nowej części',
-        'home.why.w1.desc':        'Naprawa wychodzi znacznie taniej niż nowy filtr, turbina czy komplet wtryskiwaczy. A część po naprawie pracuje tak, jak powinna.',
+        'home.why.w1.desc':        'Naprawa wychodzi znacznie taniej niż nowy filtr, turbina, pompa czy komplet wtryskiwaczy. A część po naprawie pracuje tak, jak powinna.',
         'home.why.w2.title':       'Bez wycinania i przeróbek',
         'home.why.w2.desc':        'Wycięty DPF to utrata homologacji i niezaliczony przegląd. Czyścimy filtr tak, żeby auto dalej było zgodne z normą.',
         'home.why.w3.title':       'Pomiar zamiast obietnic',
@@ -125,14 +125,16 @@ const ui = {
         'home.faq.a2':             'Nie. Pęknięty, stopiony albo wypalony wkład nadaje się już tylko na wymianę. Widzimy to przy sprawdzeniu i mówimy, zanim zaczniemy pracę.',
         'home.faq.q3':             'Muszę sam zdjąć część?',
         'home.faq.a3':             'Nie. Możesz przyjechać całym autem — zdejmiemy i zamontujemy na miejscu. Jeśli część jest już wykręcona, po prostu przywieź ją do warsztatu.',
-        'home.faq.q4':             'Po czym poznać, że wtryskiwacze się sypią?',
-        'home.faq.a4':             'Auto ciężko odpala na zimno, nierówno chodzi na wolnych obrotach, dymi albo pali więcej. Pewność daje dopiero test na stole probierczym — sprawdzamy cały komplet i mówimy, który wtryskiwacz jest do naprawy.',
+        'home.faq.q4':             'Po czym poznać, że wtryskiwacze albo pompa się sypią?',
+        'home.faq.a4':             'Auto ciężko odpala na zimno, nierówno chodzi na wolnych obrotach, dymi albo pali więcej. Pewność daje dopiero próba na stole probierczym — sprawdzamy cały komplet i mówimy, który element jest do naprawy.',
         'home.faq.q5':             'Trzeba potem kasować błędy?',
         'home.faq.a5':             'Tak, i robimy to my. Po montażu kasujemy adaptacje i licznik popiołu, a jak trzeba — wymuszamy regenerację. To wchodzi w cenę usługi.',
         'home.faq.q6':             'Trzeba się wcześniej umawiać?',
         'home.faq.a6':             'Nie. Możesz po prostu podjechać w godzinach otwarcia. Telefon przed przyjazdem przydaje się tylko o tyle, że od razu powiemy, czy warto brać część ze sobą.',
         'home.faq.q7':             'Obsługujecie warsztaty i floty?',
         'home.faq.a7':             'Tak. Warsztaty i firmy z flotą obsługujemy w pierwszej kolejności, z jedną fakturą zbiorczą i stałymi cenami. Warunki ustalamy na miejscu.',
+        'home.faq.q8':             'Naprawiacie części z maszyn budowlanych i rolniczych?',
+        'home.faq.a8':             'Tak. Turbosprężarki, wtryskiwacze i pompy wtryskowe z ciągników, koparek, ładowarek czy wózków widłowych robimy tak samo jak te z aut. Maszyna nie musi przyjeżdżać — wystarczy przywieźć wykręconą część.',
 
         // ── Landing: kontakt ──
         'home.contact.title':      'Zadzwoń albo przyjedź',
@@ -141,7 +143,10 @@ const ui = {
         'home.contact.email':      'E-mail',
         'home.contact.address':    'Adres warsztatu',
         'home.contact.hours':      'Godziny otwarcia',
-        'home.contact.hoursValue': 'Pon.–Pt. 8:00–17:00 · Sob. 9:00–13:00',
+        // Sobota i niedziela wypisane wprost: warsztat jest po to, żeby
+        // ktoś podjechał bez umawiania się — milczenie o weekendzie
+        // kończy się kursem pod zamkniętą bramę.
+        'home.contact.hoursValue': 'Pon.–Pt. 8:00–17:00 · Sob.–Niedz. nieczynne',
         'home.contact.cta':        'Zadzwoń teraz',
         'home.contact.ctaAlt':     'Napisz e-mail',
 
@@ -187,7 +192,7 @@ const ui = {
         // ── Privacy policy ──
         'privacy.title':        'Polityka prywatności',
         'privacy.description':  'Polityka prywatności serwisu RAF Turbo DPF',
-        'privacy.intro':        'Niniejsza Polityka Prywatności opisuje, w jaki sposób Szafruga Software Inc. (dalej „my", „nas" lub „nasz") gromadzi, wykorzystuje i chroni informacje dotyczące użytkowników naszej strony internetowej.',
+        'privacy.intro':        'Niniejsza Polityka Prywatności opisuje, w jaki sposób RAF-Turbo-DPF Rafał Markiewicz (dalej „my", „nas" lub „nasz") gromadzi, wykorzystuje i chroni informacje dotyczące użytkowników naszej strony internetowej.',
         'privacy.collect.heading':     'Jakie dane zbieramy',
         'privacy.collect.text':        'Podczas korzystania z naszej strony możemy zbierać następujące informacje: dane podane dobrowolnie w formularzach kontaktowych (imię, adres e-mail, treść wiadomości), dane techniczne gromadzone automatycznie (adres IP, typ przeglądarki, system operacyjny, czas wizyty), pliki cookies niezbędne do prawidłowego działania strony.',
         'privacy.use.heading':         'Jak wykorzystujemy dane',
@@ -199,16 +204,18 @@ const ui = {
         'privacy.rights.heading':      'Prawa użytkownika',
         'privacy.rights.text':         'Zgodnie z obowiązującymi przepisami o ochronie danych osobowych, przysługuje Ci prawo do: dostępu do swoich danych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, wniesienia sprzeciwu wobec przetwarzania, przenoszenia danych oraz złożenia skargi do organu nadzorczego (UODO).',
         'privacy.contact.heading':     'Kontakt',
-        'privacy.contact.text':        'W sprawach dotyczących ochrony danych osobowych prosimy o kontakt pod adresem e-mail: privacy@example.com.',
+        // Adres e-mail dokleja strona z `business` w site.config.ts —
+        // jedno źródło dla stopki, kontaktu i stron prawnych.
+        'privacy.contact.text':        'W sprawach dotyczących ochrony danych osobowych prosimy o kontakt pod adresem e-mail:',
         'privacy.changes.heading':     'Zmiany w polityce',
         'privacy.changes.text':        'Zastrzegamy sobie prawo do aktualizacji niniejszej Polityki Prywatności. Wszelkie zmiany zostaną opublikowane na tej stronie wraz z datą ostatniej aktualizacji.',
 
         // ── Terms of service ──
         'terms.title':          'Regulamin',
         'terms.description':    'Regulamin korzystania z serwisu RAF Turbo DPF',
-        'terms.intro':          'Niniejszy Regulamin określa zasady korzystania z serwisu internetowego prowadzonego przez Szafruga Software Inc. Korzystanie z serwisu oznacza akceptację poniższych warunków.',
+        'terms.intro':          'Niniejszy Regulamin określa zasady korzystania z serwisu internetowego prowadzonego przez RAF-Turbo-DPF Rafał Markiewicz. Korzystanie z serwisu oznacza akceptację poniższych warunków.',
         'terms.definitions.heading':   'Definicje',
-        'terms.definitions.text':      'Serwis — strona internetowa dostępna pod adresem domeny, na której opublikowany jest niniejszy Regulamin. Operator — Szafruga Software Inc., podmiot odpowiedzialny za prowadzenie Serwisu. Użytkownik — każda osoba korzystająca z Serwisu.',
+        'terms.definitions.text':      'Serwis — strona internetowa dostępna pod adresem domeny, na której opublikowany jest niniejszy Regulamin. Operator — RAF-Turbo-DPF Rafał Markiewicz, podmiot odpowiedzialny za prowadzenie Serwisu (dane rejestrowe poniżej). Użytkownik — każda osoba korzystająca z Serwisu.',
         'terms.rules.heading':         'Zasady korzystania',
         'terms.rules.text':            'Użytkownik zobowiązuje się do korzystania z Serwisu zgodnie z obowiązującym prawem i dobrymi obyczajami. Zabrania się podejmowania działań mogących zakłócić prawidłowe funkcjonowanie Serwisu, w tym prób nieautoryzowanego dostępu do systemów informatycznych.',
         'terms.ip.heading':            'Własność intelektualna',
@@ -218,11 +225,14 @@ const ui = {
         'terms.changes.heading':       'Zmiany regulaminu',
         'terms.changes.text':          'Operator zastrzega sobie prawo do zmiany niniejszego Regulaminu. Zmiany wchodzą w życie z chwilą ich opublikowania w Serwisie. Dalsze korzystanie z Serwisu po wprowadzeniu zmian oznacza ich akceptację.',
         'terms.contact.heading':       'Kontakt',
-        'terms.contact.text':          'W sprawach związanych z Regulaminem prosimy o kontakt pod adresem e-mail: contact@example.com.',
+        'terms.contact.text':          'W sprawach związanych z Regulaminem prosimy o kontakt pod adresem e-mail:',
+
+        // ── Dane rejestrowe (blok wspólny dla stron prawnych) ──
+        'legal.company.heading': 'Dane firmy',
     },
     en: {
         'site.name':            'RAF Turbo DPF',
-        'site.description':     'Workshop: DPF cleaning, turbo and injector repair',
+        'site.description':     'Workshop: turbocharger, injector and injection pump rebuilds, DPF cleaning',
         'nav.home':             'Home',
         'nav.features':         'Features',
         'nav.services':         'Services',
@@ -240,7 +250,7 @@ const ui = {
         'footer.privacy':       'Privacy policy',
         'footer.terms':         'Terms of service',
         'footer.company':       'RAF Turbo DPF',
-        'footer.tagline':       'DPF cleaning, turbocharger and injector repair. Measured before and after, every job.',
+        'footer.tagline':       'Turbocharger, injector and injection pump rebuilds. DPF filter cleaning. Measured before and after, every job.',
 
         'common.readMore':      'Read more',
         'common.backToTop':     'Back to top',
@@ -253,13 +263,13 @@ const ui = {
         '404.explore':          'Or check out',
 
         // ── Landing: meta ──
-        'home.meta.title':         'DPF cleaning, turbocharger and injector repair',
-        'home.meta.description':   'We clean DPF and FAP filters and rebuild turbochargers and injectors. Measured before and after, warranty included, usually 24–48 h. Removal and refitting at the workshop.',
+        'home.meta.title':         'Turbocharger, injector and injection pump rebuilds',
+        'home.meta.description':   'We rebuild turbochargers, diesel and petrol injectors and injection pumps, and clean DPF filters. Cars, vans, trucks, construction and farm machinery.',
 
         // ── Landing: hero ──
-        'home.hero.heading':       'DPF cleaning, turbocharger and injector',
-        'home.hero.headingAccent': 'repair',
-        'home.hero.sub':           'We repair rather than replace. Your filter, turbo and injectors come back working — measured before and after, with a warranty. Usually within 24 to 48 hours.',
+        'home.hero.heading':       'Turbocharger, injector and pump rebuilds.',
+        'home.hero.headingAccent': 'DPF cleaning',
+        'home.hero.sub':           'Turbochargers, diesel and petrol injectors, injection pumps — for cars, vans and trucks as well as construction and farm machinery. We repair rather than replace: measured before and after, with a warranty, usually within 24 to 48 hours.',
         'home.hero.photoAlt':      'Close-up of a turbocharger with its compressor wheel visible, mounted in an engine bay',
         'home.hero.cta':           'Call for a quote',
         'home.hero.ctaAlt':        'See what we do',
@@ -277,36 +287,36 @@ const ui = {
 
         // ── Landing: services ──
         'home.services.title':     'What we do',
-        'home.services.sub':       'Passenger cars, vans and trucks — diesel and petrol.',
+        'home.services.sub':       'Cars, vans and trucks, construction and farm machinery — diesel and petrol.',
         'home.services.s1.title':  'DPF and FAP cleaning',
         'home.services.s1.desc':   'We wash the soot, ash and oil out of the core — wet cleaning and ultrasound. No burning, no cutting the filter out.',
         'home.services.s2.title':  'Turbocharger regeneration',
-        'home.services.s2.desc':   'We strip the turbo down, check the shaft and bearings, fit new seals and balance the core. Variable geometry and actuators too.',
-        'home.services.s3.title':  'Injector repair',
-        'home.services.s3.desc':   'Common Rail and unit injectors. Cleaning, a new nozzle, fuel delivery set up again and a test on the injector rig.',
-        'home.services.s4.title':  'Catalytic converters and AdBlue',
-        'home.services.s4.desc':   'We clean catalytic converters, SCR filters and AdBlue dosing modules. Without touching the engine software.',
+        'home.services.s2.desc':   'Every type, from small car turbos to truck and machinery units. Teardown, shaft and bearings, new seals, core balancing, variable geometry and actuators.',
+        'home.services.s3.title':  'Injector regeneration',
+        'home.services.s3.desc':   'Diesel and petrol: Common Rail, unit injectors, direct injection. Cleaning, a new nozzle, fuel delivery set up again and a test on the rig.',
+        'home.services.s4.title':  'Injection pump regeneration',
+        'home.services.s4.desc':   'Inline, rotary and high-pressure pumps. Teardown, worn parts replaced, delivery set up again and a bench test.',
         'home.services.s5.title':  'Diagnostics and measurement',
         'home.services.s5.desc':   'ECU readout, pressure and flow measurement. We assess the part before taking the job on — and before you spend anything.',
         'home.services.s6.title':  'Removal and refitting',
-        'home.services.s6.desc':   'Bring the car in — we take the part off, repair it and put it back. You do not have to dismantle anything yourself.',
+        'home.services.s6.desc':   'Bring the car in — we take the part off, repair it and put it back. Parts off machinery can be dropped in already removed.',
 
-        // ── Landing: injectors ──
-        'home.injectors.title':    'Injector repair',
-        'home.injectors.sub':      'We test every injector separately on the rig — fuel delivery, back-leakage and sealing. Worn parts are replaced with new ones and delivery is set up again. You get a printout of the results.',
+        // ── Landing: injectors and pumps ──
+        'home.injectors.title':    'Injector and injection pump regeneration',
+        'home.injectors.sub':      'Diesel and petrol injectors as well as injection pumps. Every part is tested separately on the rig — fuel delivery, back-leakage and sealing. Worn parts are replaced with new ones and delivery is set up again. You get a printout of the results.',
         'home.injectors.doTitle':  'What we do',
-        'home.injectors.d1':       'Rig test — before the repair and after it',
-        'home.injectors.d2':       'Teardown and ultrasonic cleaning',
-        'home.injectors.d3':       'New nozzle, seals and copper washers',
+        'home.injectors.d1':       'Bench test — before the repair and after it',
+        'home.injectors.d2':       'Teardown, ultrasonic cleaning and wear measurement',
+        'home.injectors.d3':       'New nozzles, pumping elements, seals and washers',
         'home.injectors.d4':       'Delivery set up and new correction codes for the ECU',
-        'home.injectors.symTitle': 'When to bring your injectors in',
+        'home.injectors.symTitle': 'When to bring injectors or a pump in',
         'home.injectors.y1':       'The engine struggles to start, especially cold',
         'home.injectors.y2':       'Rough running at idle',
         'home.injectors.y3':       'Smoke from the exhaust and higher fuel use',
         'home.injectors.y4':       'Knocking, hesitation, loss of power',
-        'home.injectors.y5':       'Engine light on, back-leakage fault codes',
-        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO). Not sure which injector is failing? We test the whole set and tell you what can be repaired and what needs replacing.',
-        'home.injectors.cta':      'Call us about injectors',
+        'home.injectors.y5':       'Engine light on, back-leakage or fuel pressure fault codes',
+        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO), Continental. Common Rail, unit injectors, petrol direct injection, inline and rotary pumps. Not sure what is failing? We test the whole set and tell you what can be repaired and what needs replacing.',
+        'home.injectors.cta':      'Call us and describe the symptoms',
 
         // ── Landing: process ──
         'home.process.title':      'How it works',
@@ -323,7 +333,7 @@ const ui = {
         // ── Landing: why us ──
         'home.why.title':          'Why repair instead of buying new',
         'home.why.w1.title':       'A fraction of the price of a new part',
-        'home.why.w1.desc':        'A repair costs far less than a new filter, turbo or set of injectors. And the part works as it should afterwards.',
+        'home.why.w1.desc':        'A repair costs far less than a new filter, turbo, pump or set of injectors. And the part works as it should afterwards.',
         'home.why.w2.title':       'No cutting out, no modifications',
         'home.why.w2.desc':        'A DPF cut out means losing type approval and failing inspection. We clean the filter so the car stays within its emission standard.',
         'home.why.w3.title':       'Measurements, not promises',
@@ -339,14 +349,16 @@ const ui = {
         'home.faq.a2':             'No. A cracked, melted or burnt-through core is only fit for replacement. We see this during the check and tell you before any work starts.',
         'home.faq.q3':             'Do I have to remove the part myself?',
         'home.faq.a3':             'No. You can bring the whole car in and we will remove and refit it here. If the part is already off, just drop it in at the workshop.',
-        'home.faq.q4':             'How do I know the injectors are failing?',
-        'home.faq.a4':             'The car struggles to start cold, runs roughly at idle, smokes or uses more fuel. Only a rig test settles it — we test the whole set and tell you which injector needs work.',
+        'home.faq.q4':             'How do I know the injectors or the pump are failing?',
+        'home.faq.a4':             'The car struggles to start cold, runs roughly at idle, smokes or uses more fuel. Only a bench test settles it — we test the whole set and tell you which part needs work.',
         'home.faq.q5':             'Do fault codes need clearing afterwards?',
         'home.faq.a5':             'Yes, and we do it. After refitting we reset the adaptations and the ash counter, and force a regeneration if needed. It is included in the price.',
         'home.faq.q6':             'Do I need an appointment?',
         'home.faq.a6':             'No. Just come by during opening hours. Calling ahead only helps in that we can tell you straight away whether to bring the part with you.',
         'home.faq.q7':             'Do you work with workshops and fleets?',
         'home.faq.a7':             'Yes. Workshops and fleet operators get served first, with one consolidated invoice and fixed pricing. Terms are agreed here at the workshop.',
+        'home.faq.q8':             'Do you repair parts off construction and farm machinery?',
+        'home.faq.a8':             'Yes. Turbochargers, injectors and injection pumps off tractors, excavators, loaders or forklifts are handled exactly like those off cars. The machine does not have to come in — just bring the part in already removed.',
 
         // ── Landing: contact ──
         'home.contact.title':      'Call us or drive over',
@@ -355,7 +367,7 @@ const ui = {
         'home.contact.email':      'Email',
         'home.contact.address':    'Workshop address',
         'home.contact.hours':      'Opening hours',
-        'home.contact.hoursValue': 'Mon-Fri 8:00-17:00 · Sat 9:00-13:00',
+        'home.contact.hoursValue': 'Mon-Fri 8:00-17:00 · Sat-Sun closed',
         'home.contact.cta':        'Call now',
         'home.contact.ctaAlt':     'Send an email',
 
@@ -401,7 +413,7 @@ const ui = {
         // ── Privacy policy ──
         'privacy.title':        'Privacy Policy',
         'privacy.description':  'Privacy policy for the RAF Turbo DPF website',
-        'privacy.intro':        'This Privacy Policy describes how Szafruga Software Inc. ("we", "us", or "our") collects, uses, and protects information about users of our website.',
+        'privacy.intro':        'This Privacy Policy describes how RAF-Turbo-DPF Rafał Markiewicz ("we", "us", or "our") collects, uses, and protects information about users of our website.',
         'privacy.collect.heading':     'What data we collect',
         'privacy.collect.text':        'When you use our website, we may collect the following information: data you voluntarily provide through contact forms (name, email address, message content), technical data collected automatically (IP address, browser type, operating system, visit time), cookies necessary for the proper functioning of the website.',
         'privacy.use.heading':         'How we use data',
@@ -413,16 +425,18 @@ const ui = {
         'privacy.rights.heading':      'User rights',
         'privacy.rights.text':         'In accordance with applicable data protection laws, you have the right to: access your data, rectify, erase, or restrict processing, object to processing, data portability, and file a complaint with a supervisory authority.',
         'privacy.contact.heading':     'Contact',
-        'privacy.contact.text':        'For data protection inquiries, please contact us at: privacy@example.com.',
+        // The address itself is appended by the page from `business` in
+        // site.config.ts — one source for footer, contact and legal pages.
+        'privacy.contact.text':        'For data protection inquiries, please contact us at:',
         'privacy.changes.heading':     'Policy changes',
         'privacy.changes.text':        'We reserve the right to update this Privacy Policy. Any changes will be published on this page along with the date of the last update.',
 
         // ── Terms of service ──
         'terms.title':          'Terms of Service',
         'terms.description':    'Terms of service for the RAF Turbo DPF website',
-        'terms.intro':          'These Terms of Service govern the use of the website operated by Szafruga Software Inc. By using the website, you agree to the following terms.',
+        'terms.intro':          'These Terms of Service govern the use of the website operated by RAF-Turbo-DPF Rafał Markiewicz. By using the website, you agree to the following terms.',
         'terms.definitions.heading':   'Definitions',
-        'terms.definitions.text':      'Service — the website available at the domain where these Terms are published. Operator — Szafruga Software Inc., the entity responsible for operating the Service. User — any person using the Service.',
+        'terms.definitions.text':      'Service — the website available at the domain where these Terms are published. Operator — RAF-Turbo-DPF Rafał Markiewicz, the entity responsible for operating the Service (registered details below). User — any person using the Service.',
         'terms.rules.heading':         'Rules of use',
         'terms.rules.text':            'The User agrees to use the Service in accordance with applicable law and good practices. Any actions that may disrupt the proper functioning of the Service are prohibited, including attempts at unauthorized access to IT systems.',
         'terms.ip.heading':            'Intellectual property',
@@ -432,7 +446,10 @@ const ui = {
         'terms.changes.heading':       'Changes to terms',
         'terms.changes.text':          'The Operator reserves the right to amend these Terms. Changes take effect upon publication on the Service. Continued use of the Service after changes constitutes acceptance thereof.',
         'terms.contact.heading':       'Contact',
-        'terms.contact.text':          'For inquiries related to these Terms, please contact us at: contact@example.com.',
+        'terms.contact.text':          'For inquiries related to these Terms, please contact us at:',
+
+        // ── Registered details (shared block on the legal pages) ──
+        'legal.company.heading': 'Company details',
     },
 } as const satisfies Record<Locale, Record<string, string>>
 

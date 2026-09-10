@@ -1,0 +1,39 @@
+---
+/**
+ * Registered company details for the legal pages (privacy / terms).
+ *
+ * A component rather than four copies of the same markup: privacy and
+ * terms exist in two locales each, and a tax id that is right on three
+ * pages out of four is worse than no tax id at all. Every value comes
+ * from `business` in site.config.ts — nothing here is a literal.
+ *
+ * The labels NIP and REGON are not translated: they are the names of
+ * Polish registry identifiers, not words with an English equivalent.
+ */
+import { useTranslations } from '@/lib/content'
+import { business } from '@/lib/site.config'
+import { defaultLocale } from '@/lib/locales'
+import type { Locale } from '@/lib/locales'
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale
+const t = useTranslations(locale)
+---
+
+<section class="mb-8">
+    <h2 class="text-lg font-semibold mb-3 text-accent">
+        {t('legal.company.heading')}
+    </h2>
+    <address class="text-sm text-muted not-italic leading-relaxed">
+        {business.legalName}<br />
+        {business.street}<br />
+        {business.postalCode} {business.city}<br />
+        NIP {business.nip} · REGON {business.regon}<br />
+        <a href={`mailto:${business.email}`} class="transition-colors duration-200 hover:text-accent">
+            {business.email}
+        </a>
+        {' · '}
+        <a href={`tel:${business.phone}`} class="transition-colors duration-200 hover:text-accent">
+            {business.phoneDisplay}
+        </a>
+    </address>
+</section>

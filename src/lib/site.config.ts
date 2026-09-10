@@ -50,15 +50,26 @@ export const siteConfig: SiteConfig = {
 /**
  * Hard business facts — deliberately NOT in content.ts, because a phone
  * number and a street address are the same string in every locale, and
- * because they feed machine-readable output (tel:/mailto: hrefs and the
- * LocalBusiness JSON-LD in the landing page) as well as visible copy.
- * The LABELS next to these values live in content.ts (`home.contact.*`).
+ * because they feed machine-readable output (tel:/mailto: hrefs, the
+ * LocalBusiness JSON-LD in the landing page, the operator identification
+ * on the legal pages) as well as visible copy. The LABELS next to these
+ * values live in content.ts (`home.contact.*`).
  *
- * ⚠ Everything below is placeholder data — replace before deploy.
+ * ⚠ `phone` / `phoneDisplay` / `email` are still placeholders — replace
+ *   before deploy. Everything else is the real registered data.
  */
 export interface BusinessInfo {
-    /** Display + legal name (also used as the JSON-LD `name`). */
+    /** Trading name — the JSON-LD `name` and what the site calls itself. */
     name: string
+    /** Registered name (CEIDG). Used for `legalName`, the copyright line
+        and the operator identification in the privacy policy / terms. */
+    legalName: string
+    /** Owner / sole proprietor — JSON-LD `founder`. */
+    owner: string
+    /** Polish tax id (NIP), digits only — JSON-LD `vatID`. */
+    nip: string
+    /** Polish statistical id (REGON), digits only. */
+    regon: string
     /** E.164, no spaces — this is what goes into `tel:`. */
     phone: string
     /** Human-formatted phone for display. */
@@ -67,6 +78,8 @@ export interface BusinessInfo {
     street: string
     postalCode: string
     city: string
+    /** Voivodeship — JSON-LD `addressRegion` only, not shown on the page. */
+    region: string
     /** ISO 3166-1 alpha-2. */
     country: string
     /** schema.org `openingHours` syntax — machine-readable form of
@@ -81,13 +94,19 @@ export interface BusinessInfo {
 
 export const business: BusinessInfo = {
     name: 'RAF Turbo DPF',
-    phone: '+48000000000',
-    phoneDisplay: '+48 000 000 000',
+    legalName: 'RAF-Turbo-DPF Rafał Markiewicz',
+    owner: 'Rafał Markiewicz',
+    nip: '6491891246',
+    regon: '240405573',
+    phone: '+48697319424',
+    phoneDisplay: '+48 697 319 424',
+    // TODO: podmień na rzeczywisty adres e-mail warsztatu.
     email: 'kontakt@example.com',
-    street: 'ul. Przykładowa 1',
-    postalCode: '00-000',
-    city: 'Warszawa',
+    street: 'Mrzygłodzka 111',
+    postalCode: '42-400',
+    city: 'Zawiercie',
+    region: 'śląskie',
     country: 'PL',
-    openingHours: ['Mo-Fr 08:00-17:00', 'Sa 09:00-13:00'],
-    areaServed: 'Warszawa',
+    openingHours: ['Mo-Fr 08:00-17:00'],
+    areaServed: 'Zawiercie',
 }
