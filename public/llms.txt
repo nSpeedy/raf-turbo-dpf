@@ -1,31 +1,36 @@
 # RAF Turbo DPF
 
-> Warsztat specjalistyczny: czyszczenie filtrów DPF/FAP i regeneracja
-> turbosprężarek. Pomiar przed i po każdym zleceniu, raport, gwarancja.
+> Warsztat specjalistyczny: czyszczenie filtrów cząstek stałych DPF/FAP
+> i regeneracja turbosprężarek, wtryskiwaczy paliwa i pomp wtryskowych.
+> Pomiar przed i po każdym zleceniu, raport, gwarancja.
 
-Regenerujemy filtry cząstek stałych, turbosprężarki, katalizatory i układy
+Regenerujemy filtry cząstek stałych, turbosprężarki, wtryskiwacze paliwa,
+pompy wtryskowe, katalizatory i układy selektywnej redukcji katalitycznej
 SCR do parametrów fabrycznych — bez wycinania filtra i bez wymiany na nową
-część. Obsługujemy samochody osobowe, dostawcze i ciężarowe (diesel i
-benzyna), kierowców indywidualnych oraz warsztaty i floty. Części
-przyjmujemy osobiście i kurierem z całej Polski.
+część. Obsługujemy samochody osobowe, dostawcze i ciężarowe (diesel
+i benzyna), kierowców indywidualnych oraz warsztaty i floty. Części
+przyjmujemy w warsztacie.
 
-Nie oferujemy usuwania (wycinania) DPF ani modyfikacji oprogramowania
-silnika — usunięcie filtra oznacza utratę homologacji i niezaliczony
-przegląd techniczny.
+Nie oferujemy usuwania (wycinania) filtra cząstek stałych ani modyfikacji
+oprogramowania silnika — usunięcie filtra oznacza utratę homologacji
+i niezaliczony przegląd techniczny.
 
 ## Usługi
 
-- **Czyszczenie DPF i FAP** — mycie hydrodynamiczne i ultradźwiękowe wkładu,
-  bez wypalania i bez wycinania.
 - **Regeneracja turbosprężarek** — rozbiór, wymiana uszczelnień i łożysk,
   wyważanie dynamiczne rdzenia.
-- **Katalizatory i układy SCR** — czyszczenie katalizatorów, filtrów SCR
-  i modułów dozujących AdBlue.
+- **Regeneracja wtryskiwaczy paliwa** — mycie ultradźwiękowe, wymiana
+  rozpylaczy, test na stanowisku probierczym, kodowanie w sterowniku.
+- **Regeneracja pomp wtryskowych** — pompy rzędowe, rozdzielaczowe
+  i wysokiego ciśnienia; wymiana elementów tłoczących, regulacja dawki.
+- **Czyszczenie filtrów cząstek stałych DPF i FAP** — mycie hydrodynamiczne
+  i ultradźwiękowe wkładu, bez wypalania i bez wycinania.
+- **Katalizatory i układy selektywnej redukcji katalitycznej SCR** —
+  czyszczenie katalizatorów, filtrów SCR i modułów dozujących AdBlue.
 - **Diagnostyka i pomiary** — odczyt sterownika, pomiar ciśnienia
   różnicowego i przepływu przed przyjęciem zlecenia.
 - **Geometria zmienna i aktuatory** — naprawa, wymiana czujników położenia,
   kalibracja aktuatorów.
-- **Wysyłka kurierska** — odbiór i zwrot części na terenie całej Polski.
 
 ## Jak wygląda zlecenie
 

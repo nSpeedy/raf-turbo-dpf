@@ -53,8 +53,7 @@ src/
 │   └── utils.ts                  # Drobne helpery (splitField)
 ├── middleware.ts                 # Kompresja brotli/gzip odpowiedzi SSR (jedyny middleware)
 └── pages/
-    ├── index.astro               # Strona główna (pl)
-    ├── features.astro            # Przykładowa podstrona
+    ├── index.astro               # Strona główna (pl) — cały landing warsztatu
     ├── privacy.astro, terms.astro
     ├── 404.astro
     ├── api/hello.ts              # Przykładowy API endpoint
@@ -62,7 +61,8 @@ src/
 
 public/
 ├── fonts/*.woff2                 # Subsetowane fonty — zero external requests
-├── images/hero-turbo.webp        # Zdjęcie hero — generowane przez scripts/gen-hero.mjs
+├── images/photo-*.webp           # Wycinanki części (alfa) — generowane przez scripts/gen-photos.mjs
+├── images/texture-*.webp         # Warstwy tła — generowane przez scripts/gen-textures.mjs
 ├── og-default.jpg                # Domyślna karta OG (1200×630)
 ├── favicon.svg, favicon.ico
 ├── robots.txt                    # Otwarty dla Googlebota i AI scraperów
@@ -71,6 +71,7 @@ public/
 scripts/
 ├── gen-og.mjs                    # scripts/og-default.html → public/og-default.jpg
 ├── gen-hero.mjs                  # scripts/hero-source.jpg → public/images/hero-turbo.webp (kadr + kompresja)
+├── gen-photos.mjs                # scripts/photo-*-source.jpg → public/images/photo-*.webp (wycinanka z alfą)
 ├── hero-source.jpg               # Oryginał zdjęcia hero (poza public/ — nie trafia na serwer)
 └── gen-favicon.mjs               # public/favicon.svg → favicon.ico (16/32/48)
 ```
@@ -95,7 +96,8 @@ scripts/
 - Szarości są **neutralne**, nie slate — slate ma niebieski odcień, który przy czerwieni czyta się jak brud. Zmieniając rodzinę akcentu, sprawdź też szarości
 - **Fonty**: Inter (nagłówki *i* body), Orbitron (mono — tylko cyfry/etykiety ASCII), Zen Dots / Doto (display) — lokalne woff2, zero external requests
 - ⚠ **Syncopate i Orbitron nie mają subsetu Latin Extended-A w wadze 700** — polskie znaki w tekście ustawionym tym krojem spadają do innej wagi w środku wyrazu. Nie używaj ich do polskiej treści
-- **Utility classes**: `.gradient-text`, `.theme-card`, `.theme-cta`, `.theme-ghost`, `.theme-badge`, `.theme-nav`, `.theme-footer`, `.scroll-progress`
+- **Utility classes**: `.gradient-text`, `.theme-card`, `.theme-nav`, `.theme-footer`, `.scroll-progress`
+- **Przyciski**: `.btn` + wariant (`.btn-primary`, `.btn-outline`, `.btn-outline-inverted`) + opcjonalnie `.btn-sm`. Geometria, typografia i focus-ring siedzą w `.btn` — **nie dopisuj paddingu, `rounded-*` ani `text-*` w markupie**, bo wtedy ta sama klasa renderuje się jako trzy różne przyciski (dokładnie to się stało przed `.btn`)
 - **Tailwind theme bridge** (`@theme inline` w globals.css): tokeny są dostępne jako natywne utility — `text-accent`, `bg-accent/10` (dowolna przezroczystość przez color-mix), `bg-accent-soft`, `bg-surface`, `bg-surface-soft`, `bg-surface-nav`, `text-fg`, `border-line`, `shadow-panel`, `rounded-card`. **Używaj ich zamiast** wartości arbitralnych `bg-[var(--…)]` i inline styles — hardkodowane kolory łamią motywy
 - Re-skinning = zmiana zmiennych w `:root`. To jedyne miejsce — jeśli kusi Cię dopisanie drugiego motywu, najpierw sprawdź, czy projekt naprawdę go potrzebuje
 
@@ -212,6 +214,8 @@ npm run preview  # Podgląd builda
 
 npm i -D sharp && node scripts/gen-og.mjs       # Regeneracja karty OG
 node scripts/gen-hero.mjs                       # Regeneracja zdjęcia hero (kadr + WebP)
+node scripts/gen-textures.mjs                   # Regeneracja tekstur tła (#faq + panel kontaktu)
+node scripts/gen-photos.mjs                     # Regeneracja wycinanek części (alfa + WebP)
 npm i -D sharp && node scripts/gen-favicon.mjs  # Regeneracja favicon.ico
 ```
 
@@ -282,3 +286,25 @@ npm i -D sharp && node scripts/gen-favicon.mjs  # Regeneracja favicon.ico
 | 2026-09 | Usunięty gradientowy fade na styku zdjęcia i kolumny tekstu; zamiast niego zaokrąglona krawędź | Biała poświata na ciemnej, zagęszczonej krawędzi zdjęcia nie czyta się jak miękkie przejście, tylko jak mgła rozmazana po jednej trzeciej kadru |
 | 2026-09 | Karta OG przepisana na biało-czerwoną + treść warsztatu | Była czarno-pomarańczowa i nadal głosiła „Astro starter" — każde udostępnienie linku pokazywało stary starter |
 | 2026-09 | `gen-og.mjs`: ścieżki do Chrome dla Windows i macOS | Lista kandydatów była wyłącznie linuksowa, więc skrypt nie startował na maszynie deweloperskiej projektu |
+| 2026-10 | Pełne nazwy usług w całej treści — „turbosprężarka" zamiast „turbo", „filtr cząstek stałych DPF" zamiast samego „DPF", „układ selektywnej redukcji katalitycznej SCR" zamiast „układy SCR" | Decyzja klienta. Skrót mówi coś tylko komuś, kto już wie, czego szuka; pełna nazwa trafia też w zapytania opisowe i daje scraperom AI jednoznaczny kontekst |
+| 2026-10 | Zakres usług: 8 kart — do dotychczasowych sześciu doszły wtryskiwacze paliwa i pompy wtryskowe | Dwie realne usługi, których na stronie nie było. Reszta kart została bez zmian |
+| 2026-10 | Długość tekstów landingu zostaje jak w oryginale (opisy usług 110–160 znaków) | Przy okazji poprawiania nazw opisy urosły do ~300 znaków i strona zaczęła się czytać jak elaborat. Zmiana nazewnictwa nie jest pretekstem do przepisywania copy — przy edycji treści pilnuj, czy nie wydłużasz tego, o co nikt nie prosił |
+| 2026-10 | Nagłówek karty OG z 76 px na 58 px | „Czyszczenie filtrów cząstek stałych" to dużo dłuższa pierwsza linia niż „Czyszczenie DPF" — powyżej ~60 px zawija się przed jawnym `<br/>`, zostawiając „stałych" samo w linii i wypychając kreskę poza kadr 1200×630 |
+| 2026-10 | Linki wyjścia z `404.astro` przez `localizePath` na sekcje landingu zamiast na `/features` | 404 prowadziło do startowej strony „Astro starter kit"; `${prefix}/#services` dałoby `/en/#services`, czyli trailing slash, który `canonicalUrl()` i sitemap celowo usuwają |
+| 2026-10 | Usunięta strona `/features` (oba locale) wraz z kluczami `features.*` i `nav.features` | Pozostałość po starterze: reklamowała „RAF Turbo DPF Starter Kit", Astro 7 i nieistniejący już system 5 motywów. Odpowiadała 200 i siedziała w sitemapie, więc Google i scrapery AI indeksowały ją obok treści warsztatu |
+| 2026-11 | Zdjęcia warsztatowe jako warstwy tła (`.texture-layer`), nie jako galeria ani sekcja „przed/po" | Materiał to w większości fotki katalogowe na białym tle — w galerii czytałyby się jak cudzy katalog części. Jako tło wnoszą fakturę warsztatu bez obietnicy, że to zdjęcie konkretnego zlecenia |
+| 2026-11 | Tekstura plastra miodu pod `#faq`, nie pod `#process` | `--accent-solid` na `--color-bg-soft` daje 4.48:1 — **poniżej AA jeszcze bez tekstury** (4.83:1 z CLAUDE.md liczono na czystej bieli), a numery kroków w `#process` to tekst akcentem. `#faq` używa akcentu tylko jako ikony (grafika = próg 3:1) i ma wąską kolumnę treści, więc tekstura oddycha na flankach |
+| 2026-11 | Krycie warstw tła liczone pikselowo, nie dobierane na oko | Każdy piksel tekstury skomponowany nad tłem sekcji i zmierzony względem tekstu, który na nim leży (tekst z alfą ponownie komponowany nad lokalnym tłem). Stąd 0.09 dla plastra miodu i 0.14 dla panelu kontaktu — wartości graniczne są o włos, więc „wygląda dobrze" nie jest testem |
+| 2026-11 | Jeden system przycisków: `.btn` + warianty, zamiast `.theme-cta`/`.theme-ghost` ze stylami rozsypanymi po markupie | Ta sama klasa CTA renderowała się jako trzy różne przyciski (radius 8 vs 12 px, `font-medium` vs `font-semibold`, dwa paddingi), a drugi przycisk w panelu kontaktu był jednorazowcem, który nie dzielił niczego z ghostem obok. Przy okazji: widoczny focus-ring, którego wcześniej nie było na żadnym przycisku |
+| 2026-11 | Hover przycisku to wyłącznie zmiana koloru | Stary CTA podnosił się o 1 px i rzucał poświatę — czego nie robił żaden inny element na stronie, więc dwa sąsiadujące przyciski hero zachowywały się inaczej |
+| 2026-11 | Filtr cząstek stałych wychodzący zza lewej krawędzi hero, naprzeciw turbosprężarki po prawej | Dwie części, z których warsztat żyje, klamrują nagłówek. Ile go widać, rośnie z szerokością okna (~169 / 241 / 358 px przy 1280 / 1536 / 1800+), bo prześwit obok kolumny tekstu też rośnie — stały offset albo wchodziłby na tekst przy 1280, albo zostawiał pasek na szerokim monitorze |
+| 2026-11 | Wszystkie trzy progi filtra jako `min-[…]`, nie `xl:`/`2xl:` | Tailwind sortuje nazwane breakpointy i arbitralne w osobnych grupach, więc `2xl:` wygrywało z `min-[1800px]:` przy 1920 px i najszerszy krok nigdy nie wchodził |
+| 2026-11 | Plaster miodu w `#faq` jako dwie flanki (`.texture-flank`), nie warstwa na całą sekcję | Pełna warstwa mierzyła 5.92:1 na tekście FAQ, czyli formalnie AA, i nadal czytała się jak szum pod 14 px tekstu — współczynnik kontrastu nic nie mówi o siatce, której podziałka jest zbliżona do grubości kreski pisma. Szerokość flanki to sam prześwit: `max(0rem, (100% - 50rem) / 2)`, więc tekstura kończy się przed pierwszą literą i sama znika na wąskich ekranach |
+| 2026-11 | Usunięta usługa „wysyłka kurierska" i wszystkie wzmianki o kurierze (`content.ts`, `llms.txt`, karta OG) | Decyzja klienta: warsztat takiej usługi nie świadczy. Siedziała w ośmiu miejscach, w tym w `makesOffer` w JSON-LD i w opisie meta |
+| 2026-11 | Usunięty badge nad H1 (+ martwe `.theme-badge` i `.accent-dot`) | Decyzja klienta. Powtarzał to, co mówi nagłówek, i był jedynym elementem na stronie z `rounded-full` |
+| 2026-11 | Zdjęcia części jako wycinanki z **prawdziwym kanałem alfa**, nie jako „i tak są na białym" | Pierwsza wersja tylko podciągała biel do 255 i wysyłała nieprzezroczysty plik — na stronie rysował się widoczny prostokąt, bo tła nie są płaskie (turbo ma 249 w rogach, ale miękki cień schodzi do 240 przy krawędzi kadru, a 6 poziomów różnicy na białym widać na całej szerokości 400 px). Mocniejsze przycięcie bieli tylko wybiela aluminium |
+| 2026-11 | Maska alfy przez **flood fill od krawędzi**, nie przez globalny próg jasności | Części mają refleksy jaśniejsze od tła; globalny próg robi dziury w chromie. Przed wypełnieniem dokładana jest 2-pikselowa biała ramka, dzięki czemu część dotykająca krawędzi kadru nie wpuszcza wypełnienia do środka |
+| 2026-11 | Cień kontaktowy znika razem z tłem | Strona kładzie te części jako swobodne obiekty; cień z cudzego oświetlenia padałby w każdym zdjęciu w inną stronę |
+| 2026-11 | Główny obraz hero: turbosprężarka z kolektorem jako wycinanka wewnątrz kontenera, nie zdjęcie wypełniające prawą krawędź viewportu | Decyzja klienta („może zamiast tego głównego obrazu"). Przy okazji dwie rzeczy: hero czyta się teraz jako dwie części klamrujące nagłówek, a nie wycinanka obok panelu ze zdjęciem; i przypięty do krawędzi ekranu obraz odpływał od tekstu tym bardziej, im szerszy monitor — przy 1920 zostawiał dziurę na środku |
+| 2026-11 | Pompa wtryskowa przy nagłówku `#services`, wtryskiwacze w lewej kolumnie `#why` | Obie te kolumny były puste z definicji: nagłówek `max-w-2xl` nad siatką trzykolumnową zostawia jedną trzecią wiersza, a `#why` to krótki H2 nad 20 rem pustki obok listy na pełną wysokość |
+| 2026-11 | Pułapka sharpa: `blur()` na jednokanałowym rawie zwraca 3 kanały | Maska robiła się 3× za długa, `joinChannel` czytał ją z przesunięciem i alfa wychodziła w poziome prążki. Lekarstwo: `toColourspace('b-w').raw()` przed `toBuffer()` |

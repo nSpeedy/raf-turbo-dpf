@@ -18,8 +18,8 @@ export default defineConfig({
             i18n: { defaultLocale: 'pl', locales: { pl: 'pl', en: 'en' } },
             /* Strip trailing slashes so sitemap URLs match the canonicals
                emitted by canonicalUrl() (src/lib/i18n.ts). Without this the
-               sitemap advertises `/features/` while <link rel=canonical>
-               points at `/features` — conflicting signals for crawlers.
+               sitemap advertises `/privacy/` while <link rel=canonical>
+               points at `/privacy` — conflicting signals for crawlers.
                The bare origin keeps its root slash. */
             serialize(item) {
                 const strip = (href) => {

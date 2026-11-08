@@ -8,15 +8,15 @@ import { defaultLocale } from '@/lib/locales'
 const ui = {
     pl: {
         'site.name':            'RAF Turbo DPF',
-        'site.description':     'Warsztat specjalistyczny: czyszczenie DPF i regeneracja turbosprężarek',
+        'site.description':     'Warsztat specjalistyczny: czyszczenie filtrów cząstek stałych i regeneracja turbosprężarek',
         'nav.home':             'Strona główna',
-        'nav.features':         'Funkcje',
         'nav.services':         'Usługi',
         'nav.process':          'Proces',
         'nav.why':              'Dlaczego my',
         'nav.faq':              'FAQ',
         'nav.contact':          'Kontakt',
-        'nav.aria.main':        'Główna nawigacja',        'nav.aria.language':    'Język',
+        'nav.aria.main':        'Główna nawigacja',
+        'nav.aria.language':    'Język',
         'nav.aria.menu':        'Przełącz menu',
 
         'footer.rights':        'Wszelkie prawa zastrzeżone',
@@ -24,7 +24,7 @@ const ui = {
         'footer.privacy':       'Polityka prywatności',
         'footer.terms':         'Regulamin',
         'footer.company':       'RAF Turbo DPF',
-        'footer.tagline':       'Regeneracja filtrów DPF i turbosprężarek. Pomiar przed i po każdym zleceniu.',
+        'footer.tagline':       'Regeneracja filtrów cząstek stałych i turbosprężarek. Pomiar przed i po każdym zleceniu.',
 
         'common.readMore':      'Czytaj więcej',
         'common.backToTop':     'Wróć na górę',
@@ -37,15 +37,15 @@ const ui = {
         '404.explore':          'Albo sprawdź',
 
         // ── Landing: meta ──
-        'home.meta.title':         'Czyszczenie DPF i regeneracja turbosprężarek',
-        'home.meta.description':   'Warsztat specjalistyczny: czyszczenie filtrów DPF i FAP, regeneracja turbosprężarek, katalizatorów i układów SCR. Pomiar przed i po, raport z każdego zlecenia, gwarancja. Obsługa kurierska w całej Polsce.',
+        'home.meta.title':         'Regeneracja turbosprężarek i wtryskiwaczy paliwa',
+        'home.meta.description':   'Warsztat specjalistyczny: czyszczenie filtrów cząstek stałych DPF i FAP, regeneracja turbosprężarek, wtryskiwaczy paliwa, pomp wtryskowych, katalizatorów i układów SCR. Pomiar przed i po, raport z każdego zlecenia, gwarancja.',
 
         // ── Landing: hero ──
-        'home.hero.badge':         'Warsztat specjalistyczny — DPF i turbosprężarki',
-        'home.hero.heading':       'Czyszczenie DPF i regeneracja',
+        'home.hero.heading':       'Czyszczenie filtrów cząstek stałych i regeneracja',
         'home.hero.headingAccent': 'turbosprężarek',
-        'home.hero.sub':           'Przywracamy filtry cząstek stałych i turbiny do parametrów fabrycznych — bez wycinania i bez wymiany na nową część. Każde zlecenie kończy się pomiarem kontrolnym i raportem.',
-        'home.hero.photoAlt':      'Zbliżenie turbosprężarki z widocznym kołem kompresora, zamontowanej w komorze silnika',
+        'home.hero.sub':           'Przywracamy filtry cząstek stałych i turbosprężarki do parametrów fabrycznych — bez wycinania i bez wymiany na nową część. Każde zlecenie kończy się pomiarem kontrolnym i raportem.',
+        'home.hero.photoAlt':      'Turbosprężarka z kolektorem wydechowym po regeneracji, na białym tle',
+        'home.hero.filterAlt':     'Wyczyszczony filtr cząstek stałych z widocznym plastrem miodu wkładu',
         'home.hero.cta':           'Zadzwoń i wyceń',
         'home.hero.ctaAlt':        'Zobacz zakres usług',
 
@@ -54,7 +54,7 @@ const ui = {
         'home.stats.s1.value':     '24–48 h',
         'home.stats.s1.label':     'Typowy czas realizacji',
         'home.stats.s2.value':     '8 000+',
-        'home.stats.s2.label':     'Obsłużonych DPF i turbin',
+        'home.stats.s2.label':     'Obsłużonych filtrów i turbosprężarek',
         'home.stats.s3.value':     '12 mies.',
         'home.stats.s3.label':     'Gwarancji na regenerację',
         'home.stats.s4.value':     '100%',
@@ -62,19 +62,22 @@ const ui = {
 
         // ── Landing: usługi ──
         'home.services.title':     'Zakres usług',
-        'home.services.sub':       'Samochody osobowe, dostawcze i ciężarowe — diesel i benzyna. Przyjmujemy części osobiście i kurierem.',
-        'home.services.s1.title':  'Czyszczenie DPF i FAP',
-        'home.services.s1.desc':   'Mycie hydrodynamiczne i ultradźwiękowe wkładu — bez wypalania i bez wycinania. Usuwamy sadzę, popiół i osad olejowy, przywracając przepustowość filtra.',
-        'home.services.s2.title':  'Regeneracja turbosprężarek',
-        'home.services.s2.desc':   'Pełny rozbiór, weryfikacja wału i łożysk, wymiana uszczelnień oraz wyważanie dynamiczne rdzenia na stanowisku wysokoobrotowym.',
-        'home.services.s3.title':  'Katalizatory i układy SCR',
-        'home.services.s3.desc':   'Czyszczenie katalizatorów, filtrów SCR i modułów dozujących AdBlue. Przywracamy przepływ bez ingerencji w oprogramowanie silnika.',
-        'home.services.s4.title':  'Diagnostyka i pomiary',
-        'home.services.s4.desc':   'Odczyt sterownika, pomiar ciśnienia różnicowego i przepływu, ocena stanu wkładu przed przyjęciem zlecenia — zanim wydasz złotówkę.',
-        'home.services.s5.title':  'Geometria zmienna i aktuatory',
-        'home.services.s5.desc':   'Naprawa i kalibracja geometrii zmiennej, wymiana czujników położenia, regeneracja aktuatorów podciśnieniowych i elektronicznych.',
-        'home.services.s6.title':  'Wysyłka w całej Polsce',
-        'home.services.s6.desc':   'Odbieramy i odsyłamy części kurierem — zwykle następnego dnia roboczego. Warsztaty partnerskie obsługujemy priorytetowo.',
+        'home.services.photoAlt':  'Pompa wtryskowa wysokiego ciśnienia po regeneracji',
+        'home.services.sub':       'Samochody osobowe, dostawcze i ciężarowe — diesel i benzyna. Przyjmujemy części w warsztacie.',
+        'home.services.s1.title':  'Regeneracja turbosprężarek',
+        'home.services.s1.desc':   'Pełny rozbiór, weryfikacja wału i łożysk, wymiana uszczelnień oraz wyważanie dynamiczne rdzenia na stanowisku wysokoobrotowym.',
+        'home.services.s2.title':  'Regeneracja wtryskiwaczy paliwa',
+        'home.services.s2.desc':   'Mycie ultradźwiękowe, wymiana rozpylaczy i uszczelnień, test na stanowisku probierczym. Po naprawie kodujemy wtryskiwacz w sterowniku.',
+        'home.services.s3.title':  'Regeneracja pomp wtryskowych',
+        'home.services.s3.desc':   'Pompy rzędowe, rozdzielaczowe i wysokiego ciśnienia. Wymiana elementów tłoczących, regulacja dawki, próba na stanowisku probierczym.',
+        'home.services.s4.title':  'Czyszczenie filtrów cząstek stałych DPF i FAP',
+        'home.services.s4.desc':   'Mycie hydrodynamiczne i ultradźwiękowe wkładu — bez wypalania i bez wycinania. Usuwamy sadzę, popiół i osad olejowy, przywracając przepustowość filtra.',
+        'home.services.s5.title':  'Katalizatory i układy selektywnej redukcji katalitycznej SCR',
+        'home.services.s5.desc':   'Czyszczenie katalizatorów, filtrów SCR i modułów dozujących AdBlue. Przywracamy przepływ bez ingerencji w oprogramowanie silnika.',
+        'home.services.s6.title':  'Diagnostyka i pomiary',
+        'home.services.s6.desc':   'Odczyt sterownika, pomiar ciśnienia różnicowego i przepływu, ocena stanu wkładu przed przyjęciem zlecenia — zanim wydasz złotówkę.',
+        'home.services.s7.title':  'Geometria zmienna i aktuatory',
+        'home.services.s7.desc':   'Naprawa i kalibracja geometrii zmiennej, wymiana czujników położenia, regeneracja aktuatorów podciśnieniowych i elektronicznych.',
 
         // ── Landing: proces ──
         'home.process.title':      'Jak wygląda zlecenie',
@@ -90,10 +93,11 @@ const ui = {
 
         // ── Landing: dlaczego my ──
         'home.why.title':          'Dlaczego regeneracja, a nie wymiana',
+        'home.why.photoAlt':       'Komplet czterech wtryskiwaczy paliwa po regeneracji',
         'home.why.w1.title':       'Ułamek ceny nowej części',
-        'home.why.w1.desc':        'Regeneracja kosztuje zwykle znacznie mniej niż nowy filtr czy turbina od producenta, a parametry po usłudze mieszczą się w normie fabrycznej.',
+        'home.why.w1.desc':        'Regeneracja kosztuje zwykle znacznie mniej niż nowy filtr czy turbosprężarka od producenta, a parametry po usłudze mieszczą się w normie fabrycznej.',
         'home.why.w2.title':       'Bez wycinania i modyfikacji',
-        'home.why.w2.desc':        'Usunięcie DPF to utrata homologacji i niezaliczony przegląd. Czyścimy filtr tak, aby auto pozostało zgodne z normą emisji.',
+        'home.why.w2.desc':        'Usunięcie filtra cząstek stałych to utrata homologacji i niezaliczony przegląd. Czyścimy filtr tak, aby auto pozostało zgodne z normą emisji.',
         'home.why.w3.title':       'Pomiar zamiast deklaracji',
         'home.why.w3.desc':        'Każda część ma pomiar przed i po usłudze. Dostajesz raport z liczbami, nie zapewnienie, że powinno być dobrze.',
         'home.why.w4.title':       'Gwarancja na piśmie',
@@ -101,12 +105,12 @@ const ui = {
 
         // ── Landing: FAQ ──
         'home.faq.title':          'Najczęstsze pytania',
-        'home.faq.q1':             'Ile trwa czyszczenie DPF?',
-        'home.faq.a1':             'Standardowo 24–48 godzin od momentu dostarczenia części. Przy zleceniach kurierskich doliczamy czas transportu w obie strony. Terminy pilne ustalamy telefonicznie.',
+        'home.faq.q1':             'Ile trwa czyszczenie filtra cząstek stałych?',
+        'home.faq.a1':             'Standardowo 24–48 godzin od momentu dostarczenia części do warsztatu. Terminy pilne ustalamy telefonicznie.',
         'home.faq.q2':             'Czy każdy filtr da się uratować?',
         'home.faq.a2':             'Nie. Filtr z pękniętym, stopionym lub wypalonym wkładem nie nadaje się do regeneracji — ocenimy to na etapie diagnostyki i poinformujemy przed rozpoczęciem prac.',
         'home.faq.q3':             'Czy muszę zdemontować część samodzielnie?',
-        'home.faq.a3':             'Nie musisz. Możesz przywieźć całe auto — demontaż i montaż wykonamy na miejscu. Jeśli część jest już wymontowana, wystarczy ją dostarczyć lub wysłać kurierem.',
+        'home.faq.a3':             'Nie musisz. Możesz przywieźć całe auto — demontaż i montaż wykonamy na miejscu. Jeśli część jest już wymontowana, wystarczy ją przywieźć.',
         'home.faq.q4':             'Czy po usłudze trzeba kasować błędy w sterowniku?',
         'home.faq.a4':             'Tak — po montażu resetujemy adaptacje i licznik popiołu, a w razie potrzeby uruchamiamy wymuszoną regenerację. To część usługi, nie dodatkowa pozycja na fakturze.',
         'home.faq.q5':             'Czy obsługujecie warsztaty i floty?',
@@ -114,7 +118,7 @@ const ui = {
 
         // ── Landing: kontakt ──
         'home.contact.title':      'Umów regenerację',
-        'home.contact.sub':        'Zadzwoń po wycenę albo przywieź część do warsztatu. Zlecenia kurierskie przyjmujemy z całej Polski.',
+        'home.contact.sub':        'Zadzwoń po wycenę albo przywieź część do warsztatu.',
         'home.contact.phone':      'Telefon',
         'home.contact.email':      'E-mail',
         'home.contact.address':    'Adres warsztatu',
@@ -122,45 +126,6 @@ const ui = {
         'home.contact.hoursValue': 'Pon.–Pt. 8:00–17:00 · Sob. 9:00–13:00',
         'home.contact.cta':        'Zadzwoń teraz',
         'home.contact.ctaAlt':     'Napisz e-mail',
-
-        // ── Features page ──
-        'features.title':          'Funkcje',
-        'features.description':    'Co dostaniesz w RAF Turbo DPF — starter kit do budowania stron w Astro',
-        'features.hero.heading':   'Wszystko czego potrzebujesz',
-        'features.hero.sub':       'RAF Turbo DPF to gotowy punkt startowy — zamiast konfigurować od zera, zaczynasz od działającego systemu i go adaptujesz.',
-        'features.badge':          'RAF Turbo DPF Starter Kit',
-        'features.cta.note':       'Gotowy w minutę. Modyfikuj do woli.',
-        'features.cta.back':       'Strona główna',
-
-        'features.f1.title':       'Astro 7 + SSR',
-        'features.f1.desc':        'Nowoczesny framework z adapterem Node.js. Server-side rendering gotowy od razu, API routes działają out of the box.',
-
-        'features.f2.title':       'Tailwind CSS v4',
-        'features.f2.desc':        'Nowa architektura z pluginem Vite — bez PostCSS, szybsza kompilacja, pełna paleta utility classes.',
-
-        'features.f3.title':       'TypeScript (strict)',
-        'features.f3.desc':        'Ścisłe typowanie w całym projekcie. Kompilator pilnuje typów w komponentach, tłumaczeniach i layoutach.',
-
-        'features.f4.title':       'i18n bez bibliotek',
-        'features.f4.desc':        'Obsługa języków pl i en wbudowana w routing Astro. Domyślny locale bez prefiksu URL, pełne hreflang i canonical.',
-
-        'features.f5.title':       'Zero abstrakcji',
-        'features.f5.desc':        'Każda strona to zwykły plik .astro. Żadnych rejestrów, żadnych PageRenderer — modyfikujesz HTML wprost.',
-
-        'features.f6.title':       'System motywów',
-        'features.f6.desc':        'Pięć gotowych motywów. Re-skinning przez zmianę zmiennych CSS w :root — jeden plik, cały wygląd.',
-
-        'features.f7.title':       'CMS-ready',
-        'features.f7.desc':        'SSR włączony, API routes gotowe. Podłącz MongoDB, Postgres lub dowolną bazę — architektura już na to czeka.',
-
-        'features.f8.title':       'SEO z pudełka',
-        'features.f8.desc':        'BaseLayout obsługuje meta, OG, Twitter Card, hreflang, canonical i JSON-LD strukturalny dla każdej strony.',
-
-        'features.f9.title':       'Wydajność',
-        'features.f9.desc':        'Lokalne fonty (zero external requests), animacje po LCP, View Transitions API, grid animowany post-LCP.',
-
-        'features.f10.title':      'Szybki start',
-        'features.f10.desc':       'npm install && npm run dev — i masz działający projekt z nawigacją, stopką, motywami i i18n.',
 
         // ── Privacy policy ──
         'privacy.title':        'Polityka prywatności',
@@ -200,15 +165,15 @@ const ui = {
     },
     en: {
         'site.name':            'RAF Turbo DPF',
-        'site.description':     'Specialist workshop: DPF cleaning and turbocharger regeneration',
+        'site.description':     'Specialist workshop: diesel particulate filter cleaning and turbocharger regeneration',
         'nav.home':             'Home',
-        'nav.features':         'Features',
         'nav.services':         'Services',
         'nav.process':          'Process',
         'nav.why':              'Why us',
         'nav.faq':              'FAQ',
         'nav.contact':          'Contact',
-        'nav.aria.main':        'Main navigation',        'nav.aria.language':    'Language',
+        'nav.aria.main':        'Main navigation',
+        'nav.aria.language':    'Language',
         'nav.aria.menu':        'Toggle menu',
 
         'footer.rights':        'All rights reserved',
@@ -216,7 +181,7 @@ const ui = {
         'footer.privacy':       'Privacy policy',
         'footer.terms':         'Terms of service',
         'footer.company':       'RAF Turbo DPF',
-        'footer.tagline':       'DPF filter and turbocharger regeneration. Measured before and after, every job.',
+        'footer.tagline':       'Diesel particulate filter and turbocharger regeneration. Measured before and after, every job.',
 
         'common.readMore':      'Read more',
         'common.backToTop':     'Back to top',
@@ -229,15 +194,15 @@ const ui = {
         '404.explore':          'Or check out',
 
         // ── Landing: meta ──
-        'home.meta.title':         'DPF cleaning and turbocharger regeneration',
-        'home.meta.description':   'Specialist workshop: DPF and FAP filter cleaning, turbocharger regeneration, catalytic converters and SCR systems. Measured before and after, a report with every job, warranty included. Courier service across Poland.',
+        'home.meta.title':         'Turbocharger and fuel injector regeneration',
+        'home.meta.description':   'Specialist workshop: diesel particulate filter (DPF and FAP) cleaning, turbocharger, fuel injector and injection pump regeneration, catalytic converters and SCR systems. Measured before and after, a report with every job, warranty included.',
 
         // ── Landing: hero ──
-        'home.hero.badge':         'Specialist workshop — DPF and turbochargers',
-        'home.hero.heading':       'DPF cleaning and turbocharger',
+        'home.hero.heading':       'Diesel particulate filter cleaning and turbocharger',
         'home.hero.headingAccent': 'regeneration',
         'home.hero.sub':           'We restore particulate filters and turbochargers to factory specification — no cutting out, no replacement part needed. Every job ends with a control measurement and a report.',
-        'home.hero.photoAlt':      'Close-up of a turbocharger with its compressor wheel visible, mounted in an engine bay',
+        'home.hero.photoAlt':      'A regenerated turbocharger with its exhaust manifold, on a white background',
+        'home.hero.filterAlt':     'A cleaned diesel particulate filter with the honeycomb face of the core visible',
         'home.hero.cta':           'Call for a quote',
         'home.hero.ctaAlt':        'See what we do',
 
@@ -246,7 +211,7 @@ const ui = {
         'home.stats.s1.value':     '24–48 h',
         'home.stats.s1.label':     'Typical turnaround',
         'home.stats.s2.value':     '8,000+',
-        'home.stats.s2.label':     'DPFs and turbos serviced',
+        'home.stats.s2.label':     'Filters and turbochargers serviced',
         'home.stats.s3.value':     '12 months',
         'home.stats.s3.label':     'Warranty on regeneration',
         'home.stats.s4.value':     '100%',
@@ -254,19 +219,22 @@ const ui = {
 
         // ── Landing: services ──
         'home.services.title':     'What we do',
-        'home.services.sub':       'Passenger cars, vans and trucks — diesel and petrol. Drop parts off in person or send them by courier.',
-        'home.services.s1.title':  'DPF and FAP cleaning',
-        'home.services.s1.desc':   'Hydrodynamic and ultrasonic cleaning of the filter core — no burning, no cutting out. We remove soot, ash and oil deposits and restore flow through the filter.',
-        'home.services.s2.title':  'Turbocharger regeneration',
-        'home.services.s2.desc':   'Full teardown, shaft and bearing inspection, new seals, and dynamic balancing of the core on a high-speed balancing rig.',
-        'home.services.s3.title':  'Catalytic converters and SCR',
-        'home.services.s3.desc':   'Cleaning of catalytic converters, SCR filters and AdBlue dosing modules. Flow is restored without touching the engine software.',
-        'home.services.s4.title':  'Diagnostics and measurement',
-        'home.services.s4.desc':   'ECU readout, differential pressure and flow measurement, and an assessment of the core before we take the job on — before you spend anything.',
-        'home.services.s5.title':  'Variable geometry and actuators',
-        'home.services.s5.desc':   'Repair and calibration of variable geometry, position sensor replacement, and regeneration of vacuum and electronic actuators.',
-        'home.services.s6.title':  'Courier service nationwide',
-        'home.services.s6.desc':   'We collect and return parts by courier, usually the next working day. Partner workshops get priority handling.',
+        'home.services.photoAlt':  'A regenerated high-pressure injection pump',
+        'home.services.sub':       'Passenger cars, vans and trucks — diesel and petrol. Parts are taken in at the workshop.',
+        'home.services.s1.title':  'Turbocharger regeneration',
+        'home.services.s1.desc':   'Full teardown, shaft and bearing inspection, new seals, and dynamic balancing of the core on a high-speed balancing rig.',
+        'home.services.s2.title':  'Fuel injector regeneration',
+        'home.services.s2.desc':   'Ultrasonic cleaning, nozzle and seal replacement, testing on a calibration bench. After the repair we code the injector into the control unit.',
+        'home.services.s3.title':  'Injection pump regeneration',
+        'home.services.s3.desc':   'Inline, distributor and high-pressure pumps. Pumping elements replaced, delivery quantity adjusted, pressure tested on a calibration bench.',
+        'home.services.s4.title':  'Diesel particulate filter (DPF and FAP) cleaning',
+        'home.services.s4.desc':   'Hydrodynamic and ultrasonic cleaning of the filter core — no burning, no cutting out. We remove soot, ash and oil deposits and restore flow through the filter.',
+        'home.services.s5.title':  'Catalytic converters and selective catalytic reduction (SCR)',
+        'home.services.s5.desc':   'Cleaning of catalytic converters, SCR filters and AdBlue dosing modules. Flow is restored without touching the engine software.',
+        'home.services.s6.title':  'Diagnostics and measurement',
+        'home.services.s6.desc':   'ECU readout, differential pressure and flow measurement, and an assessment of the core before we take the job on — before you spend anything.',
+        'home.services.s7.title':  'Variable geometry and actuators',
+        'home.services.s7.desc':   'Repair and calibration of variable geometry, position sensor replacement, and regeneration of vacuum and electronic actuators.',
 
         // ── Landing: process ──
         'home.process.title':      'How a job works',
@@ -282,10 +250,11 @@ const ui = {
 
         // ── Landing: why us ──
         'home.why.title':          'Why regenerate instead of replacing',
+        'home.why.photoAlt':       'A set of four regenerated fuel injectors',
         'home.why.w1.title':       'A fraction of the price of a new part',
         'home.why.w1.desc':        'Regeneration typically costs far less than a new filter or turbocharger from the manufacturer, and the results stay within factory tolerance.',
         'home.why.w2.title':       'No cutting out, no modification',
-        'home.why.w2.desc':        'Removing a DPF voids type approval and fails inspection. We clean the filter so the car stays compliant with its emission standard.',
+        'home.why.w2.desc':        'Removing a diesel particulate filter voids type approval and fails inspection. We clean the filter so the car stays compliant with its emission standard.',
         'home.why.w3.title':       'Measurement, not assurances',
         'home.why.w3.desc':        'Every part is measured before and after. You get a report with numbers, not a promise that it should be fine.',
         'home.why.w4.title':       'Warranty in writing',
@@ -293,12 +262,12 @@ const ui = {
 
         // ── Landing: FAQ ──
         'home.faq.title':          'Frequently asked questions',
-        'home.faq.q1':             'How long does DPF cleaning take?',
-        'home.faq.a1':             'Typically 24 to 48 hours from the moment the part reaches us. For courier jobs, add transit time both ways. Urgent turnarounds can be arranged by phone.',
+        'home.faq.q1':             'How long does particulate filter cleaning take?',
+        'home.faq.a1':             'Typically 24 to 48 hours from the moment the part reaches the workshop. Urgent turnarounds can be arranged by phone.',
         'home.faq.q2':             'Can every filter be saved?',
         'home.faq.a2':             'No. A filter with a cracked, melted or burnt-through core cannot be regenerated. We establish this during diagnostics and tell you before any work starts.',
         'home.faq.q3':             'Do I have to remove the part myself?',
-        'home.faq.a3':             'Not at all. You can bring the whole vehicle in and we handle removal and refitting. If the part is already off, simply drop it off or send it by courier.',
+        'home.faq.a3':             'Not at all. You can bring the whole vehicle in and we handle removal and refitting. If the part is already off, simply drop it off.',
         'home.faq.q4':             'Do fault codes need clearing afterwards?',
         'home.faq.a4':             'Yes — after refitting we reset the adaptations and the ash counter, and run a forced regeneration where needed. That is part of the service, not a separate line on the invoice.',
         'home.faq.q5':             'Do you work with workshops and fleets?',
@@ -306,7 +275,7 @@ const ui = {
 
         // ── Landing: contact ──
         'home.contact.title':      'Book a regeneration',
-        'home.contact.sub':        'Call for a quote or bring the part to the workshop. We accept courier jobs from anywhere in Poland.',
+        'home.contact.sub':        'Call for a quote or bring the part to the workshop.',
         'home.contact.phone':      'Phone',
         'home.contact.email':      'Email',
         'home.contact.address':    'Workshop address',
@@ -314,45 +283,6 @@ const ui = {
         'home.contact.hoursValue': 'Mon-Fri 8:00-17:00 · Sat 9:00-13:00',
         'home.contact.cta':        'Call now',
         'home.contact.ctaAlt':     'Send an email',
-
-        // ── Features page ──
-        'features.title':          'Features',
-        'features.description':    'What you get with RAF Turbo DPF — the Astro starter kit',
-        'features.hero.heading':   'Everything you need',
-        'features.hero.sub':       'RAF Turbo DPF is a ready-made starting point — instead of configuring from scratch, you start with a working system and adapt it.',
-        'features.badge':          'RAF Turbo DPF Starter Kit',
-        'features.cta.note':       'Ready in a minute. Modify freely.',
-        'features.cta.back':       'Home',
-
-        'features.f1.title':       'Astro 7 + SSR',
-        'features.f1.desc':        'Modern framework with a Node.js adapter. Server-side rendering ready out of the box, API routes work immediately.',
-
-        'features.f2.title':       'Tailwind CSS v4',
-        'features.f2.desc':        'New Vite plugin architecture — no PostCSS, faster compilation, full utility class palette.',
-
-        'features.f3.title':       'TypeScript (strict)',
-        'features.f3.desc':        'Strict typing across the entire project. The compiler enforces types in components, translations, and layouts.',
-
-        'features.f4.title':       'i18n without libraries',
-        'features.f4.desc':        'Built-in pl and en support via Astro routing. Default locale without URL prefix, full hreflang and canonical.',
-
-        'features.f5.title':       'Zero abstractions',
-        'features.f5.desc':        'Every page is a plain .astro file. No registries, no PageRenderer — you edit HTML directly.',
-
-        'features.f6.title':       'Theme system',
-        'features.f6.desc':        'Five built-in themes. Re-skin by changing CSS variables in :root — one file, the whole look.',
-
-        'features.f7.title':       'CMS-ready',
-        'features.f7.desc':        'SSR enabled, API routes ready. Connect MongoDB, Postgres, or any database — the architecture already supports it.',
-
-        'features.f8.title':       'SEO out of the box',
-        'features.f8.desc':        'BaseLayout handles meta, OG, Twitter Card, hreflang, canonical, and JSON-LD structured data for every page.',
-
-        'features.f9.title':       'Performance',
-        'features.f9.desc':        'Local fonts (zero external requests), post-LCP animations, View Transitions API, animated grid post-LCP.',
-
-        'features.f10.title':      'Quick start',
-        'features.f10.desc':       'npm install && npm run dev — and you have a working project with navigation, footer, themes, and i18n.',
 
         // ── Privacy policy ──
         'privacy.title':        'Privacy Policy',

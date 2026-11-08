@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { useTranslations, defaultLocale } from '@/lib/i18n'
+import { useTranslations, defaultLocale, localizePath } from '@/lib/i18n'
 import type { Locale } from '@/lib/i18n'
 
 /* CRITICAL: Astro 404.astro returns HTTP 200 by default. Without this line
@@ -14,11 +14,18 @@ const home = prefix || '/'
 
 /* Escape hatches. A 404 that only links home is a dead end — the SEO
    checklist wants routes to the main sections from here. Extend this list
-   as the site grows. */
+   as the site grows.
+
+   Paths go through localizePath rather than `${prefix}${path}`: the
+   landing-page anchors would otherwise localize to '/en/#services', and
+   that trailing slash is exactly what canonicalUrl() and the sitemap
+   strip. */
 const sections = [
-    { label: t('nav.features'), href: `${prefix}/features` },
-    { label: t('footer.privacy'), href: `${prefix}/privacy` },
-    { label: t('footer.terms'), href: `${prefix}/terms` },
+    { label: t('nav.services'), href: localizePath(locale, '/#services') },
+    { label: t('nav.process'), href: localizePath(locale, '/#process') },
+    { label: t('nav.contact'), href: localizePath(locale, '/#contact') },
+    { label: t('footer.privacy'), href: localizePath(locale, '/privacy') },
+    { label: t('footer.terms'), href: localizePath(locale, '/terms') },
 ]
 ---
 
@@ -30,7 +37,7 @@ const sections = [
         >404</p>
         <h1 class="text-xl sm:text-2xl font-normal text-muted">{t('404.title')}</h1>
         <p class="text-sm text-dim max-w-sm">{t('404.message')}</p>
-        <a href={home} class="theme-ghost inline-block mt-4 px-6 py-2.5 rounded-lg text-xs font-mono font-semibold uppercase tracking-wider">
+        <a href={home} class="btn btn-sm btn-outline mt-4 font-mono">
             {t('404.cta')}
         </a>
 

@@ -13,7 +13,7 @@ import type { UiKey } from '@/lib/content'
 export interface NavLinkDef {
     /** Translation key for the visible label (resolved per locale). */
     labelKey: UiKey
-    /** Locale-less path ('/', '/features', '/#contact', …). */
+    /** Locale-less path ('/', '/privacy', '/#contact', …). */
     path: string
 }
 
