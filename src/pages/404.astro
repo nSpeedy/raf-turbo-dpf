@@ -37,7 +37,7 @@ const sections = [
         >404</p>
         <h1 class="text-xl sm:text-2xl font-normal text-muted">{t('404.title')}</h1>
         <p class="text-sm text-dim max-w-sm">{t('404.message')}</p>
-        <a href={home} class="btn btn-sm btn-outline mt-4 font-mono">
+        <a href={home} class="theme-ghost rounded-control inline-block mt-4 px-6 py-3 text-xs font-mono font-semibold uppercase tracking-wider">
             {t('404.cta')}
         </a>
 
@@ -46,7 +46,7 @@ const sections = [
             {sections.map((s) => (
                 <a
                     href={s.href}
-                    class="px-4 py-2 rounded-full text-xs font-mono text-muted border border-line transition-all duration-200 hover:text-fg hover:bg-surface-soft"
+                    class="rounded-control px-4 py-2 text-xs font-mono text-muted border border-line transition-all duration-200 hover:text-fg hover:bg-surface-soft"
                 >
                     {s.label}
                 </a>

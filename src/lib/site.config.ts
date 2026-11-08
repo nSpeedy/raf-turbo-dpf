@@ -13,7 +13,7 @@ import type { UiKey } from '@/lib/content'
 export interface NavLinkDef {
     /** Translation key for the visible label (resolved per locale). */
     labelKey: UiKey
-    /** Locale-less path ('/', '/privacy', '/#contact', …). */
+    /** Locale-less path ('/', '/features', '/#contact', …). */
     path: string
 }
 
@@ -29,6 +29,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
     nav: [
         { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.injectors', path: '/#injectors' },
         { labelKey: 'nav.process', path: '/#process' },
         { labelKey: 'nav.why', path: '/#why' },
         { labelKey: 'nav.faq', path: '/#faq' },
@@ -37,6 +38,7 @@ export const siteConfig: SiteConfig = {
     footerNav: [
         { labelKey: 'nav.home', path: '/' },
         { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.injectors', path: '/#injectors' },
         { labelKey: 'nav.contact', path: '/#contact' },
     ],
     legalNav: [
@@ -48,15 +50,26 @@ export const siteConfig: SiteConfig = {
 /**
  * Hard business facts — deliberately NOT in content.ts, because a phone
  * number and a street address are the same string in every locale, and
- * because they feed machine-readable output (tel:/mailto: hrefs and the
- * LocalBusiness JSON-LD in the landing page) as well as visible copy.
- * The LABELS next to these values live in content.ts (`home.contact.*`).
+ * because they feed machine-readable output (tel:/mailto: hrefs, the
+ * LocalBusiness JSON-LD in the landing page, the operator identification
+ * on the legal pages) as well as visible copy. The LABELS next to these
+ * values live in content.ts (`home.contact.*`).
  *
- * ⚠ Everything below is placeholder data — replace before deploy.
+ * All values are the real registered data. `openingHours` and `areaServed`
+ * are landing-page values and must stay in sync with content.ts.
  */
 export interface BusinessInfo {
-    /** Display + legal name (also used as the JSON-LD `name`). */
+    /** Trading name — the JSON-LD `name` and what the site calls itself. */
     name: string
+    /** Registered name (CEIDG). Used for `legalName`, the copyright line
+        and the operator identification in the privacy policy / terms. */
+    legalName: string
+    /** Owner / sole proprietor — JSON-LD `founder`. */
+    owner: string
+    /** Polish tax id (NIP), digits only — JSON-LD `vatID`. */
+    nip: string
+    /** Polish statistical id (REGON), digits only. */
+    regon: string
     /** E.164, no spaces — this is what goes into `tel:`. */
     phone: string
     /** Human-formatted phone for display. */
@@ -65,24 +78,34 @@ export interface BusinessInfo {
     street: string
     postalCode: string
     city: string
+    /** Voivodeship — JSON-LD `addressRegion` only, not shown on the page. */
+    region: string
     /** ISO 3166-1 alpha-2. */
     country: string
     /** schema.org `openingHours` syntax — machine-readable form of
         `home.contact.hoursValue`, which is the human one. Keep in sync. */
     openingHours: string[]
-    /** JSON-LD `areaServed`. */
+    /** JSON-LD `areaServed` — the city/region people actually drive in
+        from. This is a walk-in workshop with no courier service, so a
+        country-wide value here would tell Google something the business
+        does not offer. */
     areaServed: string
 }
 
 export const business: BusinessInfo = {
     name: 'RAF Turbo DPF',
-    phone: '+48000000000',
-    phoneDisplay: '+48 000 000 000',
-    email: 'kontakt@example.com',
-    street: 'ul. Przykładowa 1',
-    postalCode: '00-000',
-    city: 'Warszawa',
+    legalName: 'RAF-Turbo-DPF Rafał Markiewicz',
+    owner: 'Rafał Markiewicz',
+    nip: '6491891246',
+    regon: '240405573',
+    phone: '+48697319424',
+    phoneDisplay: '+48 697 319 424',
+    email: 'raf-turbo@op.pl',
+    street: 'Mrzygłodzka 111',
+    postalCode: '42-400',
+    city: 'Zawiercie',
+    region: 'śląskie',
     country: 'PL',
-    openingHours: ['Mo-Fr 08:00-17:00', 'Sa 09:00-13:00'],
-    areaServed: 'PL',
+    openingHours: ['Mo-Fr 08:00-17:00'],
+    areaServed: 'Zawiercie',
 }

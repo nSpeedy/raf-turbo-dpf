@@ -1,9 +1,16 @@
 ---
 /**
- * Brand logo + wordmark. Single source for the mark previously duplicated
- * inline in Navbar and Footer — swap the SVG (or replace this component
- * via the parents' `logo` slot) to re-brand the whole site. All colors
- * come from theme tokens, so it follows the active [data-theme].
+ * Brand wordmark. Single source for the logo previously duplicated inline
+ * in Navbar and Footer — edit here (or replace the component through the
+ * parents' `logo` slot) to re-brand the whole site.
+ *
+ * Text only: the flame glyph that used to sit next to the label was
+ * dropped. The mark still lives in `public/favicon.svg` and on the OG
+ * card, where an icon has to carry the brand on its own — in the navbar
+ * it competed with the accent-red phone button two elements away.
+ *
+ * `group` is kept for the hover colour; if you put an icon back, it is
+ * what lets the icon react to a hover anywhere on the link.
  */
 interface Props {
     href: string
@@ -12,12 +19,6 @@ interface Props {
 const { href, label } = Astro.props
 ---
 
-<a href={href} class="flex items-center gap-2.5 group">
-    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-accent/10 border border-accent/25 shadow-[0_0_10px_var(--accent-glow)] transition-shadow duration-300 group-hover:shadow-lg">
-        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M10 1C10 1 4.5 7.5 4.5 12.5a5.5 5.5 0 0 0 11 0C15.5 9 13.5 6 12.5 5.5c0 2-1.5 3-2.5 3C11.5 7 10.5 3.5 10 1Z" fill="var(--accent-from)"/>
-            <path d="M10 10.5C10 10.5 8 12 8 13.5a2 2 0 0 0 4 0C12 12 10 10.5 10 10.5Z" fill="var(--accent-to)" opacity="0.6"/>
-        </svg>
-    </span>
-    <span class="text-sm font-semibold tracking-tight font-mono transition-colors duration-200 group-hover:text-accent">{label}</span>
+<a href={href} class="group inline-flex items-center">
+    <span class="text-xl sm:text-2xl font-semibold tracking-tight font-mono transition-colors duration-200 group-hover:text-accent">{label}</span>
 </a>

@@ -1,57 +1,71 @@
 # RAF Turbo DPF
 
-> Warsztat specjalistyczny: czyszczenie filtrów cząstek stałych DPF/FAP
-> i regeneracja turbosprężarek, wtryskiwaczy paliwa i pomp wtryskowych.
-> Pomiar przed i po każdym zleceniu, raport, gwarancja.
+> Warsztat: regeneracja turbosprężarek, wtryskiwaczy i pomp wtryskowych
+> oraz czyszczenie filtrów DPF/FAP. Pomiar przed i po każdej naprawie,
+> gwarancja.
 
-Regenerujemy filtry cząstek stałych, turbosprężarki, wtryskiwacze paliwa,
-pompy wtryskowe, katalizatory i układy selektywnej redukcji katalitycznej
-SCR do parametrów fabrycznych — bez wycinania filtra i bez wymiany na nową
-część. Obsługujemy samochody osobowe, dostawcze i ciężarowe (diesel
-i benzyna), kierowców indywidualnych oraz warsztaty i floty. Części
-przyjmujemy w warsztacie.
+Regenerujemy podzespoły do samochodów osobowych, dostawczych i ciężarowych
+oraz do maszyn budowlanych i rolniczych — zamiast wymieniać je na nowe.
+Turbosprężarki wszystkich typów, wtryskiwacze diesla i benzynowe, pompy
+wtryskowe. Czyścimy filtry cząstek stałych, bez wycinania filtra.
+Obsługujemy kierowców indywidualnych oraz warsztaty i floty.
 
-Nie oferujemy usuwania (wycinania) filtra cząstek stałych ani modyfikacji
-oprogramowania silnika — usunięcie filtra oznacza utratę homologacji
-i niezaliczony przegląd techniczny.
+Pracujemy stacjonarnie, w warsztacie. Część można przywieźć wykręconą albo
+zostawić cały samochód — demontaż i montaż robimy na miejscu. Nie prowadzimy
+wysyłki ani odbioru części kurierem.
+
+Nie usuwamy (nie wycinamy) DPF i nie modyfikujemy oprogramowania silnika —
+wycięty filtr to utrata homologacji i niezaliczony przegląd techniczny.
 
 ## Usługi
 
-- **Regeneracja turbosprężarek** — rozbiór, wymiana uszczelnień i łożysk,
-  wyważanie dynamiczne rdzenia.
-- **Regeneracja wtryskiwaczy paliwa** — mycie ultradźwiękowe, wymiana
-  rozpylaczy, test na stanowisku probierczym, kodowanie w sterowniku.
-- **Regeneracja pomp wtryskowych** — pompy rzędowe, rozdzielaczowe
-  i wysokiego ciśnienia; wymiana elementów tłoczących, regulacja dawki.
-- **Czyszczenie filtrów cząstek stałych DPF i FAP** — mycie hydrodynamiczne
-  i ultradźwiękowe wkładu, bez wypalania i bez wycinania.
-- **Katalizatory i układy selektywnej redukcji katalitycznej SCR** —
-  czyszczenie katalizatorów, filtrów SCR i modułów dozujących AdBlue.
+- **Regeneracja turbosprężarek** — wszystkie typy, od osobowych po ciężarowe
+  i maszynowe: rozbiór, wał i łożyska, wymiana uszczelnień, wyważanie
+  rdzenia, naprawa geometrii zmiennej i aktuatorów.
+- **Regeneracja wtryskiwaczy** — diesel i benzyna: Common Rail,
+  pompowtryskiwacze, wtrysk bezpośredni. Próba na stole probierczym (dawka,
+  przelew, szczelność), mycie ultradźwiękowe, nowy rozpylacz i uszczelki,
+  ustawienie dawki i kody korekty do sterownika. Bosch, Delphi, Denso,
+  Siemens (VDO), Continental.
+- **Regeneracja pomp wtryskowych** — pompy rzędowe, rotacyjne i wysokiego
+  ciśnienia: rozbiór, wymiana zużytych elementów, ustawienie dawki i próba
+  na stole probierczym.
+- **Czyszczenie DPF i FAP** — wypłukiwanie sadzy, popiołu i oleju z wkładu
+  (na mokro i ultradźwiękami), bez wypalania i bez wycinania.
 - **Diagnostyka i pomiary** — odczyt sterownika, pomiar ciśnienia
-  różnicowego i przepływu przed przyjęciem zlecenia.
-- **Geometria zmienna i aktuatory** — naprawa, wymiana czujników położenia,
-  kalibracja aktuatorów.
+  i przepływu przed przyjęciem zlecenia.
+- **Demontaż i montaż** — wykręcamy i wkładamy część z powrotem na miejscu.
+  Części z maszyn przyjmujemy też wykręcone.
 
 ## Jak wygląda zlecenie
 
-1. Kontakt i wstępna wycena (telefon lub zdjęcie części z numerem katalogowym)
-2. Diagnostyka i pomiar — jeśli regeneracja nie ma sensu, informujemy przed pracami
-3. Regeneracja
-4. Pomiar kontrolny, raport przed/po, odbiór z dokumentem gwarancyjnym
+1. Telefon albo przyjazd do warsztatu — bez umawiania się i bez formularzy
+2. Sprawdzenie części i wycena — jeśli naprawa nie ma sensu, mówimy przed pracami
+   i nie liczymy za sprawdzenie
+3. Naprawa
+4. Pomiar kontrolny, wydruk z wynikami przed i po, odbiór z gwarancją na piśmie
 
-Typowy czas realizacji: 24–48 h od dostarczenia części.
+Zwykle 24–48 h od dnia, w którym część do nas trafi.
 
 ## Kluczowe strony
 
 - Strona główna (PL): /
 - Homepage (EN): /en
+- Wtryskiwacze i pompy wtryskowe: /#injectors
 - Polityka prywatności: /privacy
 - Regulamin: /terms
 
+## Firma
+
+- Nazwa: RAF-Turbo-DPF Rafał Markiewicz
+- NIP: 6491891246
+- REGON: 240405573
+- Właściciel: Rafał Markiewicz
+
 ## Kontakt
 
-<!-- TODO: podmień na dane rzeczywiste (patrz `business` w src/lib/site.config.ts) -->
-- Telefon: +48 000 000 000
-- E-mail: kontakt@example.com
-- Adres: ul. Przykładowa 1, 00-000 Warszawa
-- Godziny: pon.–pt. 8:00–17:00, sob. 9:00–13:00
+<!-- TODO: e-mail to nadal dane zastępcze (patrz `business` w src/lib/site.config.ts) -->
+- Telefon: +48 697 319 424
+- E-mail: raf-turbo@op.pl
+- Adres: Mrzygłodzka 111, 42-400 Zawiercie, woj. śląskie
+- Godziny: pon.–pt. 8:00–17:00; sobota i niedziela nieczynne

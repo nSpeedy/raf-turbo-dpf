@@ -2,7 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import Navbar from '@/components/Navbar.astro'
 import Footer from '@/components/Footer.astro'
+import BusinessDetails from '@/components/BusinessDetails.astro'
 import { useTranslations } from '@/lib/content'
+import { business } from '@/lib/site.config'
 import { LEGAL_LAST_UPDATED } from '@/lib/locales'
 import type { Locale } from '@/lib/locales'
 
@@ -21,7 +23,10 @@ const sections = [
     { heading: t('privacy.cookies.heading'), text: t('privacy.cookies.text') },
     { heading: t('privacy.thirdparty.heading'), text: t('privacy.thirdparty.text') },
     { heading: t('privacy.rights.heading'), text: t('privacy.rights.text') },
-    { heading: t('privacy.contact.heading'), text: t('privacy.contact.text') },
+    /* The e-mail address is appended here rather than written into
+       content.ts: it is business data, and a second copy of it would be
+       one more place to forget when the address changes. */
+    { heading: t('privacy.contact.heading'), text: `${t('privacy.contact.text')} ${business.email}` },
     { heading: t('privacy.changes.heading'), text: t('privacy.changes.text') },
 ]
 ---
@@ -51,6 +56,8 @@ const sections = [
                     </p>
                 </section>
             ))}
+
+            <BusinessDetails />
         </article>
     </main>
     <Footer />

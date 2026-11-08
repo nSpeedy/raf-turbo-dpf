@@ -73,6 +73,7 @@ scripts/
 ├── gen-hero.mjs                  # scripts/hero-source.jpg → public/images/hero-turbo.webp (kadr + kompresja)
 ├── gen-photos.mjs                # scripts/photo-*-source.jpg → public/images/photo-*.webp (wycinanka z alfą)
 ├── hero-source.jpg               # Oryginał zdjęcia hero (poza public/ — nie trafia na serwer)
+├── photo-turbo-source.jpg        # Oryginał turbosprężarki → public/images/photo-turbo-original.webp (sharp, bez wycinania; patrz `.hero-bg`)
 └── gen-favicon.mjs               # public/favicon.svg → favicon.ico (16/32/48)
 ```
 
@@ -94,10 +95,12 @@ scripts/
 - **Jeden motyw** — biało-czerwony, w `:root`. Brak wariantów `[data-theme]`, brak przełącznika, brak `localStorage`. Cała paleta to jeden blok tokenów
 - Kontrasty policzone i wpisane w komentarzu przy palecie — **przy zmianie akcentu przelicz je ponownie**. Rampa czerwona startuje od red-500 (3.76:1), bo jaśniejsze czerwienie nie łapią 3:1 na bieli; `--accent-solid` to red-600 (4.83:1), więc jest bezpieczny także dla tekstu
 - Szarości są **neutralne**, nie slate — slate ma niebieski odcień, który przy czerwieni czyta się jak brud. Zmieniając rodzinę akcentu, sprawdź też szarości
-- **Fonty**: Inter (nagłówki *i* body), Orbitron (mono — tylko cyfry/etykiety ASCII), Zen Dots / Doto (display) — lokalne woff2, zero external requests
+- **Fonty**: Arimo (tylko H1/H2 — nagłówek hero i tytuły sekcji), Inter (body, H3 i niżej), Orbitron (mono — logo, cyfry/etykiety ASCII), Zen Dots / Doto (display, obecnie nieużywane) — lokalne woff2, zero external requests
 - ⚠ **Syncopate i Orbitron nie mają subsetu Latin Extended-A w wadze 700** — polskie znaki w tekście ustawionym tym krojem spadają do innej wagi w środku wyrazu. Nie używaj ich do polskiej treści
-- **Utility classes**: `.gradient-text`, `.theme-card`, `.theme-nav`, `.theme-footer`, `.scroll-progress`
-- **Przyciski**: `.btn` + wariant (`.btn-primary`, `.btn-outline`, `.btn-outline-inverted`) + opcjonalnie `.btn-sm`. Geometria, typografia i focus-ring siedzą w `.btn` — **nie dopisuj paddingu, `rounded-*` ani `text-*` w markupie**, bo wtedy ta sama klasa renderuje się jako trzy różne przyciski (dokładnie to się stało przed `.btn`)
+- **Utility classes**: `.gradient-text` (płaski czerwony `--accent-solid`, nazwa historyczna), `.theme-card`, `.card-grid`, `.theme-nav`, `.theme-footer`, `.hero-bg`, `.photo-feather`, `.texture-layer` / `.texture-flank` / `.texture-band`
+- **Przyciski**: `.theme-cta` (czerwony) i `.theme-ghost` (obrys) + `rounded-control`; geometria (`inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-semibold`) jest w markupie, więc **kopiuj ją 1:1** z istniejących przycisków. Promień zawsze przez token — nigdy `rounded-xl`/`rounded-full`
+- **Układ kwadratowy**: `--radius-card` i `--radius-control` = 0 w `:root` (jedyne miejsce, które o tym decyduje). Karty płaskie, cienka ramka, bez cieni; siatki liniowe `.card-grid` (1 px przerwy nad kolorem linii — liczba komórek musi dzielić się przez liczbę kolumn, inaczej zostaje goły prostokąt koloru linii)
+- **Tło hero**: sekcja ma `.hero-bg` (`--hero-bg` `#f7f7f9` = średnia kolorów tła zdjęcia). Jest ciemniejsze niż bezpieczne `#fafafa`, więc **w hero wolno używać tylko `text-fg` i `text-muted`** — `text-dim` tam nie przejdzie AA. Zmieniasz zdjęcie → pobierz próbki z jego rogów i zaktualizuj token
 - **Tailwind theme bridge** (`@theme inline` w globals.css): tokeny są dostępne jako natywne utility — `text-accent`, `bg-accent/10` (dowolna przezroczystość przez color-mix), `bg-accent-soft`, `bg-surface`, `bg-surface-soft`, `bg-surface-nav`, `text-fg`, `border-line`, `shadow-panel`, `rounded-card`. **Używaj ich zamiast** wartości arbitralnych `bg-[var(--…)]` i inline styles — hardkodowane kolory łamią motywy
 - Re-skinning = zmiana zmiennych w `:root`. To jedyne miejsce — jeśli kusi Cię dopisanie drugiego motywu, najpierw sprawdź, czy projekt naprawdę go potrzebuje
 
@@ -124,7 +127,7 @@ Każda strona musi być **samodzielnym, kompletnym dokumentem** — czytelnym be
 - Zero cloakingu: identyczna treść dla ludzi i botów
 
 ## Wydajność — reguły obowiązujące
-- **Fonty**: `font-display: swap`, preload tylko wariantów above-the-fold (Inter var + ext — nagłówek LCP i body idą tym samym krojem). Reszta leci lazy przez `unicode-range`
+- **Fonty**: `font-display: swap`, preload tylko wariantów above-the-fold (Arimo var + ext — nagłówek LCP; Inter var + ext — body). Reszta leci lazy przez `unicode-range`. Arimo ext jest wycięty do Latin Extended-A (9 KB zamiast 97 KB)
 - **CSS**: `build.inlineStylesheets: 'always'` — zero render-blocking `<link rel=stylesheet>`
 - **Animacje tła**: wyłącznie `transform: translate3d` (kompozytowane). `background-position` wymusza paint całego viewportu co klatkę
 - Animacje ambientowe gated przez `html.bg-anim`, dokładane przez `Observer` po pierwszym paincie — nie konkurują z LCP
@@ -308,3 +311,11 @@ npm i -D sharp && node scripts/gen-favicon.mjs  # Regeneracja favicon.ico
 | 2026-11 | Główny obraz hero: turbosprężarka z kolektorem jako wycinanka wewnątrz kontenera, nie zdjęcie wypełniające prawą krawędź viewportu | Decyzja klienta („może zamiast tego głównego obrazu"). Przy okazji dwie rzeczy: hero czyta się teraz jako dwie części klamrujące nagłówek, a nie wycinanka obok panelu ze zdjęciem; i przypięty do krawędzi ekranu obraz odpływał od tekstu tym bardziej, im szerszy monitor — przy 1920 zostawiał dziurę na środku |
 | 2026-11 | Pompa wtryskowa przy nagłówku `#services`, wtryskiwacze w lewej kolumnie `#why` | Obie te kolumny były puste z definicji: nagłówek `max-w-2xl` nad siatką trzykolumnową zostawia jedną trzecią wiersza, a `#why` to krótki H2 nad 20 rem pustki obok listy na pełną wysokość |
 | 2026-11 | Pułapka sharpa: `blur()` na jednokanałowym rawie zwraca 3 kanały | Maska robiła się 3× za długa, `joinChannel` czytał ją z przesunięciem i alfa wychodziła w poziome prążki. Lekarstwo: `toColourspace('b-w').raw()` przed `toBuffer()` |
+| 2026-11 | Układ strony z `main` (kwadratowy: tokeny `--radius-*` = 0, `.theme-cta`/`.theme-ghost`, `.card-grid`, sekcja `#injectors`), zdjęcia i tekstury z `s` | Decyzja klienta: układ ze strony produkcyjnej, ale z wycinankami części i teksturami. Zastępuje wpisy o systemie `.btn` i zaokrąglonych przyciskach powyżej — klasa `.btn` już nie istnieje |
+| 2026-11 | Hero: oryginalne zdjęcie turbosprężarki (`photo-turbo-original.webp`) z `.hero-bg` i `.photo-feather` zamiast wycinanki z alfą | Decyzja klienta: wycięcie wyglądało dziwnie. Backdrop zdjęcia jest bliski bieli, więc zamiast maski alfa tło sekcji dopasowano do jego średniego koloru, a brzeg rozmyto (~5%). Zastępuje wpis o wycinance w hero |
+| 2026-11 | Arimo tylko w H1/H2; body, logo i cyfry bez zmian (Inter / Orbitron) | Decyzja klienta po próbie z Barlow Condensed („mega brzydko"). Ext Arimo wycięty do Latin Extended-A, bo pełny plik ma 97 KB |
+| 2026-11 | Plaster miodu na telefonie jako pas u góry sekcji (`.texture-band`), filtr DPF w hero lustrzanie za nagłówkiem przy krycie 0.12 | Boczne pasy potrzebują luki obok kolumny, a na telefonie jej nie ma. Pas zanika w dół i leży tylko za nagłówkiem; najgorszy kontrast tekstu pod nim ~5.8:1 |
+| 2026-11 | Plaster miodu (boczne pasy) także w `#process` | Numery kroków leżą w białych kwadratach, więc nie stoją na teksturze; skrajne kroki zachodzą pod pas z krycia 0.14. Ostrzeżenie o `#process` w komentarzu CSS dotyczyło starego układu, w którym numery kroków stały bezpośrednio na tle sekcji |
+| 2026-11 | Usunięty pasek postępu przewijania i czwarta statystyka („100% napraw z pomiarem") | Decyzja klienta. Siatka statystyk: 3 kolumny od `sm`, wcześniej 4 |
+| 2026-11 | Słownictwo formalne w `content.ts` („odwiedź warsztat", „samochód" zamiast „auto", „zgłoś się" zamiast „wpadnij/podjedź") | Decyzja klienta: kolokwializmy brzmiały nieprofesjonalnie. Przy nowych tekstach unikaj „wpadnij", „po prostu", „sypie się", „siada" |
+| 2026-11 | Strony prawne i `BusinessDetails` z `main`; dane firmy (NIP, REGON, adres, telefon, e-mail `raf-turbo@op.pl`) w `business` | Operator „RAF-Turbo-DPF Rafał Markiewicz" zamiast „Szafruga Software Inc."; jedno źródło danych dla stopki, JSON-LD i stron prawnych |

@@ -4,6 +4,26 @@
    it arrives (~10–50ms later from preloaded local woff2). This is the
    only way to score 100 on Lighthouse Performance — `block` makes LCP
    wait for the font and eats the render budget. */
+/* Arimo — heading face (hero H1 and section H2). Body copy, wordmark and
+   numerals stay in Inter / Orbitron. Variable 400–700. The base file is the Latin subset; `-ext` is cut down
+   to Latin Extended-A (PL/CZ/SK/HU diacritics) plus common typography, so
+   Polish letters never fall back to another face mid-word. */
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400 700;
+    src: url('/fonts/arimo-variable.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400 700;
+    src: url('/fonts/arimo-variable-ext.woff2') format('woff2');
+    unicode-range: U+0100-017F, U+1E9E, U+2010-2015, U+2018-201F, U+20AC, U+2122;
+}
 @font-face {
     font-family: 'Inter Variable';
     font-style: normal;
@@ -130,9 +150,16 @@
 }
 
 /* Non-color design tokens with literal defaults — emitted as CSS vars,
-   so a project (or a theme block) can still override them. */
+   so a project (or a theme block) can still override them.
+
+   The layout is square by design: panels, cards and controls all have a
+   0 radius. These two values are the only place that decides it — set
+   them to e.g. 0.75rem and every card, panel, badge and button on the
+   site rounds off together. Never hard-code `rounded-xl` in markup: that
+   takes a decision out of the token layer and hides it in a page. */
 @theme {
-    --radius-card: 1rem;
+    --radius-card:    0rem;  /* cards, panels, section boxes */
+    --radius-control: 0rem;  /* buttons, badges, icon plates, inputs */
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -155,6 +182,15 @@
    Gradient stops run #ef4444 (3.76:1) -> #991b1b (8.31:1); all clear the
    3:1 bar for the large display text they are used on. Never put a
    gradient stop on body copy.
+
+   Re-measured on the card hover tint --card-hover-bg #fafafa, which is
+   the darkest ground any body copy sits on:
+     --color-text        #171717   17.10:1  AAA
+     --color-text-muted  #525252    7.49:1  AAA
+     --color-text-dim    #737373    4.54:1  AA   (no headroom left)
+     --accent-solid      #dc2626    4.63:1  AA
+   #fafafa is therefore the darkest usable hover tint. A step further
+   (#f5f5f5) drops --color-text-dim to 4.35:1 and fails AA.
    ═══════════════════════════════════════════════════════ */
 
 :root {
@@ -163,6 +199,7 @@
     /* ── Core palette ── */
     --color-bg:              #ffffff;
     --color-bg-soft:         #f7f6f6;  /* section tint, a hair warm so it sits under red */
+    --hero-bg:               #f7f7f9;  /* mean backdrop of photo-turbo-original.webp (corners #fafafa..#f0f0f4); hero holds only fg/muted text, 7.0:1+ on it */
     --color-bg-nav:          rgba(255,255,255,0.88);
     --color-text:            #171717;  /* neutral-900 */
     --color-text-muted:      #525252;  /* neutral-600 */
@@ -197,7 +234,7 @@
        mid-word. One family for headings and body — differentiate with
        weight and tracking, not with a second typeface that cannot spell
        "turbosprężarek". */
-    --font-heading:          'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-heading:          'Arimo', Arial, 'Helvetica Neue', Helvetica, sans-serif;
     --font-body:             'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
     --font-mono:             'Orbitron', 'Inter Variable', sans-serif;
     --font-display:          'Zen Dots', sans-serif;
@@ -207,13 +244,13 @@
     --theme-overlay:         none;
     --theme-overlay-opacity: 0;
 
-    /* ── Cards — white on white needs a shadow, not a glow ── */
+    /* ── Cards — flat, hairline, square. No shadow: on a white page a
+         drop shadow lifts the card out of the layout, and a grid of
+         floating tiles is exactly the look this design moved away from. ── */
     --card-bg:               #ffffff;
-    --card-border:           #e5e5e5;
-    --card-shadow:           0 1px 2px rgba(0,0,0,0.05);
-    --card-hover-border:     rgba(220,38,38,0.35);
-    --card-hover-glow:       rgba(0,0,0,0.06);
-    --card-shadow-hover:     0 12px 28px rgba(0,0,0,0.10);
+    --card-border:           #e5e5e5;  /* neutral-200 */
+    --card-hover-bg:         #fafafa;  /* neutral-50 — see contrast note above */
+    --card-hover-border:     #d4d4d4;  /* neutral-300 */
 
     /* ── Badges / tags ── */
     --badge-bg:              rgba(220,38,38,0.10);
@@ -270,7 +307,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* ═══════════════════════════════════════════════════════
-   SELECTION & SCROLL PROGRESS
+   SELECTION
    ═══════════════════════════════════════════════════════ */
 
 /* Text selection follows the active theme accent. The translucent bg
@@ -280,45 +317,18 @@ body::-webkit-scrollbar-thumb {
     color: var(--color-text);
 }
 
-/* Reading-progress hairline pinned above the navbar (nav is z-50).
-   Scroll-driven animation = zero JS, compositor-only transform, no
-   scroll listener to jank the main thread. Browsers without
-   `animation-timeline` (Firefox stable) simply never grow the bar past
-   scaleX(0) — invisible, so no fallback is needed. */
-.scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    z-index: 60;
-    pointer-events: none;
-    background: linear-gradient(90deg, var(--accent-from), var(--accent-via), var(--accent-to));
-    transform-origin: 0 50%;
-    transform: scaleX(0);
-    animation: scroll-progress-grow linear both;
-    animation-timeline: scroll(root);
-}
-
-@keyframes scroll-progress-grow {
-    from { transform: scaleX(0); }
-    to   { transform: scaleX(1); }
-}
+/* H1 and H2 take the heading face; H3 and below stay in the body face. */
+h1, h2 { font-family: var(--font-heading); }
 
 /* ═══════════════════════════════════════════════════════
    UTILITY CLASSES
    ═══════════════════════════════════════════════════════ */
 
-/* Gradient text — generous padding prevents clipping on letters like J, g, y */
+/* Accent text — a flat, solid red. The class name is kept (hero headline,
+   legal H1s, 404) but the gradient is gone: --accent-solid is red-600,
+   so it is safe for text. */
 .gradient-text {
-    background: linear-gradient(135deg, var(--accent-from), var(--accent-via), var(--accent-to));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-    padding-bottom: 0.3em;
-    padding-top: 0.1em;
-    margin-bottom: -0.2em;
+    color: var(--accent-solid);
 }
 
 .font-heading { font-family: var(--font-heading); }
@@ -326,33 +336,52 @@ body::-webkit-scrollbar-thumb {
 .font-display { font-family: var(--font-display); }
 .font-alt     { font-family: var(--font-alt); }
 
-/* ── Cards ── */
-.theme-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    box-shadow: var(--card-shadow);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-.theme-card:hover {
-    border-color: var(--card-hover-border);
-    box-shadow: var(--card-shadow-hover);
-    transform: translateY(-2px);
-}
+/* ── Cards ──────────────────────────────────────────────
+   Square-cornered (radius comes from `--radius-card`), flat, one hairline
+   border. Hover is a faint tint plus an accent rule that draws itself
+   along the top edge — no lift, no shadow, no scale. The card stays where
+   it is in the grid; only its surface changes.
 
-/* ── Gradient-bordered card (accent glow) ── */
-.glow-card {
+   The rule is a pseudo-element rather than a `border-top` so it can
+   animate its own width without touching layout: `transform: scaleX` is
+   compositor-only, whereas animating a border repaints the whole card. */
+.theme-card {
     position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 1.5rem;
-    overflow: hidden;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-.glow-card:hover {
+.theme-card::after {
+    content: '';
+    position: absolute;
+    /* Sits ON the border (-1px), so inside a .card-grid it covers the
+       shared hairline instead of drawing a second line under it. */
+    inset: -1px -1px auto;
+    height: 2px;
+    background: var(--accent-solid);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.theme-card:hover {
+    background: var(--card-hover-bg);
     border-color: var(--card-hover-border);
-    box-shadow: var(--card-shadow-hover);
-    transform: translateY(-2px);
 }
+.theme-card:hover::after { transform: scaleX(1); }
+
+/* ── Hairline card grid ──────────────────────────────────
+   Cells share a single 1px rule instead of each carrying its own border
+   across a gutter. The container paints the line colour and the 1px gaps
+   let it through; every cell paints its own surface on top. Cells drop
+   their border, otherwise two borders meet in each gap and the rule
+   reads as 2px in the middle of the grid and 1px at the edges. */
+.card-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+}
+.card-grid > .theme-card { border: 0; }
 
 /* ── Nav ── */
 .theme-nav {
@@ -385,86 +414,39 @@ body::-webkit-scrollbar-thumb {
     }
 }
 
-/* ── Buttons ───────────────────────────────────────────────────────────
-   One shape for every button on the site. The page used to set padding,
-   radius, weight and size at each call site, so the same `.theme-cta`
-   rendered as three different buttons — 8px vs 12px radius, medium vs
-   semibold, two paddings — and the contact panel's secondary action was
-   a one-off that shared nothing with the ghost button it sat beside.
-
-   Those are now variants, not Tailwind strings: `.btn` carries geometry
-   and type, a `-primary`/`-outline` class carries colour, and `.btn-sm`
-   is the only size modifier. A new button picks two classes; it cannot
-   drift. Changing button geometry site-wide means changing `.btn`.
-
-   One radius (10px) for all of them. It is deliberately tighter than
-   `--radius-card`, so a button never reads as a small card.
-
-   Hover is a colour change and nothing else. The old CTA lifted 1px and
-   threw an accent glow on hover, which no other interactive element on
-   the page did, and which made the two hero buttons behave differently
-   from each other when they sit side by side. */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.8125rem 1.75rem;
-    border: 1px solid transparent;
-    border-radius: 0.625rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.25rem;
-    white-space: nowrap;
-    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+/* ── Badges ── */
+.theme-badge {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    transition: background 0.2s, color 0.2s;
 }
-
-/* Keyboard focus was invisible on every button before this: the reset
-   drops the UA outline and nothing put one back. */
-.btn:focus-visible {
-    outline: 2px solid var(--accent-solid);
-    outline-offset: 2px;
-}
-
-.btn-sm {
-    padding: 0.5rem 0.875rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-}
-
-.btn-primary {
-    background: var(--cta-bg);
-    color: var(--cta-text);
-}
-.btn-primary:hover {
-    background: var(--cta-hover-bg);
-}
-
-.btn-outline {
-    background: var(--color-bg);
-    border-color: var(--color-border);
+.theme-badge:hover {
+    background: color-mix(in srgb, var(--accent-from) 12%, transparent);
     color: var(--color-text);
 }
-.btn-outline:hover {
-    border-color: var(--accent-solid);
-    background: var(--accent-glow);
+
+/* ── CTA button ── */
+.theme-cta {
+    background: var(--cta-bg);
+    color: var(--cta-text);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.theme-cta:hover {
+    background: var(--cta-hover-bg);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transform: translateY(-1px);
 }
 
-/* For the inverted contact panel. Tied to the panel's own white text
-   rather than to a token, because the panel is the only dark surface on
-   the site and inventing a second colour scheme for one button would be
-   more machinery than it saves. */
-.btn-outline-inverted {
+/* ── Ghost button (outline) ── */
+.theme-ghost {
     background: transparent;
-    border-color: rgba(255, 255, 255, 0.25);
-    color: #fff;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    transition: border-color 0.2s, background 0.2s;
 }
-.btn-outline-inverted:hover {
-    border-color: rgba(255, 255, 255, 0.55);
-    background: rgba(255, 255, 255, 0.1);
-}
-.btn-outline-inverted:focus-visible {
-    outline-color: #fff;
+.theme-ghost:hover {
+    border-color: var(--accent-solid);
+    background: var(--accent-glow);
 }
 
 /* ── Text utilities ── */
@@ -473,6 +455,11 @@ body::-webkit-scrollbar-thumb {
 .border-theme { border-color: var(--color-border); }
 
 /* ── Decorative ── */
+.accent-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-solid);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
 .accent-line {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--accent-solid), transparent);
@@ -621,6 +608,27 @@ html.bg-anim .ambient-bounce { animation: bounce-slow 2s ease-in-out infinite; }
    does not read as a soft transition — it reads as haze smeared across a
    third of the image. The edge is a clean rounded corner instead (set in
    the markup), which is a decision rather than an apology for one. */
+.hero-photo {
+    object-fit: cover;
+    object-position: center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BELOW-THE-FOLD SECTIONS
+   ═══════════════════════════════════════════════════════
+   `content-visibility: auto` lets the browser skip layout AND paint for
+   a section until it approaches the viewport. `contain-intrinsic-size`
+   supplies a placeholder height so the scrollbar does not jump as each
+   section is realised — omitting it turns the optimisation into a CLS
+   source. `auto <len>` means "use the real size once measured, this
+   estimate until then".
+
+   Do NOT put this on the hero: an element inside the first viewport is
+   painted anyway, and the containment only adds work. */
+.cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+}
 
 /* ═══════════════════════════════════════════════════════
    TEXTURE LAYERS
@@ -711,6 +719,50 @@ html.bg-anim .ambient-bounce { animation: bounce-slow 2s ease-in-out infinite; }
             mask-image: radial-gradient(125% 90% at 100% 50%, #000 0%, transparent 80%);
 }
 
+/* Hero ground matched to the hero photograph's own backdrop, so the
+   photo does not read as a lighter/darker rectangle. Only the hero uses
+   it: it is darker than the AA-safe #fafafa, which body copy elsewhere
+   (text-dim, 4.54:1) could not sit on. The hero has only fg and muted
+   text. If the photo changes, re-sample its corners and update --hero-bg. */
+.hero-bg { background: var(--hero-bg); }
+
+/* Mobile stand-in for the honeycomb flanks. On a phone the content column
+   is the whole screen, so there is no gap beside it for a flank to live
+   in. Instead the texture is a band across the top of the section that
+   fades out downward, behind the heading only. Worst case under it is
+   muted body text on the darkest texture pixel at this opacity (~5.8:1,
+   AA); the fade means most text sits on far less. Shown below lg, where
+   the flanks take over. */
+.texture-band {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+    opacity: 0.14;
+    pointer-events: none;
+    user-select: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+/* Soft edges for a photograph that keeps its own backdrop. The part is
+   untouched; only the outer ~5% of the rectangle fades to transparent, so
+   the frame of the photo does not read as a hard box on the page.
+   Two gradients (horizontal x vertical), intersected. */
+.photo-feather {
+    --feather: 5%;
+    -webkit-mask-image:
+        linear-gradient(to right, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent),
+        linear-gradient(to bottom, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent);
+    -webkit-mask-composite: source-in;
+            mask-image:
+        linear-gradient(to right, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent),
+        linear-gradient(to bottom, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent);
+            mask-composite: intersect;
+}
+
 /* Anchored right so the filter silhouette ghosts in from the edge of the
    dark panel and clears the heading column on the left. */
 .texture-filter {
@@ -725,23 +777,6 @@ html.bg-anim .ambient-bounce { animation: bounce-slow 2s ease-in-out infinite; }
 @media (prefers-contrast: more) {
     .texture-layer,
     .texture-flank { display: none; }
-}
-
-/* ═══════════════════════════════════════════════════════
-   BELOW-THE-FOLD SECTIONS
-   ═══════════════════════════════════════════════════════
-   `content-visibility: auto` lets the browser skip layout AND paint for
-   a section until it approaches the viewport. `contain-intrinsic-size`
-   supplies a placeholder height so the scrollbar does not jump as each
-   section is realised — omitting it turns the optimisation into a CLS
-   source. `auto <len>` means "use the real size once measured, this
-   estimate until then".
-
-   Do NOT put this on the hero: an element inside the first viewport is
-   painted anyway, and the containment only adds work. */
-.cv-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 600px;
 }
 
 /* ═══════════════════════════════════════════════════════

@@ -2,7 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import Navbar from '@/components/Navbar.astro'
 import Footer from '@/components/Footer.astro'
+import BusinessDetails from '@/components/BusinessDetails.astro'
 import { useTranslations } from '@/lib/content'
+import { business } from '@/lib/site.config'
 import { LEGAL_LAST_UPDATED } from '@/lib/locales'
 import type { Locale } from '@/lib/locales'
 
@@ -19,7 +21,8 @@ const sections = [
     { heading: t('terms.ip.heading'), text: t('terms.ip.text') },
     { heading: t('terms.liability.heading'), text: t('terms.liability.text') },
     { heading: t('terms.changes.heading'), text: t('terms.changes.text') },
-    { heading: t('terms.contact.heading'), text: t('terms.contact.text') },
+    /* E-mail appended from `business` — see the note in privacy.astro. */
+    { heading: t('terms.contact.heading'), text: `${t('terms.contact.text')} ${business.email}` },
 ]
 ---
 
@@ -48,6 +51,8 @@ const sections = [
                     </p>
                 </section>
             ))}
+
+            <BusinessDetails />
         </article>
     </main>
     <Footer />

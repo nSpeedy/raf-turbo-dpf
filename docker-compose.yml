@@ -5,15 +5,15 @@ services:
     build:
       context: .
       args:
-        SITE_URL: https://example.com
+        SITE_URL: https://rafturbo.szafruga.dev
     container_name: raf-turbo-dpf-app
     ports:
-      - "4321:4321"
+      - "4323:4323"
     environment:
       - NODE_ENV=production
-      - PORT=4321
+      - PORT=4323
       - HOST=0.0.0.0
-      - SITE_URL=https://example.com
+      - SITE_URL=https://rafturbo.szafruga.dev
       # Astro 6 CSRF guard. Must match the public origin of the site.
-      - ASTRO_ORIGIN=https://example.com
+      - ASTRO_ORIGIN=https://rafturbo.szafruga.dev
     restart: unless-stopped
