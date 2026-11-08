@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { useTranslations, defaultLocale } from '@/lib/i18n'
+import { useTranslations, defaultLocale, localizePath } from '@/lib/i18n'
 import type { Locale } from '@/lib/i18n'
 
 /* CRITICAL: Astro 404.astro returns HTTP 200 by default. Without this line
@@ -13,14 +13,19 @@ const prefix = locale === defaultLocale ? '' : `/${locale}`
 const home = prefix || '/'
 
 /* Escape hatches. A 404 that only links home is a dead end — the SEO
-   checklist wants routes to the main sections from here. These point at
-   the landing anchors, not at /features: that page is starter material
-   from the template and has nothing to do with the workshop. */
+   checklist wants routes to the main sections from here. Extend this list
+   as the site grows.
+
+   Paths go through localizePath rather than `${prefix}${path}`: the
+   landing-page anchors would otherwise localize to '/en/#services', and
+   that trailing slash is exactly what canonicalUrl() and the sitemap
+   strip. */
 const sections = [
-    { label: t('nav.services'), href: `${prefix}/#services` },
-    { label: t('nav.contact'), href: `${prefix}/#contact` },
-    { label: t('footer.privacy'), href: `${prefix}/privacy` },
-    { label: t('footer.terms'), href: `${prefix}/terms` },
+    { label: t('nav.services'), href: localizePath(locale, '/#services') },
+    { label: t('nav.process'), href: localizePath(locale, '/#process') },
+    { label: t('nav.contact'), href: localizePath(locale, '/#contact') },
+    { label: t('footer.privacy'), href: localizePath(locale, '/privacy') },
+    { label: t('footer.terms'), href: localizePath(locale, '/terms') },
 ]
 ---
 

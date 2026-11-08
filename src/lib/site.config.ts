@@ -55,8 +55,8 @@ export const siteConfig: SiteConfig = {
  * on the legal pages) as well as visible copy. The LABELS next to these
  * values live in content.ts (`home.contact.*`).
  *
- * ⚠ `phone` / `phoneDisplay` / `email` are still placeholders — replace
- *   before deploy. Everything else is the real registered data.
+ * All values are the real registered data. `openingHours` and `areaServed`
+ * are landing-page values and must stay in sync with content.ts.
  */
 export interface BusinessInfo {
     /** Trading name — the JSON-LD `name` and what the site calls itself. */
@@ -100,8 +100,7 @@ export const business: BusinessInfo = {
     regon: '240405573',
     phone: '+48697319424',
     phoneDisplay: '+48 697 319 424',
-    // TODO: podmień na rzeczywisty adres e-mail warsztatu.
-    email: 'kontakt@example.com',
+    email: 'raf-turbo@op.pl',
     street: 'Mrzygłodzka 111',
     postalCode: '42-400',
     city: 'Zawiercie',

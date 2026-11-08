@@ -41,7 +41,6 @@ src/
 │   ├── Navbar.astro              # Nav: linki z site.config + przełącznik motywu/języka + menu mobilne; sloty: logo, actions
 │   ├── Footer.astro              # Footer: linki z site.config + legal; slot: logo
 │   ├── Logo.astro                # Logo + wordmark (jedno źródło — podmień SVG = rebranding)
-│   ├── BusinessDetails.astro     # Blok danych rejestrowych (nazwa, adres, NIP, REGON) — strony prawne
 │   ├── LanguageSwitcher.astro    # Opcjonalny boczny przełącznik języka (nieużywany domyślnie)
 │   └── Observer.astro            # IntersectionObserver do animacji scroll-in
 ├── layouts/
@@ -54,8 +53,7 @@ src/
 │   └── utils.ts                  # Drobne helpery (splitField)
 ├── middleware.ts                 # Kompresja brotli/gzip odpowiedzi SSR (jedyny middleware)
 └── pages/
-    ├── index.astro               # Strona główna (pl)
-    ├── features.astro            # Przykładowa podstrona
+    ├── index.astro               # Strona główna (pl) — cały landing warsztatu
     ├── privacy.astro, terms.astro
     ├── 404.astro
     ├── api/hello.ts              # Przykładowy API endpoint
@@ -63,7 +61,8 @@ src/
 
 public/
 ├── fonts/*.woff2                 # Subsetowane fonty — zero external requests
-├── images/hero-turbo.webp        # Zdjęcie hero — generowane przez scripts/gen-hero.mjs
+├── images/photo-*.webp           # Wycinanki części (alfa) — generowane przez scripts/gen-photos.mjs
+├── images/texture-*.webp         # Warstwy tła — generowane przez scripts/gen-textures.mjs
 ├── og-default.jpg                # Domyślna karta OG (1200×630)
 ├── favicon.svg, favicon.ico
 ├── robots.txt                    # Otwarty dla Googlebota i AI scraperów
@@ -72,7 +71,9 @@ public/
 scripts/
 ├── gen-og.mjs                    # scripts/og-default.html → public/og-default.jpg
 ├── gen-hero.mjs                  # scripts/hero-source.jpg → public/images/hero-turbo.webp (kadr + kompresja)
+├── gen-photos.mjs                # scripts/photo-*-source.jpg → public/images/photo-*.webp (wycinanka z alfą)
 ├── hero-source.jpg               # Oryginał zdjęcia hero (poza public/ — nie trafia na serwer)
+├── photo-turbo-source.jpg        # Oryginał turbosprężarki → public/images/photo-turbo-original.webp (sharp, bez wycinania; patrz `.hero-bg`)
 └── gen-favicon.mjs               # public/favicon.svg → favicon.ico (16/32/48)
 ```
 
@@ -94,13 +95,13 @@ scripts/
 - **Jeden motyw** — biało-czerwony, w `:root`. Brak wariantów `[data-theme]`, brak przełącznika, brak `localStorage`. Cała paleta to jeden blok tokenów
 - Kontrasty policzone i wpisane w komentarzu przy palecie — **przy zmianie akcentu przelicz je ponownie**. Rampa czerwona startuje od red-500 (3.76:1), bo jaśniejsze czerwienie nie łapią 3:1 na bieli; `--accent-solid` to red-600 (4.83:1), więc jest bezpieczny także dla tekstu
 - Szarości są **neutralne**, nie slate — slate ma niebieski odcień, który przy czerwieni czyta się jak brud. Zmieniając rodzinę akcentu, sprawdź też szarości
-- **Fonty**: Inter (nagłówki *i* body), Orbitron (mono — tylko cyfry/etykiety ASCII), Zen Dots / Doto (display) — lokalne woff2, zero external requests
+- **Fonty**: Arimo (tylko H1/H2 — nagłówek hero i tytuły sekcji), Inter (body, H3 i niżej), Orbitron (mono — logo, cyfry/etykiety ASCII), Zen Dots / Doto (display, obecnie nieużywane) — lokalne woff2, zero external requests
 - ⚠ **Syncopate i Orbitron nie mają subsetu Latin Extended-A w wadze 700** — polskie znaki w tekście ustawionym tym krojem spadają do innej wagi w środku wyrazu. Nie używaj ich do polskiej treści
-- **Kwadratowe rogi** — `--radius-card` (karty, panele) i `--radius-control` (przyciski, badge, kafle ikon) są ustawione na `0rem`. To jedyne dwa miejsca decydujące o zaokrągleniu: zmiana na np. `0.75rem` zaokrągla całą stronę naraz. **Nigdy nie wpisuj `rounded-xl`/`rounded-full` w markup** — decyzja wypada wtedy z warstwy tokenów i ginie w pliku strony
-- **Utility classes**: `.gradient-text`, `.theme-card`, `.card-grid`, `.theme-cta`, `.theme-ghost`, `.theme-badge`, `.theme-nav`, `.theme-footer`, `.scroll-progress`, `.cv-auto`
-- `.theme-card` jest płaska: hairline, zero cienia, hover = delikatny tint + akcentowa linia „dorysowująca się" wzdłuż górnej krawędzi (`::after`, `scaleX`). Bez `translateY` i bez shadow — karta ma siedzieć w siatce, nie unosić się nad nią
-- `.card-grid` to siatka hairline'owa: komórki dzielą jedną kreskę (`gap: 1px` na tle w kolorze linii) zamiast mieć własne ramki i rynny. **Używaj jej tylko, gdy liczba elementów wypełnia siatkę** w każdym breakpoincie (6 elementów przy 1/2/3 kolumnach — tak; 10 przy 3 — nie, ostatni rząd zostawi goły prostokąt w kolorze linii). Reveal (`.animate`) idzie na kontener, nigdy na komórki — komórka przy `opacity: 0` odsłania szare tło siatki
-- **Tailwind theme bridge** (`@theme inline` w globals.css): tokeny są dostępne jako natywne utility — `text-accent`, `bg-accent/10` (dowolna przezroczystość przez color-mix), `bg-accent-soft`, `bg-surface`, `bg-surface-soft`, `bg-surface-nav`, `text-fg`, `border-line`, `shadow-panel`, `rounded-card`, `rounded-control`. **Używaj ich zamiast** wartości arbitralnych `bg-[var(--…)]` i inline styles — hardkodowane kolory łamią motywy
+- **Utility classes**: `.gradient-text` (płaski czerwony `--accent-solid`, nazwa historyczna), `.theme-card`, `.card-grid`, `.theme-nav`, `.theme-footer`, `.hero-bg`, `.photo-feather`, `.texture-layer` / `.texture-flank` / `.texture-band`
+- **Przyciski**: `.theme-cta` (czerwony) i `.theme-ghost` (obrys) + `rounded-control`; geometria (`inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-semibold`) jest w markupie, więc **kopiuj ją 1:1** z istniejących przycisków. Promień zawsze przez token — nigdy `rounded-xl`/`rounded-full`
+- **Układ kwadratowy**: `--radius-card` i `--radius-control` = 0 w `:root` (jedyne miejsce, które o tym decyduje). Karty płaskie, cienka ramka, bez cieni; siatki liniowe `.card-grid` (1 px przerwy nad kolorem linii — liczba komórek musi dzielić się przez liczbę kolumn, inaczej zostaje goły prostokąt koloru linii)
+- **Tło hero**: sekcja ma `.hero-bg` (`--hero-bg` `#f7f7f9` = średnia kolorów tła zdjęcia). Jest ciemniejsze niż bezpieczne `#fafafa`, więc **w hero wolno używać tylko `text-fg` i `text-muted`** — `text-dim` tam nie przejdzie AA. Zmieniasz zdjęcie → pobierz próbki z jego rogów i zaktualizuj token
+- **Tailwind theme bridge** (`@theme inline` w globals.css): tokeny są dostępne jako natywne utility — `text-accent`, `bg-accent/10` (dowolna przezroczystość przez color-mix), `bg-accent-soft`, `bg-surface`, `bg-surface-soft`, `bg-surface-nav`, `text-fg`, `border-line`, `shadow-panel`, `rounded-card`. **Używaj ich zamiast** wartości arbitralnych `bg-[var(--…)]` i inline styles — hardkodowane kolory łamią motywy
 - Re-skinning = zmiana zmiennych w `:root`. To jedyne miejsce — jeśli kusi Cię dopisanie drugiego motywu, najpierw sprawdź, czy projekt naprawdę go potrzebuje
 
 ## SEO i widoczność (Google + AI scrapery)
@@ -126,7 +127,7 @@ Każda strona musi być **samodzielnym, kompletnym dokumentem** — czytelnym be
 - Zero cloakingu: identyczna treść dla ludzi i botów
 
 ## Wydajność — reguły obowiązujące
-- **Fonty**: `font-display: swap`, preload tylko wariantów above-the-fold (Inter var + ext — nagłówek LCP i body idą tym samym krojem). Reszta leci lazy przez `unicode-range`
+- **Fonty**: `font-display: swap`, preload tylko wariantów above-the-fold (Arimo var + ext — nagłówek LCP; Inter var + ext — body). Reszta leci lazy przez `unicode-range`. Arimo ext jest wycięty do Latin Extended-A (9 KB zamiast 97 KB)
 - **CSS**: `build.inlineStylesheets: 'always'` — zero render-blocking `<link rel=stylesheet>`
 - **Animacje tła**: wyłącznie `transform: translate3d` (kompozytowane). `background-position` wymusza paint całego viewportu co klatkę
 - Animacje ambientowe gated przez `html.bg-anim`, dokładane przez `Observer` po pierwszym paincie — nie konkurują z LCP
@@ -216,6 +217,8 @@ npm run preview  # Podgląd builda
 
 npm i -D sharp && node scripts/gen-og.mjs       # Regeneracja karty OG
 node scripts/gen-hero.mjs                       # Regeneracja zdjęcia hero (kadr + WebP)
+node scripts/gen-textures.mjs                   # Regeneracja tekstur tła (#faq + panel kontaktu)
+node scripts/gen-photos.mjs                     # Regeneracja wycinanek części (alfa + WebP)
 npm i -D sharp && node scripts/gen-favicon.mjs  # Regeneracja favicon.ico
 ```
 
@@ -286,24 +289,33 @@ npm i -D sharp && node scripts/gen-favicon.mjs  # Regeneracja favicon.ico
 | 2026-09 | Usunięty gradientowy fade na styku zdjęcia i kolumny tekstu; zamiast niego zaokrąglona krawędź | Biała poświata na ciemnej, zagęszczonej krawędzi zdjęcia nie czyta się jak miękkie przejście, tylko jak mgła rozmazana po jednej trzeciej kadru |
 | 2026-09 | Karta OG przepisana na biało-czerwoną + treść warsztatu | Była czarno-pomarańczowa i nadal głosiła „Astro starter" — każde udostępnienie linku pokazywało stary starter |
 | 2026-09 | `gen-og.mjs`: ścieżki do Chrome dla Windows i macOS | Lista kandydatów była wyłącznie linuksowa, więc skrypt nie startował na maszynie deweloperskiej projektu |
-| 2026-09 | Kwadratowe rogi w całym systemie: `--radius-card: 0` + nowy `--radius-control: 0`; `rounded-xl`/`rounded-lg`/`rounded-full` w markupie zastąpione przez `rounded-card`/`rounded-control` | Zaokrąglenie było rozsypane po plikach stron jako literały, więc „zaokrąglij/wyprostuj wszystko" wymagało obejścia całego markupu. Teraz to dwie zmienne |
-| 2026-09 | `.theme-card`: usunięty cień i `translateY(-2px)`, hover = tint + akcentowa linia `::after` (`scaleX`) | Cień na białym tle podnosi kartę nad layout; siatka unoszących się kafelków to dokładnie ten wygląd, od którego strona odchodzi. `scaleX` jest kompozytowane, animacja `border-top` repaintowałaby całą kartę |
-| 2026-09 | `.card-grid` (siatka hairline'owa) dla usług i paska liczb | Kafelki z własnymi ramkami w rynnach dają podwójne kreski i „pudełka"; wspólna kreska czyta się jak strona katalogu. Efekt uboczny: `divide-x` dawał trzeciej komórce lewą ramkę na mobile, gdzie zaczyna rząd |
-| 2026-09 | Reveal `.animate` na kontenerze siatki, nie na komórkach | Kolor linii żyje na kontenerze — komórki przy `opacity: 0` odsłaniały pełny szary prostokąt do czasu wejścia Observera |
-| 2026-09 | Usunięta martwa klasa `.glow-card` | Nieużywana w żadnym pliku, a `border-radius: 1.5rem` na sztywno przeczył kwadratowemu systemowi |
-| 2026-09 | Sticky nagłówek w sekcji „Dlaczego my", hairline'owe kolumny w bloku kontaktowym, FAQ w ramce | Zmiana layoutu ma iść dalej niż rogi kart — inaczej strona zostaje tą samą kompozycją z ostrymi narożnikami |
-| 2026-09 | Sekcja `#injectors` (regeneracja wtryskiwaczy) jako własny blok, nie siódmy kafel w siatce usług | `.card-grid` wymaga liczby elementów dzielącej się przez 1/2/3 — siódmy kafel zostawiłby goły prostokąt w kolorze linii. Wtryskiwaczy szuka się przez objaw („dymi", „ciężko odpala"), a nie przez nazwę części, więc potrzebna była lista objawów, na którą w kafelku nie ma miejsca. Do siatki wszedł krótki kafel `s3`, geometria zmienna i aktuatory dopisane do kafla turbo |
-| 2026-09 | Sekcja wtryskiwaczy na białym tle, rozdzielona hairline'owym panelem, nie drugim tintem | Tinted band tuż nad tintowanym `#process` skleiłby dwie ramki `border-y` w jedną kreskę 2 px |
-| 2026-09 | Cała treść PL przepisana na język warsztatowy (krótsze zdania, „naprawa" zamiast „regeneracja do parametrów fabrycznych", „wydruk" zamiast „raport") | Poprzednia wersja była pisana rejestrem oferty B2B; klient warsztatu czyta ją jak instrukcję obsługi. Terminologia zostaje branżowa (rozpylacz, przelew, stół probierczy), zmienia się składnia |
-| 2026-09 | Usunięta obsługa kurierska z całej treści (kafel `s6` → „Demontaż i montaż", `areaServed` z `PL` na miasto, typ JSON-LD `Country` → `City`) | Decyzja klienta: zwykły warsztat stacjonarny. `areaServed: 'PL'` deklarowałby Google zasięg usługi, której firma nie świadczy |
-| 2026-09 | Proces skrócony do „dzwonisz albo przyjeżdżasz"; nowe FAQ „Trzeba się wcześniej umawiać?" | Decyzja klienta: nie ma osobnej ścieżki kontaktu (formularza, wyceny zdalnej, umawiania terminu). Opis kroku „wyślij zdjęcie i numer katalogowy" obiecywał proces, którego warsztat nie prowadzi |
-| 2026-09 | Usunięte badge'e nad H1 i nad H2 wtryskiwaczy; usunięte klucze `home.hero.badge` i `home.injectors.badge` | Badge powtarzał to, co mówi nagłówek linijkę niżej. Klucze bez odbiorcy zostają w `content.ts` jako martwa treść, którą następna osoba tłumaczy „na wszelki wypadek" |
-| 2026-09 | Zdjęty `mt-*` z H1 i z H2 wtryskiwaczy po usunięciu badge'y; `lg:pr-12` → `lg:pr-16` w kolumnie hero | Marginesy były liczone względem usuniętego elementu: H2 wtryskiwaczy siedział 24 px niżej niż H3 w sąsiedniej kolumnie. Kolumna hero po zmianie 55% → 60% zostawiała przy 1024 px tylko 32 px do krawędzi zdjęcia |
-| 2026-09 | `Logo.astro` bez glifu, sam wordmark; znak zostaje w `favicon.svg` i na karcie OG | Płomień obok nazwy konkurował z czerwonym przyciskiem telefonu dwa elementy dalej. W faviconie i na OG ikona niesie markę sama, więc tam zostaje |
-| 2026-09 | 404 linkuje do `/#services` i `/#contact` zamiast do `/features` | `/features` to strona ze startera, reklamująca „Astro starter kit" — na stronie warsztatu jest treścią-sierotą (nadal w sitemapie, do usunięcia osobną decyzją) |
-| 2026-09 | Zakres usług przepisany na cztery filary: turbosprężarki (wszystkie typy), wtryskiwacze diesla **i benzynowe**, pompy wtryskowe, DPF. Kafel `s4` „Katalizatory i AdBlue" → „Regeneracja pomp wtryskowych" | Zakres podany przez klienta. Siatka `.card-grid` musi mieć 6 komórek (1/2/3 kolumny), więc pompy weszły na miejsce usługi, której klient nie wymienił — reklamowanie AdBlue byłoby obietnicą bez pokrycia. Diagnostyka i demontaż zostają: to nie osobne usługi, tylko sposób przyjęcia zlecenia |
-| 2026-09 | Odbiorcy rozszerzeni o maszyny budowlane i rolnicze (hero, `services.sub`, nowe FAQ `q8`, JSON-LD) | Ciągnika ani koparki nikt nie przyprowadzi na lawecie po turbinę — FAQ mówi wprost, że wystarczy przywieźć wykręconą część, bo inaczej właściciel maszyny zakłada, że warsztat obsługuje tylko auta |
-| 2026-09 | Sekcja `#injectors` objęła też pompy wtryskowe (etykieta nav została „Wtryskiwacze") | Wtryskiwacze i pompy dzielą objawy i stół probierczy — osobny blok powtarzałby tę samą listę. Nav zostaje krótki: 6 pozycji + CTA telefoniczne + przełącznik języka już raz wymusiły przeniesienie desktopowej nawigacji na `lg` |
-| 2026-09 | Dane rejestrowe (`legalName`, `owner`, `nip`, `regon`, `region`) w `business`; `BusinessDetails.astro` na stronach prawnych, NIP/REGON w stopce | Firma musi być identyfikowalna na własnej stronie, a NIP to najmocniejszy sygnał tożsamości, jaki ma jednooddziałowy warsztat (JSON-LD `vatID`). Komponent zamiast czterech kopii markupu: privacy i terms żyją w dwóch locale, a NIP poprawny na trzech stronach z czterech jest gorszy niż jego brak |
-| 2026-09 | E-mail na stronach prawnych doklejany z `business`, nie wpisany w `content.ts` | Adres był zaszyty w czterech stringach (`privacy@example.com`, `contact@example.com`) i rozjeżdżał się z danymi kontaktowymi warsztatu |
-| 2026-09 | Godziny: pon.–pt. 8:00–17:00, weekend wypisany jako nieczynny (nie pominięty) | Warsztat przyjmuje bez umawiania się, więc brak informacji o sobocie to kurs pod zamkniętą bramę. `openingHours` w JSON-LD skrócone do `Mo-Fr` — sobotni wpis obiecywałby Google godziny, których firma nie ma |
+| 2026-10 | Pełne nazwy usług w całej treści — „turbosprężarka" zamiast „turbo", „filtr cząstek stałych DPF" zamiast samego „DPF", „układ selektywnej redukcji katalitycznej SCR" zamiast „układy SCR" | Decyzja klienta. Skrót mówi coś tylko komuś, kto już wie, czego szuka; pełna nazwa trafia też w zapytania opisowe i daje scraperom AI jednoznaczny kontekst |
+| 2026-10 | Zakres usług: 8 kart — do dotychczasowych sześciu doszły wtryskiwacze paliwa i pompy wtryskowe | Dwie realne usługi, których na stronie nie było. Reszta kart została bez zmian |
+| 2026-10 | Długość tekstów landingu zostaje jak w oryginale (opisy usług 110–160 znaków) | Przy okazji poprawiania nazw opisy urosły do ~300 znaków i strona zaczęła się czytać jak elaborat. Zmiana nazewnictwa nie jest pretekstem do przepisywania copy — przy edycji treści pilnuj, czy nie wydłużasz tego, o co nikt nie prosił |
+| 2026-10 | Nagłówek karty OG z 76 px na 58 px | „Czyszczenie filtrów cząstek stałych" to dużo dłuższa pierwsza linia niż „Czyszczenie DPF" — powyżej ~60 px zawija się przed jawnym `<br/>`, zostawiając „stałych" samo w linii i wypychając kreskę poza kadr 1200×630 |
+| 2026-10 | Linki wyjścia z `404.astro` przez `localizePath` na sekcje landingu zamiast na `/features` | 404 prowadziło do startowej strony „Astro starter kit"; `${prefix}/#services` dałoby `/en/#services`, czyli trailing slash, który `canonicalUrl()` i sitemap celowo usuwają |
+| 2026-10 | Usunięta strona `/features` (oba locale) wraz z kluczami `features.*` i `nav.features` | Pozostałość po starterze: reklamowała „RAF Turbo DPF Starter Kit", Astro 7 i nieistniejący już system 5 motywów. Odpowiadała 200 i siedziała w sitemapie, więc Google i scrapery AI indeksowały ją obok treści warsztatu |
+| 2026-11 | Zdjęcia warsztatowe jako warstwy tła (`.texture-layer`), nie jako galeria ani sekcja „przed/po" | Materiał to w większości fotki katalogowe na białym tle — w galerii czytałyby się jak cudzy katalog części. Jako tło wnoszą fakturę warsztatu bez obietnicy, że to zdjęcie konkretnego zlecenia |
+| 2026-11 | Tekstura plastra miodu pod `#faq`, nie pod `#process` | `--accent-solid` na `--color-bg-soft` daje 4.48:1 — **poniżej AA jeszcze bez tekstury** (4.83:1 z CLAUDE.md liczono na czystej bieli), a numery kroków w `#process` to tekst akcentem. `#faq` używa akcentu tylko jako ikony (grafika = próg 3:1) i ma wąską kolumnę treści, więc tekstura oddycha na flankach |
+| 2026-11 | Krycie warstw tła liczone pikselowo, nie dobierane na oko | Każdy piksel tekstury skomponowany nad tłem sekcji i zmierzony względem tekstu, który na nim leży (tekst z alfą ponownie komponowany nad lokalnym tłem). Stąd 0.09 dla plastra miodu i 0.14 dla panelu kontaktu — wartości graniczne są o włos, więc „wygląda dobrze" nie jest testem |
+| 2026-11 | Jeden system przycisków: `.btn` + warianty, zamiast `.theme-cta`/`.theme-ghost` ze stylami rozsypanymi po markupie | Ta sama klasa CTA renderowała się jako trzy różne przyciski (radius 8 vs 12 px, `font-medium` vs `font-semibold`, dwa paddingi), a drugi przycisk w panelu kontaktu był jednorazowcem, który nie dzielił niczego z ghostem obok. Przy okazji: widoczny focus-ring, którego wcześniej nie było na żadnym przycisku |
+| 2026-11 | Hover przycisku to wyłącznie zmiana koloru | Stary CTA podnosił się o 1 px i rzucał poświatę — czego nie robił żaden inny element na stronie, więc dwa sąsiadujące przyciski hero zachowywały się inaczej |
+| 2026-11 | Filtr cząstek stałych wychodzący zza lewej krawędzi hero, naprzeciw turbosprężarki po prawej | Dwie części, z których warsztat żyje, klamrują nagłówek. Ile go widać, rośnie z szerokością okna (~169 / 241 / 358 px przy 1280 / 1536 / 1800+), bo prześwit obok kolumny tekstu też rośnie — stały offset albo wchodziłby na tekst przy 1280, albo zostawiał pasek na szerokim monitorze |
+| 2026-11 | Wszystkie trzy progi filtra jako `min-[…]`, nie `xl:`/`2xl:` | Tailwind sortuje nazwane breakpointy i arbitralne w osobnych grupach, więc `2xl:` wygrywało z `min-[1800px]:` przy 1920 px i najszerszy krok nigdy nie wchodził |
+| 2026-11 | Plaster miodu w `#faq` jako dwie flanki (`.texture-flank`), nie warstwa na całą sekcję | Pełna warstwa mierzyła 5.92:1 na tekście FAQ, czyli formalnie AA, i nadal czytała się jak szum pod 14 px tekstu — współczynnik kontrastu nic nie mówi o siatce, której podziałka jest zbliżona do grubości kreski pisma. Szerokość flanki to sam prześwit: `max(0rem, (100% - 50rem) / 2)`, więc tekstura kończy się przed pierwszą literą i sama znika na wąskich ekranach |
+| 2026-11 | Usunięta usługa „wysyłka kurierska" i wszystkie wzmianki o kurierze (`content.ts`, `llms.txt`, karta OG) | Decyzja klienta: warsztat takiej usługi nie świadczy. Siedziała w ośmiu miejscach, w tym w `makesOffer` w JSON-LD i w opisie meta |
+| 2026-11 | Usunięty badge nad H1 (+ martwe `.theme-badge` i `.accent-dot`) | Decyzja klienta. Powtarzał to, co mówi nagłówek, i był jedynym elementem na stronie z `rounded-full` |
+| 2026-11 | Zdjęcia części jako wycinanki z **prawdziwym kanałem alfa**, nie jako „i tak są na białym" | Pierwsza wersja tylko podciągała biel do 255 i wysyłała nieprzezroczysty plik — na stronie rysował się widoczny prostokąt, bo tła nie są płaskie (turbo ma 249 w rogach, ale miękki cień schodzi do 240 przy krawędzi kadru, a 6 poziomów różnicy na białym widać na całej szerokości 400 px). Mocniejsze przycięcie bieli tylko wybiela aluminium |
+| 2026-11 | Maska alfy przez **flood fill od krawędzi**, nie przez globalny próg jasności | Części mają refleksy jaśniejsze od tła; globalny próg robi dziury w chromie. Przed wypełnieniem dokładana jest 2-pikselowa biała ramka, dzięki czemu część dotykająca krawędzi kadru nie wpuszcza wypełnienia do środka |
+| 2026-11 | Cień kontaktowy znika razem z tłem | Strona kładzie te części jako swobodne obiekty; cień z cudzego oświetlenia padałby w każdym zdjęciu w inną stronę |
+| 2026-11 | Główny obraz hero: turbosprężarka z kolektorem jako wycinanka wewnątrz kontenera, nie zdjęcie wypełniające prawą krawędź viewportu | Decyzja klienta („może zamiast tego głównego obrazu"). Przy okazji dwie rzeczy: hero czyta się teraz jako dwie części klamrujące nagłówek, a nie wycinanka obok panelu ze zdjęciem; i przypięty do krawędzi ekranu obraz odpływał od tekstu tym bardziej, im szerszy monitor — przy 1920 zostawiał dziurę na środku |
+| 2026-11 | Pompa wtryskowa przy nagłówku `#services`, wtryskiwacze w lewej kolumnie `#why` | Obie te kolumny były puste z definicji: nagłówek `max-w-2xl` nad siatką trzykolumnową zostawia jedną trzecią wiersza, a `#why` to krótki H2 nad 20 rem pustki obok listy na pełną wysokość |
+| 2026-11 | Pułapka sharpa: `blur()` na jednokanałowym rawie zwraca 3 kanały | Maska robiła się 3× za długa, `joinChannel` czytał ją z przesunięciem i alfa wychodziła w poziome prążki. Lekarstwo: `toColourspace('b-w').raw()` przed `toBuffer()` |
+| 2026-11 | Układ strony z `main` (kwadratowy: tokeny `--radius-*` = 0, `.theme-cta`/`.theme-ghost`, `.card-grid`, sekcja `#injectors`), zdjęcia i tekstury z `s` | Decyzja klienta: układ ze strony produkcyjnej, ale z wycinankami części i teksturami. Zastępuje wpisy o systemie `.btn` i zaokrąglonych przyciskach powyżej — klasa `.btn` już nie istnieje |
+| 2026-11 | Hero: oryginalne zdjęcie turbosprężarki (`photo-turbo-original.webp`) z `.hero-bg` i `.photo-feather` zamiast wycinanki z alfą | Decyzja klienta: wycięcie wyglądało dziwnie. Backdrop zdjęcia jest bliski bieli, więc zamiast maski alfa tło sekcji dopasowano do jego średniego koloru, a brzeg rozmyto (~5%). Zastępuje wpis o wycinance w hero |
+| 2026-11 | Arimo tylko w H1/H2; body, logo i cyfry bez zmian (Inter / Orbitron) | Decyzja klienta po próbie z Barlow Condensed („mega brzydko"). Ext Arimo wycięty do Latin Extended-A, bo pełny plik ma 97 KB |
+| 2026-11 | Plaster miodu na telefonie jako pas u góry sekcji (`.texture-band`), filtr DPF w hero lustrzanie za nagłówkiem przy krycie 0.12 | Boczne pasy potrzebują luki obok kolumny, a na telefonie jej nie ma. Pas zanika w dół i leży tylko za nagłówkiem; najgorszy kontrast tekstu pod nim ~5.8:1 |
+| 2026-11 | Plaster miodu (boczne pasy) także w `#process` | Numery kroków leżą w białych kwadratach, więc nie stoją na teksturze; skrajne kroki zachodzą pod pas z krycia 0.14. Ostrzeżenie o `#process` w komentarzu CSS dotyczyło starego układu, w którym numery kroków stały bezpośrednio na tle sekcji |
+| 2026-11 | Usunięty pasek postępu przewijania i czwarta statystyka („100% napraw z pomiarem") | Decyzja klienta. Siatka statystyk: 3 kolumny od `sm`, wcześniej 4 |
+| 2026-11 | Słownictwo formalne w `content.ts` („odwiedź warsztat", „samochód" zamiast „auto", „zgłoś się" zamiast „wpadnij/podjedź") | Decyzja klienta: kolokwializmy brzmiały nieprofesjonalnie. Przy nowych tekstach unikaj „wpadnij", „po prostu", „sypie się", „siada" |
+| 2026-11 | Strony prawne i `BusinessDetails` z `main`; dane firmy (NIP, REGON, adres, telefon, e-mail `raf-turbo@op.pl`) w `business` | Operator „RAF-Turbo-DPF Rafał Markiewicz" zamiast „Szafruga Software Inc."; jedno źródło danych dla stopki, JSON-LD i stron prawnych |

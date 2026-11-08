@@ -10,7 +10,6 @@ const ui = {
         'site.name':            'RAF Turbo DPF',
         'site.description':     'Warsztat: regeneracja turbosprężarek, wtryskiwaczy i pomp wtryskowych, czyszczenie DPF',
         'nav.home':             'Strona główna',
-        'nav.features':         'Funkcje',
         'nav.services':         'Usługi',
         'nav.injectors':        'Wtryskiwacze',
         'nav.process':          'Proces',
@@ -39,30 +38,30 @@ const ui = {
         '404.explore':          'Albo sprawdź',
 
         // ── Landing: meta ──
-        'home.meta.title':         'Regeneracja turbo, wtryskiwaczy i pomp wtryskowych',
-        'home.meta.description':   'Regenerujemy turbosprężarki, wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Czyścimy filtry DPF. Auta osobowe, dostawcze, ciężarowe, maszyny budowlane i rolnicze.',
+        'home.meta.title':         'Regeneracja turbosprężarek, wtryskiwaczy i pomp wtryskowych',
+        'home.meta.description':   'Regenerujemy turbosprężarki, wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Czyścimy filtry DPF. Samochody osobowe, dostawcze i ciężarowe oraz maszyny budowlane i rolnicze.',
 
         // ── Landing: hero ──
-        'home.hero.heading':       'Regeneracja turbo, wtryskiwaczy i pomp.',
+        'home.hero.heading':       'Regeneracja turbosprężarek, wtryskiwaczy i pomp.',
         'home.hero.headingAccent': 'Czyszczenie DPF',
-        'home.hero.sub':           'Turbosprężarki, wtryskiwacze diesla i benzynowe, pompy wtryskowe — do aut osobowych, dostawczych i ciężarowych oraz maszyn budowlanych i rolniczych. Naprawiamy zamiast wymieniać: pomiar przed i po, gwarancja, zwykle 24–48 godzin.',
+        'home.hero.sub':           'Turbosprężarki, wtryskiwacze diesla i benzynowe, pompy wtryskowe — do samochodów osobowych, dostawczych i ciężarowych oraz maszyn budowlanych i rolniczych. Naprawiamy zamiast wymieniać: pomiar przed i po, gwarancja, zwykle 24–48 godzin.',
         'home.hero.photoAlt':      'Zbliżenie turbosprężarki z widocznym kołem kompresora, zamontowanej w komorze silnika',
+        'home.hero.filterAlt':     'Wyczyszczony filtr cząstek stałych z widocznym plastrem miodu wkładu',
         'home.hero.cta':           'Zadzwoń po wycenę',
         'home.hero.ctaAlt':        'Zobacz, co robimy',
 
         // ── Landing: liczby ──
         'home.stats.aria':         'Warsztat w liczbach',
         'home.stats.s1.value':     '24–48 h',
-        'home.stats.s1.label':     'Zwykle tyle czekasz',
+        'home.stats.s1.label':     'Typowy czas realizacji',
         'home.stats.s2.value':     '8 000+',
         'home.stats.s2.label':     'Naprawionych części',
         'home.stats.s3.value':     '12 mies.',
         'home.stats.s3.label':     'Gwarancji na naprawę',
-        'home.stats.s4.value':     '100%',
-        'home.stats.s4.label':     'Napraw z pomiarem przed i po',
 
         // ── Landing: usługi ──
         'home.services.title':     'Co robimy',
+        'home.services.photoAlt':  'Pompa wtryskowa wysokiego ciśnienia po regeneracji',
         'home.services.sub':       'Samochody osobowe, dostawcze i ciężarowe, maszyny budowlane i rolnicze — diesel i benzyna.',
         'home.services.s1.title':  'Czyszczenie DPF i FAP',
         'home.services.s1.desc':   'Wypłukujemy sadzę, popiół i olej z wkładu — na mokro i ultradźwiękami. Bez wypalania i bez wycinania filtra.',
@@ -73,121 +72,79 @@ const ui = {
         'home.services.s4.title':  'Regeneracja pomp wtryskowych',
         'home.services.s4.desc':   'Pompy rzędowe, rotacyjne i wysokiego ciśnienia. Rozbiór, wymiana zużytych elementów, ustawienie dawki i próba na stole.',
         'home.services.s5.title':  'Diagnostyka i pomiary',
-        'home.services.s5.desc':   'Odczyt sterownika, pomiar ciśnienia i przepływu. Oceniamy część, zanim weźmiemy zlecenie — i zanim wydasz złotówkę.',
+        'home.services.s5.desc':   'Odczyt sterownika, pomiar ciśnienia i przepływu. Oceniamy stan części, zanim przyjmiemy zlecenie — i zanim poniesiesz jakiekolwiek koszty.',
         'home.services.s6.title':  'Demontaż i montaż',
-        'home.services.s6.desc':   'Przyjeżdżasz autem, my wykręcamy część, naprawiamy i wkładamy z powrotem. Części z maszyn przyjmujemy też wykręcone.',
+        'home.services.s6.desc':   'Przyjeżdżasz samochodem, my demontujemy część, naprawiamy ją i montujemy z powrotem. Części zdemontowane z maszyn również przyjmujemy.',
 
-        // ── Landing: wtryskiwacze i pompy ──
+        // ── Landing: proces ──
         'home.injectors.title':    'Regeneracja wtryskiwaczy i pomp wtryskowych',
-        'home.injectors.sub':      'Wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Każdy element sprawdzamy osobno na stole probierczym — dawkę, przelew i szczelność. Zużyte części wymieniamy na nowe i ustawiamy dawkę od nowa. Na koniec dostajesz wydruk z wynikami.',
+        'home.injectors.sub':      'Wtryskiwacze diesla i benzynowe oraz pompy wtryskowe. Każdy element sprawdzamy osobno na stole probierczym — dawkę, przelew i szczelność. Zużyte części wymieniamy na nowe i ustawiamy dawkę od nowa. Na koniec otrzymujesz wydruk z wynikami.',
         'home.injectors.doTitle':  'Co robimy',
         'home.injectors.d1':       'Próba na stole probierczym — przed naprawą i po niej',
         'home.injectors.d2':       'Rozbiór, mycie ultradźwiękowe i pomiar zużycia',
         'home.injectors.d3':       'Nowe rozpylacze, elementy tłoczące, uszczelnienia i podkładki',
         'home.injectors.d4':       'Ustawienie dawki i nowe kody korekty do sterownika',
         'home.injectors.symTitle': 'Kiedy przywieźć wtryskiwacze albo pompę',
-        'home.injectors.y1':       'Auto ciężko odpala, zwłaszcza na zimno',
+        'home.injectors.y1':       'Utrudniony rozruch silnika, zwłaszcza na zimno',
         'home.injectors.y2':       'Nierówna praca na wolnych obrotach',
-        'home.injectors.y3':       'Dymi z rury i pali więcej niż zwykle',
-        'home.injectors.y4':       'Stuka, szarpie, brakuje mocy',
+        'home.injectors.y3':       'Dym z układu wydechowego i większe zużycie paliwa',
+        'home.injectors.y4':       'Stuki, szarpanie i spadek mocy',
         'home.injectors.y5':       'Świeci kontrolka silnika, błędy od przelewu lub ciśnienia paliwa',
-        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO), Continental. Common Rail, pompowtryskiwacze, wtrysk bezpośredni benzyny, pompy rzędowe i rotacyjne. Nie wiesz, co siada? Sprawdzamy cały komplet i mówimy, co da się naprawić, a co jest do wymiany.',
+        'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO), Continental. Common Rail, pompowtryskiwacze, wtrysk bezpośredni benzyny, pompy rzędowe i rotacyjne. Nie wiesz, który element jest uszkodzony? Sprawdzamy cały komplet i informujemy, co da się naprawić, a co wymaga wymiany.',
         'home.injectors.cta':      'Zadzwoń i opisz objawy',
 
-        // ── Landing: proces ──
         'home.process.title':      'Jak to wygląda',
         'home.process.sub':        'Od kontaktu do odebrania części.',
         'home.process.p1.title':   'Dzwonisz albo przyjeżdżasz',
-        'home.process.p1.desc':    'Zadzwoń i opisz, co się dzieje, albo po prostu przyjedź do naszego warsztatu w godzinach otwarcia.',
+        'home.process.p1.desc':    'Zadzwoń i opisz problem albo przyjedź do naszego warsztatu w godzinach otwarcia.',
         'home.process.p2.title':   'Sprawdzamy część i podajemy cenę',
-        'home.process.p2.desc':    'Mierzymy przepływ, luzy i stan wkładu, a potem mówimy, ile to wyjdzie. Jeśli naprawa nie ma sensu, powiemy wprost i nie policzymy za sprawdzenie.',
+        'home.process.p2.desc':    'Mierzymy przepływ, luzy i stan wkładu, a potem podajemy cenę. Jeśli naprawa nie ma sensu, poinformujemy o tym wprost i nie pobierzemy opłaty za sprawdzenie.',
         'home.process.p3.title':   'Naprawiamy',
         'home.process.p3.desc':    'Czyszczenie albo pełny rozbiór z wymianą zużytych części. Uszczelki, łożyska i rozpylacze zawsze nowe, nigdy z odzysku.',
         'home.process.p4.title':   'Odbierasz część',
-        'home.process.p4.desc':    'Pomiar kontrolny, wydruk z wynikami przed i po, montaż jeśli chcesz. Część wraca do Ciebie z gwarancją na piśmie.',
+        'home.process.p4.desc':    'Pomiar kontrolny, wydruk z wynikami przed i po, montaż na życzenie. Część wraca do Ciebie z gwarancją na piśmie.',
 
         // ── Landing: dlaczego my ──
         'home.why.title':          'Dlaczego naprawa, a nie nowa część',
+        'home.why.photoAlt':       'Komplet czterech wtryskiwaczy paliwa po regeneracji',
         'home.why.w1.title':       'Kosztuje ułamek nowej części',
         'home.why.w1.desc':        'Naprawa wychodzi znacznie taniej niż nowy filtr, turbina, pompa czy komplet wtryskiwaczy. A część po naprawie pracuje tak, jak powinna.',
         'home.why.w2.title':       'Bez wycinania i przeróbek',
-        'home.why.w2.desc':        'Wycięty DPF to utrata homologacji i niezaliczony przegląd. Czyścimy filtr tak, żeby auto dalej było zgodne z normą.',
+        'home.why.w2.desc':        'Wycięty DPF to utrata homologacji i niezaliczony przegląd. Czyścimy filtr tak, aby pojazd pozostał zgodny z normą emisji spalin.',
         'home.why.w3.title':       'Pomiar zamiast obietnic',
-        'home.why.w3.desc':        'Każdą część mierzymy przed naprawą i po niej. Dostajesz wydruk z liczbami, a nie zapewnienie, że powinno być dobrze.',
+        'home.why.w3.desc':        'Każdą część mierzymy przed naprawą i po niej. Otrzymujesz wydruk z wynikami, a nie zapewnienie, że powinno być dobrze.',
         'home.why.w4.title':       'Gwarancja na piśmie',
-        'home.why.w4.desc':        'Na każdą naprawę wystawiamy dokument gwarancyjny. Reklamacje załatwiamy u siebie, nie odsyłamy Cię do producenta.',
+        'home.why.w4.desc':        'Na każdą naprawę wystawiamy dokument gwarancyjny. Reklamacje rozpatrujemy w warsztacie — nie odsyłamy Cię do producenta.',
 
         // ── Landing: FAQ ──
         'home.faq.title':          'Częste pytania',
-        'home.faq.q1':             'Ile to trwa?',
-        'home.faq.a1':             'Zwykle 24–48 godzin od dnia, w którym część do nas trafi. Jeśli zostawiasz całe auto, dochodzi jeszcze demontaż i montaż. Pilne zlecenia dogadujemy przez telefon.',
+        'home.faq.q1':             'Ile trwa naprawa?',
+        'home.faq.a1':             'Zwykle 24–48 godzin od dnia, w którym część do nas trafi. Jeśli zostawiasz cały samochód, dochodzi jeszcze demontaż i montaż. Pilne zlecenia ustalamy telefonicznie.',
         'home.faq.q2':             'Czy każdy filtr da się uratować?',
         'home.faq.a2':             'Nie. Pęknięty, stopiony albo wypalony wkład nadaje się już tylko na wymianę. Widzimy to przy sprawdzeniu i mówimy, zanim zaczniemy pracę.',
-        'home.faq.q3':             'Muszę sam zdjąć część?',
-        'home.faq.a3':             'Nie. Możesz przyjechać całym autem — zdejmiemy i zamontujemy na miejscu. Jeśli część jest już wykręcona, po prostu przywieź ją do warsztatu.',
-        'home.faq.q4':             'Po czym poznać, że wtryskiwacze albo pompa się sypią?',
-        'home.faq.a4':             'Auto ciężko odpala na zimno, nierówno chodzi na wolnych obrotach, dymi albo pali więcej. Pewność daje dopiero próba na stole probierczym — sprawdzamy cały komplet i mówimy, który element jest do naprawy.',
-        'home.faq.q5':             'Trzeba potem kasować błędy?',
-        'home.faq.a5':             'Tak, i robimy to my. Po montażu kasujemy adaptacje i licznik popiołu, a jak trzeba — wymuszamy regenerację. To wchodzi w cenę usługi.',
-        'home.faq.q6':             'Trzeba się wcześniej umawiać?',
-        'home.faq.a6':             'Nie. Możesz po prostu podjechać w godzinach otwarcia. Telefon przed przyjazdem przydaje się tylko o tyle, że od razu powiemy, czy warto brać część ze sobą.',
-        'home.faq.q7':             'Obsługujecie warsztaty i floty?',
-        'home.faq.a7':             'Tak. Warsztaty i firmy z flotą obsługujemy w pierwszej kolejności, z jedną fakturą zbiorczą i stałymi cenami. Warunki ustalamy na miejscu.',
-        'home.faq.q8':             'Naprawiacie części z maszyn budowlanych i rolniczych?',
-        'home.faq.a8':             'Tak. Turbosprężarki, wtryskiwacze i pompy wtryskowe z ciągników, koparek, ładowarek czy wózków widłowych robimy tak samo jak te z aut. Maszyna nie musi przyjeżdżać — wystarczy przywieźć wykręconą część.',
+        'home.faq.q3':             'Czy muszę samodzielnie zdemontować część?',
+        'home.faq.a3':             'Nie. Możesz przyjechać całym samochodem — zdemontujemy i zamontujemy część na miejscu. Jeśli część jest już zdemontowana, przywieź ją do warsztatu.',
+        'home.faq.q4':             'Po czym poznać, że wtryskiwacze lub pompa są uszkodzone?',
+        'home.faq.a4':             'Silnik trudno uruchamia się na zimno, pracuje nierówno na wolnych obrotach, dymi lub zużywa więcej paliwa. Pewność daje dopiero próba na stole probierczym — sprawdzamy cały komplet i wskazujemy, który element wymaga naprawy.',
+        'home.faq.q5':             'Czy po naprawie trzeba kasować błędy?',
+        'home.faq.a5':             'Tak, wykonujemy to my. Po montażu kasujemy adaptacje i licznik popiołu, a w razie potrzeby wymuszamy regenerację. Jest to wliczone w cenę usługi.',
+        'home.faq.q6':             'Czy trzeba się wcześniej umawiać?',
+        'home.faq.a6':             'Nie. Możesz zgłosić się w godzinach otwarcia. Telefon przed przyjazdem pozwala nam od razu powiedzieć, czy warto zabrać część ze sobą.',
+        'home.faq.q7':             'Czy obsługujecie warsztaty i firmy z flotą pojazdów?',
+        'home.faq.a7':             'Tak. Warsztaty i firmy z flotą obsługujemy w pierwszej kolejności, z jedną fakturą zbiorczą i stałymi cenami. Warunki ustalamy indywidualnie.',
+        'home.faq.q8':             'Czy naprawiacie części z maszyn budowlanych i rolniczych?',
+        'home.faq.a8':             'Tak. Turbosprężarki, wtryskiwacze i pompy wtryskowe z ciągników, koparek, ładowarek czy wózków widłowych regenerujemy tak samo jak te z samochodów. Maszyna nie musi przyjeżdżać — wystarczy przywieźć zdemontowaną część.',
 
         // ── Landing: kontakt ──
         'home.contact.title':      'Zadzwoń albo przyjedź',
-        'home.contact.sub':        'Zadzwoń po wycenę albo wpadnij do warsztatu — z częścią albo całym autem.',
+        'home.contact.sub':        'Zadzwoń po wycenę albo odwiedź warsztat — z częścią lub całym samochodem.',
         'home.contact.phone':      'Telefon',
         'home.contact.email':      'E-mail',
         'home.contact.address':    'Adres warsztatu',
         'home.contact.hours':      'Godziny otwarcia',
-        // Sobota i niedziela wypisane wprost: warsztat jest po to, żeby
-        // ktoś podjechał bez umawiania się — milczenie o weekendzie
-        // kończy się kursem pod zamkniętą bramę.
         'home.contact.hoursValue': 'Pon.–Pt. 8:00–17:00 · Sob.–Niedz. nieczynne',
         'home.contact.cta':        'Zadzwoń teraz',
         'home.contact.ctaAlt':     'Napisz e-mail',
-
-        // ── Features page ──
-        'features.title':          'Funkcje',
-        'features.description':    'Co dostaniesz w RAF Turbo DPF — starter kit do budowania stron w Astro',
-        'features.hero.heading':   'Wszystko czego potrzebujesz',
-        'features.hero.sub':       'RAF Turbo DPF to gotowy punkt startowy — zamiast konfigurować od zera, zaczynasz od działającego systemu i go adaptujesz.',
-        'features.badge':          'RAF Turbo DPF Starter Kit',
-        'features.cta.note':       'Gotowy w minutę. Modyfikuj do woli.',
-        'features.cta.back':       'Strona główna',
-
-        'features.f1.title':       'Astro 7 + SSR',
-        'features.f1.desc':        'Nowoczesny framework z adapterem Node.js. Server-side rendering gotowy od razu, API routes działają out of the box.',
-
-        'features.f2.title':       'Tailwind CSS v4',
-        'features.f2.desc':        'Nowa architektura z pluginem Vite — bez PostCSS, szybsza kompilacja, pełna paleta utility classes.',
-
-        'features.f3.title':       'TypeScript (strict)',
-        'features.f3.desc':        'Ścisłe typowanie w całym projekcie. Kompilator pilnuje typów w komponentach, tłumaczeniach i layoutach.',
-
-        'features.f4.title':       'i18n bez bibliotek',
-        'features.f4.desc':        'Obsługa języków pl i en wbudowana w routing Astro. Domyślny locale bez prefiksu URL, pełne hreflang i canonical.',
-
-        'features.f5.title':       'Zero abstrakcji',
-        'features.f5.desc':        'Każda strona to zwykły plik .astro. Żadnych rejestrów, żadnych PageRenderer — modyfikujesz HTML wprost.',
-
-        'features.f6.title':       'System motywów',
-        'features.f6.desc':        'Pięć gotowych motywów. Re-skinning przez zmianę zmiennych CSS w :root — jeden plik, cały wygląd.',
-
-        'features.f7.title':       'CMS-ready',
-        'features.f7.desc':        'SSR włączony, API routes gotowe. Podłącz MongoDB, Postgres lub dowolną bazę — architektura już na to czeka.',
-
-        'features.f8.title':       'SEO z pudełka',
-        'features.f8.desc':        'BaseLayout obsługuje meta, OG, Twitter Card, hreflang, canonical i JSON-LD strukturalny dla każdej strony.',
-
-        'features.f9.title':       'Wydajność',
-        'features.f9.desc':        'Lokalne fonty (zero external requests), animacje po LCP, View Transitions API, grid animowany post-LCP.',
-
-        'features.f10.title':      'Szybki start',
-        'features.f10.desc':       'npm install && npm run dev — i masz działający projekt z nawigacją, stopką, motywami i i18n.',
 
         // ── Privacy policy ──
         'privacy.title':        'Polityka prywatności',
@@ -204,8 +161,6 @@ const ui = {
         'privacy.rights.heading':      'Prawa użytkownika',
         'privacy.rights.text':         'Zgodnie z obowiązującymi przepisami o ochronie danych osobowych, przysługuje Ci prawo do: dostępu do swoich danych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, wniesienia sprzeciwu wobec przetwarzania, przenoszenia danych oraz złożenia skargi do organu nadzorczego (UODO).',
         'privacy.contact.heading':     'Kontakt',
-        // Adres e-mail dokleja strona z `business` w site.config.ts —
-        // jedno źródło dla stopki, kontaktu i stron prawnych.
         'privacy.contact.text':        'W sprawach dotyczących ochrony danych osobowych prosimy o kontakt pod adresem e-mail:',
         'privacy.changes.heading':     'Zmiany w polityce',
         'privacy.changes.text':        'Zastrzegamy sobie prawo do aktualizacji niniejszej Polityki Prywatności. Wszelkie zmiany zostaną opublikowane na tej stronie wraz z datą ostatniej aktualizacji.',
@@ -226,15 +181,12 @@ const ui = {
         'terms.changes.text':          'Operator zastrzega sobie prawo do zmiany niniejszego Regulaminu. Zmiany wchodzą w życie z chwilą ich opublikowania w Serwisie. Dalsze korzystanie z Serwisu po wprowadzeniu zmian oznacza ich akceptację.',
         'terms.contact.heading':       'Kontakt',
         'terms.contact.text':          'W sprawach związanych z Regulaminem prosimy o kontakt pod adresem e-mail:',
-
-        // ── Dane rejestrowe (blok wspólny dla stron prawnych) ──
         'legal.company.heading': 'Dane firmy',
     },
     en: {
         'site.name':            'RAF Turbo DPF',
         'site.description':     'Workshop: turbocharger, injector and injection pump rebuilds, DPF cleaning',
         'nav.home':             'Home',
-        'nav.features':         'Features',
         'nav.services':         'Services',
         'nav.injectors':        'Injectors',
         'nav.process':          'Process',
@@ -271,6 +223,7 @@ const ui = {
         'home.hero.headingAccent': 'DPF cleaning',
         'home.hero.sub':           'Turbochargers, diesel and petrol injectors, injection pumps — for cars, vans and trucks as well as construction and farm machinery. We repair rather than replace: measured before and after, with a warranty, usually within 24 to 48 hours.',
         'home.hero.photoAlt':      'Close-up of a turbocharger with its compressor wheel visible, mounted in an engine bay',
+        'home.hero.filterAlt':     'A cleaned diesel particulate filter with the honeycomb face of the core visible',
         'home.hero.cta':           'Call for a quote',
         'home.hero.ctaAlt':        'See what we do',
 
@@ -282,11 +235,10 @@ const ui = {
         'home.stats.s2.label':     'Parts repaired',
         'home.stats.s3.value':     '12 months',
         'home.stats.s3.label':     'Warranty on every repair',
-        'home.stats.s4.value':     '100%',
-        'home.stats.s4.label':     'Jobs measured before and after',
 
         // ── Landing: services ──
         'home.services.title':     'What we do',
+        'home.services.photoAlt':  'A regenerated high-pressure injection pump',
         'home.services.sub':       'Cars, vans and trucks, construction and farm machinery — diesel and petrol.',
         'home.services.s1.title':  'DPF and FAP cleaning',
         'home.services.s1.desc':   'We wash the soot, ash and oil out of the core — wet cleaning and ultrasound. No burning, no cutting the filter out.',
@@ -299,9 +251,9 @@ const ui = {
         'home.services.s5.title':  'Diagnostics and measurement',
         'home.services.s5.desc':   'ECU readout, pressure and flow measurement. We assess the part before taking the job on — and before you spend anything.',
         'home.services.s6.title':  'Removal and refitting',
-        'home.services.s6.desc':   'Bring the car in — we take the part off, repair it and put it back. Parts off machinery can be dropped in already removed.',
+        'home.services.s6.desc':   'Bring the car in — we remove the part, repair it and refit it. Parts already removed from machinery are accepted too.',
 
-        // ── Landing: injectors and pumps ──
+        // ── Landing: process ──
         'home.injectors.title':    'Injector and injection pump regeneration',
         'home.injectors.sub':      'Diesel and petrol injectors as well as injection pumps. Every part is tested separately on the rig — fuel delivery, back-leakage and sealing. Worn parts are replaced with new ones and delivery is set up again. You get a printout of the results.',
         'home.injectors.doTitle':  'What we do',
@@ -311,18 +263,17 @@ const ui = {
         'home.injectors.d4':       'Delivery set up and new correction codes for the ECU',
         'home.injectors.symTitle': 'When to bring injectors or a pump in',
         'home.injectors.y1':       'The engine struggles to start, especially cold',
-        'home.injectors.y2':       'Rough running at idle',
+        'home.injectors.y2':       'Uneven running at idle',
         'home.injectors.y3':       'Smoke from the exhaust and higher fuel use',
         'home.injectors.y4':       'Knocking, hesitation, loss of power',
         'home.injectors.y5':       'Engine light on, back-leakage or fuel pressure fault codes',
         'home.injectors.note':     'Bosch, Delphi, Denso, Siemens (VDO), Continental. Common Rail, unit injectors, petrol direct injection, inline and rotary pumps. Not sure what is failing? We test the whole set and tell you what can be repaired and what needs replacing.',
         'home.injectors.cta':      'Call us and describe the symptoms',
 
-        // ── Landing: process ──
         'home.process.title':      'How it works',
         'home.process.sub':        'From the first call to picking the part up.',
         'home.process.p1.title':   'You call or drive over',
-        'home.process.p1.desc':    'Ring us and describe what the car is doing, or simply come by the workshop during opening hours.',
+        'home.process.p1.desc':    'Call us and describe what the car is doing, or visit the workshop during opening hours.',
         'home.process.p2.title':   'We check it and quote',
         'home.process.p2.desc':    'We measure flow, clearances and the state of the core, then tell you what it will cost. If a repair makes no sense, we say so plainly — and we do not charge for the check.',
         'home.process.p3.title':   'We repair it',
@@ -332,6 +283,7 @@ const ui = {
 
         // ── Landing: why us ──
         'home.why.title':          'Why repair instead of buying new',
+        'home.why.photoAlt':       'A set of four regenerated fuel injectors',
         'home.why.w1.title':       'A fraction of the price of a new part',
         'home.why.w1.desc':        'A repair costs far less than a new filter, turbo, pump or set of injectors. And the part works as it should afterwards.',
         'home.why.w2.title':       'No cutting out, no modifications',
@@ -348,13 +300,13 @@ const ui = {
         'home.faq.q2':             'Can every filter be saved?',
         'home.faq.a2':             'No. A cracked, melted or burnt-through core is only fit for replacement. We see this during the check and tell you before any work starts.',
         'home.faq.q3':             'Do I have to remove the part myself?',
-        'home.faq.a3':             'No. You can bring the whole car in and we will remove and refit it here. If the part is already off, just drop it in at the workshop.',
+        'home.faq.a3':             'No. You can bring the whole car in and we will remove and refit the part here. If the part is already removed, bring it to the workshop.',
         'home.faq.q4':             'How do I know the injectors or the pump are failing?',
-        'home.faq.a4':             'The car struggles to start cold, runs roughly at idle, smokes or uses more fuel. Only a bench test settles it — we test the whole set and tell you which part needs work.',
+        'home.faq.a4':             'The engine is hard to start when cold, runs unevenly at idle, smokes or uses more fuel. Only a bench test settles it — we test the whole set and tell you which part needs work.',
         'home.faq.q5':             'Do fault codes need clearing afterwards?',
         'home.faq.a5':             'Yes, and we do it. After refitting we reset the adaptations and the ash counter, and force a regeneration if needed. It is included in the price.',
         'home.faq.q6':             'Do I need an appointment?',
-        'home.faq.a6':             'No. Just come by during opening hours. Calling ahead only helps in that we can tell you straight away whether to bring the part with you.',
+        'home.faq.a6':             'No. You can visit during opening hours. Calling ahead only helps in that we can tell you straight away whether to bring the part with you.',
         'home.faq.q7':             'Do you work with workshops and fleets?',
         'home.faq.a7':             'Yes. Workshops and fleet operators get served first, with one consolidated invoice and fixed pricing. Terms are agreed here at the workshop.',
         'home.faq.q8':             'Do you repair parts off construction and farm machinery?',
@@ -362,7 +314,7 @@ const ui = {
 
         // ── Landing: contact ──
         'home.contact.title':      'Call us or drive over',
-        'home.contact.sub':        'Call for a quote or come by the workshop — with the part or with the whole car.',
+        'home.contact.sub':        'Call for a quote or visit the workshop — with the part or with the whole car.',
         'home.contact.phone':      'Phone',
         'home.contact.email':      'Email',
         'home.contact.address':    'Workshop address',
@@ -370,45 +322,6 @@ const ui = {
         'home.contact.hoursValue': 'Mon-Fri 8:00-17:00 · Sat-Sun closed',
         'home.contact.cta':        'Call now',
         'home.contact.ctaAlt':     'Send an email',
-
-        // ── Features page ──
-        'features.title':          'Features',
-        'features.description':    'What you get with RAF Turbo DPF — the Astro starter kit',
-        'features.hero.heading':   'Everything you need',
-        'features.hero.sub':       'RAF Turbo DPF is a ready-made starting point — instead of configuring from scratch, you start with a working system and adapt it.',
-        'features.badge':          'RAF Turbo DPF Starter Kit',
-        'features.cta.note':       'Ready in a minute. Modify freely.',
-        'features.cta.back':       'Home',
-
-        'features.f1.title':       'Astro 7 + SSR',
-        'features.f1.desc':        'Modern framework with a Node.js adapter. Server-side rendering ready out of the box, API routes work immediately.',
-
-        'features.f2.title':       'Tailwind CSS v4',
-        'features.f2.desc':        'New Vite plugin architecture — no PostCSS, faster compilation, full utility class palette.',
-
-        'features.f3.title':       'TypeScript (strict)',
-        'features.f3.desc':        'Strict typing across the entire project. The compiler enforces types in components, translations, and layouts.',
-
-        'features.f4.title':       'i18n without libraries',
-        'features.f4.desc':        'Built-in pl and en support via Astro routing. Default locale without URL prefix, full hreflang and canonical.',
-
-        'features.f5.title':       'Zero abstractions',
-        'features.f5.desc':        'Every page is a plain .astro file. No registries, no PageRenderer — you edit HTML directly.',
-
-        'features.f6.title':       'Theme system',
-        'features.f6.desc':        'Five built-in themes. Re-skin by changing CSS variables in :root — one file, the whole look.',
-
-        'features.f7.title':       'CMS-ready',
-        'features.f7.desc':        'SSR enabled, API routes ready. Connect MongoDB, Postgres, or any database — the architecture already supports it.',
-
-        'features.f8.title':       'SEO out of the box',
-        'features.f8.desc':        'BaseLayout handles meta, OG, Twitter Card, hreflang, canonical, and JSON-LD structured data for every page.',
-
-        'features.f9.title':       'Performance',
-        'features.f9.desc':        'Local fonts (zero external requests), post-LCP animations, View Transitions API, animated grid post-LCP.',
-
-        'features.f10.title':      'Quick start',
-        'features.f10.desc':       'npm install && npm run dev — and you have a working project with navigation, footer, themes, and i18n.',
 
         // ── Privacy policy ──
         'privacy.title':        'Privacy Policy',
@@ -425,8 +338,6 @@ const ui = {
         'privacy.rights.heading':      'User rights',
         'privacy.rights.text':         'In accordance with applicable data protection laws, you have the right to: access your data, rectify, erase, or restrict processing, object to processing, data portability, and file a complaint with a supervisory authority.',
         'privacy.contact.heading':     'Contact',
-        // The address itself is appended by the page from `business` in
-        // site.config.ts — one source for footer, contact and legal pages.
         'privacy.contact.text':        'For data protection inquiries, please contact us at:',
         'privacy.changes.heading':     'Policy changes',
         'privacy.changes.text':        'We reserve the right to update this Privacy Policy. Any changes will be published on this page along with the date of the last update.',
@@ -447,8 +358,6 @@ const ui = {
         'terms.changes.text':          'The Operator reserves the right to amend these Terms. Changes take effect upon publication on the Service. Continued use of the Service after changes constitutes acceptance thereof.',
         'terms.contact.heading':       'Contact',
         'terms.contact.text':          'For inquiries related to these Terms, please contact us at:',
-
-        // ── Registered details (shared block on the legal pages) ──
         'legal.company.heading': 'Company details',
     },
 } as const satisfies Record<Locale, Record<string, string>>

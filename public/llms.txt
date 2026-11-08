@@ -11,7 +11,7 @@ wtryskowe. Czyścimy filtry cząstek stałych, bez wycinania filtra.
 Obsługujemy kierowców indywidualnych oraz warsztaty i floty.
 
 Pracujemy stacjonarnie, w warsztacie. Część można przywieźć wykręconą albo
-zostawić całe auto — demontaż i montaż robimy na miejscu. Nie prowadzimy
+zostawić cały samochód — demontaż i montaż robimy na miejscu. Nie prowadzimy
 wysyłki ani odbioru części kurierem.
 
 Nie usuwamy (nie wycinamy) DPF i nie modyfikujemy oprogramowania silnika —
@@ -66,6 +66,6 @@ Zwykle 24–48 h od dnia, w którym część do nas trafi.
 
 <!-- TODO: e-mail to nadal dane zastępcze (patrz `business` w src/lib/site.config.ts) -->
 - Telefon: +48 697 319 424
-- E-mail: kontakt@example.com
+- E-mail: raf-turbo@op.pl
 - Adres: Mrzygłodzka 111, 42-400 Zawiercie, woj. śląskie
 - Godziny: pon.–pt. 8:00–17:00; sobota i niedziela nieczynne

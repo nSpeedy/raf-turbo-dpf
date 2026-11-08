@@ -100,12 +100,17 @@
         color: #737373;
     }
 
+    /* 58px, not the 76px this card started with: "czyszczenie filtrów
+       cząstek stałych" is a much longer first line than "czyszczenie DPF"
+       was, and anything above ~60px wraps it before the explicit <br/>,
+       leaving "stałych" alone on a line and pushing the rule out of the
+       1200×630 frame. */
     h1 {
-        font-size: 76px;
+        font-size: 58px;
         font-weight: 800;
         line-height: 1.08;
         letter-spacing: -0.022em;
-        max-width: 900px;
+        max-width: 1010px;
     }
     h1 .accent {
         background: linear-gradient(120deg, #ef4444 0%, #dc2626 45%, #991b1b 100%);
@@ -145,8 +150,8 @@
             <span class="mark-label">RAF Turbo DPF</span>
         </div>
 
-        <h1>Regeneracja turbo, wtryskiwaczy<br />i pomp. <span class="accent">Czyszczenie DPF</span></h1>
-        <p>Auta osobowe, dostawcze, ciężarowe oraz maszyny budowlane i rolnicze. Pomiar przed i po, gwarancja na piśmie.</p>
+        <h1>Czyszczenie filtrów cząstek stałych<br />i regeneracja <span class="accent">turbosprężarek</span></h1>
+        <p>Pomiar przed i po, raport z każdego zlecenia, gwarancja.</p>
         <div class="rule"></div>
     </div>
 </body>

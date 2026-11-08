@@ -72,14 +72,14 @@ const orgJsonLd = {
     <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
 
-    <!-- Preload only the fonts rendered above the fold. Inter now carries
-         both the LCP heading and the body copy (see --font-heading in
-         globals.css), so the base face gets fetchpriority; the ext face
-         holds the Polish diacritics in that same heading, which is why it
-         is preloaded rather than left to lazy @font-face discovery.
-         Orbitron, Zen Dots and the Syncopate faces stay lazy — they only
-         load if a glyph in their range is actually rendered. -->
-    <link rel="preload" href="/fonts/inter-variable.woff2"     as="font" type="font/woff2" crossorigin fetchpriority="high" />
+    <!-- Preload only the fonts rendered above the fold: Arimo (the LCP
+         heading — the base face gets fetchpriority, the ext face holds the
+         Polish diacritics in that heading) and Inter (body copy). Orbitron,
+         Zen Dots and the Syncopate faces stay lazy — they only load if a
+         glyph in their range is actually rendered. -->
+    <link rel="preload" href="/fonts/arimo-variable.woff2"     as="font" type="font/woff2" crossorigin fetchpriority="high" />
+    <link rel="preload" href="/fonts/arimo-variable-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-variable.woff2"     as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-variable-ext.woff2" as="font" type="font/woff2" crossorigin />
 
     <title>{fullTitle}</title>
@@ -217,11 +217,6 @@ const orgJsonLd = {
     <slot name="head" />
 </head>
 <body class="h-full relative overflow-x-hidden">
-    <!-- Reading progress — CSS scroll-driven animation, zero JS
-         (globals.css .scroll-progress). Browsers without
-         `animation-timeline` simply never grow the bar. -->
-    <div class="scroll-progress" aria-hidden="true"></div>
-
     <!-- Background layers. All styling in globals.css (.bg-grid-layer +
          variant classes). Animations gated on `html.bg-anim` added
          post-LCP by Observer, so this markup adds zero animation work
