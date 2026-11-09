@@ -10,16 +10,27 @@ import type { Locale } from '@/lib/locales'
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale
 const t = useTranslations(locale)
 
-/* Icons are raw path markup rather than an <Icon> component: six sprites
-   used once each don't justify an abstraction, and inlining keeps them
-   `currentColor` so they follow the accent token with zero extra CSS. */
-const services = [
-    { key: 's1', icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3.6 7.5h16.8M3.6 16.5h16.8"/>' },
-    { key: 's2', icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2"/><path d="M12 9.8V3.2M13.9 13.1l5.7 3.3M10.1 13.1l-5.7 3.3"/>' },
-    { key: 's3', icon: '<path d="M10 3.5h4v7l-2 2.5-2-2.5z"/><path d="M12 15.5v5M9.3 16.8l-1.2 3.3M14.7 16.8l1.2 3.3"/>' },
-    { key: 's4', icon: '<rect x="2.5" y="9" width="12" height="9"/><path d="M6.5 9V5M5.2 5h2.6M10.5 9V5M9.2 5h2.6M14.5 12H21M14.5 15H21"/>' },
-    { key: 's5', icon: '<path d="M3.5 18a8.5 8.5 0 1 1 17 0"/><path d="M12 18l4.6-5.8"/><circle cx="12" cy="18" r="1.2"/>' },
-    { key: 's6', icon: '<path d="M12 3 20 7.5v9L12 21 4 16.5v-9z"/><circle cx="12" cy="12" r="3.2"/>' },
+/* Service blocks. The six `services` keys no longer render as a grid —
+   each now has its own section — but they stay as the source for the
+   `makesOffer` list in the LocalBusiness JSON-LD, which wants one short
+   title + description per offer. */
+const services = ['s1', 's2', 's3', 's4', 's5', 's6'] as const
+
+/* Turbocharger block: what is done and the symptoms that bring people in.
+   Diagnostics and workshop are lists of titled items / plain items. */
+const turboWork = ['d1', 'd2', 'd3', 'd4', 'd5'] as const
+const turboSymptoms = ['y1', 'y2', 'y3', 'y4', 'y5'] as const
+const diagItems = ['t1', 't2', 't3', 't4', 't5'] as const
+const workshopItems = ['w1', 'w2', 'w3', 'w4', 'w5', 'w6'] as const
+
+/* Fault codes shown on the diagnostics readout panel. The codes are
+   standard OBD-II and the same in every language; only the label beside
+   each one is translated (home.diag.c1…c4). */
+const diagCodes = [
+    { code: 'P0299', key: 'c1' },
+    { code: 'P2002', key: 'c2' },
+    { code: 'P0087', key: 'c3' },
+    { code: 'P0401', key: 'c4' },
 ] as const
 
 const stats = ['s1', 's2', 's3'] as const
@@ -48,6 +59,11 @@ const dpfSymptoms = ['y1', 'y2', 'y3', 'y4', 'y5'] as const
    reserved box stops matching and the hero shifts on load. Update
    home.hero.photoAlt to match whatever the image actually shows. */
 const heroPhoto = '/images/photo-turbo-original.webp'
+
+/* Photo in the "about the workshop" block. A stand-in until a picture of
+   the workshop itself is supplied — replace the path (keep 4:3 or update
+   width/height on the <img>) and the alt in home.about.photoAlt. */
+const workshopPhoto = '/images/photo-workshop.webp'
 
 const telHref = `tel:${business.phone}`
 const mailHref = `mailto:${business.email}`
@@ -102,7 +118,7 @@ const businessJsonLd = {
     },
     areaServed: { '@type': 'City', name: business.areaServed },
     openingHours: business.openingHours,
-    makesOffer: services.map(({ key }) => ({
+    makesOffer: services.map((key) => ({
         '@type': 'Offer',
         itemOffered: {
             '@type': 'Service',
@@ -187,14 +203,14 @@ const faqJsonLd = {
                 width="606"
                 height="620"
                 decoding="async"
-                class="hidden min-[1280px]:block absolute left-0 bottom-0 -z-10 h-auto w-[22rem] translate-y-[14%] -translate-x-[52%] min-[1536px]:w-[26rem] min-[1536px]:-translate-x-[42%] min-[1800px]:w-[32rem] min-[1800px]:-translate-x-[30%]"
+                class="absolute right-0 top-28 -z-10 h-auto w-64 translate-x-[35%] -scale-x-100 opacity-[0.12] min-[1280px]:left-0 min-[1280px]:right-auto min-[1280px]:top-auto min-[1280px]:bottom-0 min-[1280px]:scale-x-100 min-[1280px]:opacity-100 min-[1280px]:translate-y-[14%] min-[1280px]:w-[22rem] min-[1280px]:-translate-x-[52%] min-[1536px]:w-[26rem] min-[1536px]:-translate-x-[42%] min-[1800px]:w-[32rem] min-[1800px]:-translate-x-[30%]"
             />
 
             <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 xl:pl-28 lg:translate-x-6 min-[1280px]:translate-x-12 pt-14 pb-12 lg:py-24 lg:min-h-[70vh] flex flex-col lg:flex-row items-center gap-10 lg:gap-6">
                 <div class="w-full lg:w-[54%] lg:pr-8">
                     <h1 class="font-heading font-bold tracking-[-0.02em] text-4xl sm:text-5xl leading-[1.1] text-balance text-fg">
                         {t('home.hero.heading')}{' '}
-                        <span class="gradient-text">{t('home.hero.headingAccent')}</span>
+                        <span class="gradient-text whitespace-nowrap">{t('home.hero.headingAccent')}</span>
                     </h1>
 
                     <p class="mt-6 text-base sm:text-lg text-muted max-w-xl leading-relaxed text-pretty">
@@ -208,7 +224,7 @@ const faqJsonLd = {
                             </svg>
                             {t('home.hero.cta')}
                         </a>
-                        <a href="#services" class="theme-ghost rounded-control inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium bg-surface">
+                        <a href="#turbo" class="theme-ghost rounded-control inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium bg-surface">
                             {t('home.hero.ctaAlt')}
                             <span aria-hidden="true">↓</span>
                         </a>
@@ -230,11 +246,6 @@ const faqJsonLd = {
                      `fetchpriority="high"`: this is the hero's LCP
                      candidate and it is not lazy. -->
                 <div class="w-full lg:w-[46%] flex justify-center lg:justify-end">
-                    <!-- Below xl there is no room beside the copy for the
-                         filter hanging off the left edge, so it joins the
-                         turbo here instead: the same two parts, one under
-                         the other's corner, on phone and tablet alike. Same
-                         file as the xl one, so it is downloaded once. -->
                     <div class="relative w-full max-w-sm sm:max-w-md lg:max-w-none">
                         <img
                             src={heroPhoto}
@@ -245,16 +256,57 @@ const faqJsonLd = {
                             decoding="async"
                             class="w-full h-auto photo-feather origin-right min-[1024px]:scale-[1.15] min-[1280px]:scale-[1.22] min-[1440px]:scale-[1.3] min-[1280px]:translate-x-[5rem] min-[1440px]:translate-x-36 min-[1536px]:translate-x-[10.5rem]"
                         />
-                        <img
-                            src="/images/photo-dpf-hero.webp"
-                            alt={t('home.hero.filterAlt')}
-                            width="606"
-                            height="620"
-                            decoding="async"
-                            class="min-[1280px]:hidden absolute -bottom-6 -left-2 sm:-left-6 h-auto w-28 sm:w-36 lg:w-40"
-                        />
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ═══ O warsztacie ═══
+             The first thing under the hero: who the workshop is, how long
+             it has been doing this and where it is. It comes before the
+             service blocks because a visitor who has never heard of the
+             business needs that before a list of what it repairs.
+
+             The photograph is a stand-in (`workshopPhoto`) until a picture
+             of the workshop itself arrives; swap the constant in the
+             frontmatter and keep the 4:3 ratio, or adjust width/height.
+             On a phone the text comes first and the picture follows. -->
+        <section id="about" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <div class="animate">
+                    <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                        {t('home.about.title')}
+                    </h2>
+                    <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.about.p1')}</p>
+                    <p class="mt-4 text-muted leading-relaxed text-pretty">{t('home.about.p2')}</p>
+
+                    <dl class="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-px bg-line border border-line">
+                        <div class="bg-surface px-6 py-6">
+                            <dt class="text-xs font-semibold uppercase tracking-wider text-dim">{t('home.about.yearsLabel')}</dt>
+                            <dd class="mt-2 font-mono font-bold text-3xl text-accent">{t('home.about.yearsValue')}</dd>
+                        </div>
+                        <div class="bg-surface px-6 py-6">
+                            <dt class="text-xs font-semibold uppercase tracking-wider text-dim">{t('home.about.placeLabel')}</dt>
+                            <dd class="mt-2 text-sm leading-relaxed text-fg">
+                                <address class="not-italic">
+                                    {business.street}<br />
+                                    {business.postalCode} {business.city}
+                                </address>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <img
+                    src={workshopPhoto}
+                    alt={t('home.about.photoAlt')}
+                    width="1440"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full aspect-[4/3] object-cover border border-line animate"
+                />
             </div>
         </section>
 
@@ -279,79 +331,122 @@ const faqJsonLd = {
             </ul>
         </section>
 
-        <!-- ═══ Usługi ═══
-             Hairline grid (`.card-grid`): six square cells sharing one
-             rule, no gutters, no shadows. Reads as a catalogue page.
+        <!-- ═══ Turbosprężarki ═══
+             The workshop's namesake, so it opens the service blocks. Same
+             vocabulary as the two panels below — a checklist of what is
+             done and a list of the symptoms that bring people in — but
+             open on the page instead of boxed, so three framed panels in a
+             row don't read as one pattern repeated.
 
-             Six items divide evenly by 1, 2 and 3 columns, so no row is
-             ever short. An incomplete row in a hairline grid is a bare
-             rectangle of line colour — check the arithmetic before
-             putting a different collection in one.
-
-             Reveal is on the grid, not the cells — see the trust strip. -->
-        <section id="services" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
+             The heading sits above the grid, not in it: on a phone the
+             order is heading, picture, lists, call button, and on desktop
+             the picture and the lists share a row under one heading.
+             The cut-out is on pure white, so it stays on the white ground. -->
+        <section id="turbo" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
             <div class="max-w-6xl mx-auto">
-                <!-- The header row is deliberately not full width: a
-                     max-w-2xl heading over a three-column grid leaves a
-                     third of the row empty, and a part standing in it
-                     shows what the section is about before the reader has
-                     got through one card title. Same rule as every other
-                     photograph here — a cut-out on pure white, no frame,
-                     no tile, nothing that makes it look like a card the
-                     grid forgot. -->
                 <header class="max-w-2xl animate">
                     <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
-                        {t('home.services.title')}
+                        {t('home.turbo.title')}
                     </h2>
                     <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
-                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.services.sub')}</p>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.turbo.sub')}</p>
                 </header>
 
-                <div class="card-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-12 animate">
-                    {services.map(({ key, icon }, i) => (
-                        <article class="theme-card group p-7 sm:p-8 flex flex-col gap-6">
-                            <div class="flex items-start justify-between gap-4">
-                                <span class="rounded-control w-12 h-12 flex items-center justify-center flex-shrink-0 border border-line text-accent transition-colors duration-300 group-hover:border-accent">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true">
-                                        <Fragment set:html={icon} />
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <!-- A photograph on a white backdrop (corners 252–255), so
+                         the section is plain white and the picture needs no
+                         frame, tint or feathering. -->
+                    <img
+                        src="/images/photo-turbo-twin.webp"
+                        alt={t('home.turbo.photoAlt')}
+                        width="1080"
+                        height="869"
+                        loading="lazy"
+                        decoding="async"
+                        class="w-full max-w-md sm:max-w-lg lg:max-w-none mx-auto h-auto animate"
+                    />
+
+                    <div class="animate">
+                        <h3 class="text-xs font-semibold uppercase tracking-wider text-dim">
+                            {t('home.turbo.doTitle')}
+                        </h3>
+                        <ul class="mt-5 space-y-3.5">
+                            {turboWork.map((key) => (
+                                <li class="flex gap-3.5">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 flex-shrink-0 text-accent" aria-hidden="true">
+                                        <path d="m4.5 12.5 5 5 10-11"/>
                                     </svg>
-                                </span>
-                                <span class="font-mono text-xs text-dim" aria-hidden="true">{i + 1} / {services.length}</span>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-base text-fg">{t(`home.services.${key}.title`)}</h3>
-                                <p class="mt-2.5 text-sm leading-relaxed text-muted">{t(`home.services.${key}.desc`)}</p>
-                            </div>
-                        </article>
-                    ))}
+                                    <span class="text-sm leading-relaxed text-muted">{t(`home.turbo.${key}`)}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <h3 class="mt-10 font-semibold text-base text-fg">{t('home.turbo.symTitle')}</h3>
+                        <ul class="mt-5 border-t border-line divide-y divide-line">
+                            {turboSymptoms.map((key) => (
+                                <li class="flex items-start gap-3.5 py-3.5 text-sm leading-relaxed text-muted">
+                                    <span class="mt-2 w-1.5 h-1.5 flex-shrink-0 bg-accent" aria-hidden="true"></span>
+                                    {t(`home.turbo.${key}`)}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <p class="mt-8 text-sm leading-relaxed text-dim text-pretty">{t('home.turbo.note')}</p>
+                        <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                            </svg>
+                            {t('home.turbo.cta')}
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ═══ Filtry DPF ═══
-             Mirror of the injector panel below: same hairline frame, but
-             the tinted symptom column sits on the left from lg up (the
-             two blocks stacked would otherwise read as one pattern
-             repeated), and the photograph is the filter itself.
-
-             On a phone the DOM order is the reading order: heading, what
-             we do, the filter, then the symptoms and the call button.
-             `lg:order-first` only moves the tinted column; nothing is
-             duplicated for the other breakpoint.
-
-             The cut-out is on pure white, so it lives in the white column
-             — on the tinted one it would show as a lighter rectangle. -->
+             Same open layout as the turbocharger block above — heading on
+             top, picture and lists in a row under it — with the picture on
+             the other side (`lg:order-last`) and a tinted ground, so the
+             blocks alternate instead of stacking the same shape. On a
+             phone the DOM order is the reading order: picture first. The
+             cut-out has an alpha channel, so it sits on either ground. -->
         <section id="dpf" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
-            <div class="max-w-6xl mx-auto border border-line animate">
-                <div class="grid grid-cols-1 lg:grid-cols-2">
-                    <div class="p-8 sm:p-12 border-b border-line lg:border-b-0 lg:border-l">
-                        <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
-                            {t('home.dpf.title')}
-                        </h2>
-                        <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
-                        <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.dpf.sub')}</p>
+            <div class="max-w-6xl mx-auto">
+                <header class="max-w-2xl animate">
+                    <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                        {t('home.dpf.title')}
+                    </h2>
+                    <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.dpf.sub')}</p>
+                </header>
 
-                        <h3 class="mt-10 text-xs font-semibold uppercase tracking-wider text-dim">
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <!-- Two photographs of different filters, whole and cut
+                         open. Both have pure-white backgrounds, so they sit on
+                         the white section with no frame. -->
+                    <div class="flex items-center justify-center gap-4 sm:gap-6 w-full max-w-lg mx-auto lg:max-w-none animate lg:order-last">
+                        <img
+                            src="/images/photo-dpf-clean.webp"
+                            alt={t('home.dpf.photoAlt')}
+                            width="800"
+                            height="800"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-1/2 h-auto"
+                        />
+                        <img
+                            src="/images/photo-dpf-cutaway.webp"
+                            alt={t('home.dpf.photoCutawayAlt')}
+                            width="620"
+                            height="465"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-1/2 h-auto"
+                        />
+                    </div>
+
+                    <div class="animate">
+                        <h3 class="text-xs font-semibold uppercase tracking-wider text-dim">
                             {t('home.dpf.doTitle')}
                         </h3>
                         <ul class="mt-5 space-y-3.5">
@@ -365,21 +460,8 @@ const faqJsonLd = {
                             ))}
                         </ul>
 
-                        <img
-                            src="/images/photo-dpf-hero.webp"
-                            alt={t('home.hero.filterAlt')}
-                            width="606"
-                            height="620"
-                            loading="lazy"
-                            decoding="async"
-                            class="mt-10 mx-auto lg:mx-0 w-56 sm:w-64 lg:w-52 h-auto animate animate-delay-200"
-                        />
-                    </div>
-
-                    <div class="p-8 sm:p-12 bg-surface-soft flex flex-col lg:order-first">
-                        <h3 class="font-semibold text-base text-fg">{t('home.dpf.symTitle')}</h3>
-
-                        <ul class="mt-6 border-t border-line divide-y divide-line">
+                        <h3 class="mt-10 font-semibold text-base text-fg">{t('home.dpf.symTitle')}</h3>
+                        <ul class="mt-5 border-t border-line divide-y divide-line">
                             {dpfSymptoms.map((key) => (
                                 <li class="flex items-start gap-3.5 py-3.5 text-sm leading-relaxed text-muted">
                                     <span class="mt-2 w-1.5 h-1.5 flex-shrink-0 bg-accent" aria-hidden="true"></span>
@@ -388,45 +470,57 @@ const faqJsonLd = {
                             ))}
                         </ul>
 
-                        <div class="mt-auto pt-8">
-                            <p class="text-sm leading-relaxed text-dim text-pretty">{t('home.dpf.note')}</p>
-                            <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
-                                    <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
-                                </svg>
-                                {t('home.dpf.cta')}
-                            </a>
-                        </div>
+                        <p class="mt-8 text-sm leading-relaxed text-dim text-pretty">{t('home.dpf.note')}</p>
+                        <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                            </svg>
+                            {t('home.dpf.cta')}
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ═══ Wtryskiwacze i pompy wtryskowe ═══
-             The one pair of services that gets its own block: these are the
-             ones people search for by symptom rather than by part name, so
-             they need room for the symptom list that the six-cell service
-             grid has no space for.
-
-             Sits on the white background like the section above it, so the
-             hairline panel is what separates the two — a second tinted band
-             here would collide with the tinted `#process` below and the two
-             borders would read as one 2px rule.
-
-             Reveal is on the panel, not its halves: the right half carries
-             the tint, and animating the two columns separately shows the
-             ground through a hole while one of them is still at opacity 0. -->
+             Same layout again, picture on the left, white ground. The two
+             parts (injectors and pump) stand side by side as one visual.
+             They share the symptoms and the test bench, so they share the
+             section — splitting them would repeat the same lists. -->
         <section id="injectors" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
-            <div class="max-w-6xl mx-auto border border-line animate">
-                <div class="grid grid-cols-1 lg:grid-cols-2">
-                    <div class="p-8 sm:p-12 border-b border-line lg:border-b-0 lg:border-r">
-                        <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
-                            {t('home.injectors.title')}
-                        </h2>
-                        <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
-                        <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.injectors.sub')}</p>
+            <div class="max-w-6xl mx-auto">
+                <header class="max-w-2xl animate">
+                    <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                        {t('home.injectors.title')}
+                    </h2>
+                    <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.injectors.sub')}</p>
+                </header>
 
-                        <h3 class="mt-10 text-xs font-semibold uppercase tracking-wider text-dim">
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <div class="flex items-end justify-center gap-6 sm:gap-10 animate">
+                        <img
+                            src="/images/photo-injectors.webp"
+                            alt={t('home.why.photoAlt')}
+                            width="564"
+                            height="524"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-28 sm:w-44 h-auto"
+                        />
+                        <img
+                            src="/images/photo-pump.webp"
+                            alt={t('home.services.photoAlt')}
+                            width="564"
+                            height="440"
+                            loading="lazy"
+                            decoding="async"
+                            class="w-40 sm:w-60 h-auto"
+                        />
+                    </div>
+
+                    <div class="animate">
+                        <h3 class="text-xs font-semibold uppercase tracking-wider text-dim">
                             {t('home.injectors.doTitle')}
                         </h3>
                         <ul class="mt-5 space-y-3.5">
@@ -440,35 +534,8 @@ const faqJsonLd = {
                             ))}
                         </ul>
 
-                        <!-- The two parts this section is about, side by side under
-                             the list. Cut-outs on pure white like every other photo
-                             here — no frame, no tile. -->
-                        <div class="mt-10 flex items-end gap-6 sm:gap-10">
-                            <img
-                                src="/images/photo-injectors.webp"
-                                alt={t('home.why.photoAlt')}
-                                width="560"
-                                height="520"
-                                loading="lazy"
-                                decoding="async"
-                                class="w-28 sm:w-36 h-auto animate animate-delay-200"
-                            />
-                            <img
-                                src="/images/photo-pump.webp"
-                                alt={t('home.services.photoAlt')}
-                                width="560"
-                                height="436"
-                                loading="lazy"
-                                decoding="async"
-                                class="w-40 sm:w-52 h-auto animate animate-delay-200"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="p-8 sm:p-12 bg-surface-soft flex flex-col">
-                        <h3 class="font-semibold text-base text-fg">{t('home.injectors.symTitle')}</h3>
-
-                        <ul class="mt-6 border-t border-line divide-y divide-line">
+                        <h3 class="mt-10 font-semibold text-base text-fg">{t('home.injectors.symTitle')}</h3>
+                        <ul class="mt-5 border-t border-line divide-y divide-line">
                             {injectorSymptoms.map((key) => (
                                 <li class="flex items-start gap-3.5 py-3.5 text-sm leading-relaxed text-muted">
                                     <span class="mt-2 w-1.5 h-1.5 flex-shrink-0 bg-accent" aria-hidden="true"></span>
@@ -477,15 +544,115 @@ const faqJsonLd = {
                             ))}
                         </ul>
 
-                        <div class="mt-auto pt-8">
-                            <p class="text-sm leading-relaxed text-dim text-pretty">{t('home.injectors.note')}</p>
-                            <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
-                                    <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                        <p class="mt-8 text-sm leading-relaxed text-dim text-pretty">{t('home.injectors.note')}</p>
+                        <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                            </svg>
+                            {t('home.injectors.cta')}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Diagnostyka komputerowa ═══
+             There is no photograph of diagnostics worth using, so the
+             visual is a controller readout drawn in the page's own tokens:
+             a dark square panel (the same inverted surface as the contact
+             block) with a few real fault codes in mono type. Decorative —
+             the list beside it carries the content, hence `aria-hidden`.
+             The codes themselves are language-neutral (see `diagCodes`). -->
+        <section id="diagnostics" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface-soft border-y border-line">
+            <div class="max-w-6xl mx-auto">
+                <header class="max-w-2xl animate">
+                    <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                        {t('home.diag.title')}
+                    </h2>
+                    <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.diag.sub')}</p>
+                </header>
+
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <div class="w-full max-w-md mx-auto lg:max-w-none bg-fg text-surface p-6 sm:p-8 font-mono animate lg:order-last" aria-hidden="true">
+                        <p class="text-xs uppercase tracking-wider text-surface/60">{t('home.diag.screenTitle')}</p>
+                        <ul class="mt-5 border-t border-surface/20 divide-y divide-surface/20">
+                            {diagCodes.map(({ code, key }) => (
+                                <li class="flex items-start gap-4 py-3.5 text-xs sm:text-sm leading-relaxed">
+                                    <span class="font-bold flex-shrink-0">{code}</span>
+                                    <span class="text-surface/75">{t(`home.diag.${key}`)}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div class="animate">
+                        <ul class="border-t border-line divide-y divide-line">
+                            {diagItems.map((key) => (
+                                <li class="flex items-start gap-4 py-5">
+                                    <span class="mt-2 w-1.5 h-1.5 flex-shrink-0 bg-accent" aria-hidden="true"></span>
+                                    <div>
+                                        <h3 class="font-semibold text-base text-fg">{t(`home.diag.${key}.title`)}</h3>
+                                        <p class="mt-2 text-sm leading-relaxed text-muted">{t(`home.diag.${key}.desc`)}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <a href={telHref} class="theme-cta rounded-control mt-8 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                            </svg>
+                            {t('home.diag.cta')}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Warsztat ═══
+             The general-repair side of the business. The list on the left
+             is what is done; the dark panel on the right (same inverted
+             surface as the diagnostics readout and the contact block) is
+             the business card — address and a call button — so the block
+             ends in a way to reach the workshop, not in another list.
+             White ground, so the next block (`#process`, tinted) gets its
+             own border. -->
+        <section id="workshop" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
+            <div class="max-w-6xl mx-auto">
+                <header class="max-w-2xl animate">
+                    <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                        {t('home.workshop.title')}
+                    </h2>
+                    <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                    <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.workshop.sub')}</p>
+                </header>
+
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
+                    <ul class="border-t border-line divide-y divide-line animate">
+                        {workshopItems.map((key) => (
+                            <li class="flex gap-3.5 py-4">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 flex-shrink-0 text-accent" aria-hidden="true">
+                                    <path d="m4.5 12.5 5 5 10-11"/>
                                 </svg>
-                                {t('home.injectors.cta')}
-                            </a>
-                        </div>
+                                <span class="text-sm leading-relaxed text-muted">{t(`home.workshop.${key}`)}</span>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div class="bg-fg text-surface p-8 sm:p-10 flex flex-col animate">
+                        <h3 class="font-bold text-xl sm:text-2xl tracking-tight text-balance">{t('home.workshop.panelTitle')}</h3>
+                        <p class="mt-4 text-sm leading-relaxed text-surface/70 text-pretty">{t('home.workshop.note')}</p>
+                        <address class="mt-6 text-sm not-italic leading-relaxed text-surface/80">
+                            {business.street}<br />
+                            {business.postalCode} {business.city}
+                        </address>
+                        <a href={telHref} class="theme-cta rounded-control mt-8 self-start inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                            </svg>
+                            {t('home.workshop.cta')}
+                        </a>
                     </div>
                 </div>
             </div>

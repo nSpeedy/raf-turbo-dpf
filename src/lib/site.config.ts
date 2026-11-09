@@ -28,18 +28,20 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
     nav: [
-        { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.turbo', path: '/#turbo' },
+        { labelKey: 'nav.dpf', path: '/#dpf' },
         { labelKey: 'nav.injectors', path: '/#injectors' },
-        { labelKey: 'nav.process', path: '/#process' },
-        { labelKey: 'nav.why', path: '/#why' },
-        { labelKey: 'nav.faq', path: '/#faq' },
+        { labelKey: 'nav.diagnostics', path: '/#diagnostics' },
+        { labelKey: 'nav.workshop', path: '/#workshop' },
         { labelKey: 'nav.contact', path: '/#contact' },
     ],
     footerNav: [
         { labelKey: 'nav.home', path: '/' },
-        { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.turbo', path: '/#turbo' },
         { labelKey: 'nav.dpf', path: '/#dpf' },
         { labelKey: 'nav.injectors', path: '/#injectors' },
+        { labelKey: 'nav.diagnostics', path: '/#diagnostics' },
+        { labelKey: 'nav.workshop', path: '/#workshop' },
         { labelKey: 'nav.contact', path: '/#contact' },
     ],
     legalNav: [

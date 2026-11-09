@@ -17,11 +17,11 @@ const home = prefix || '/'
    as the site grows.
 
    Paths go through localizePath rather than `${prefix}${path}`: the
-   landing-page anchors would otherwise localize to '/en/#services', and
+   landing-page anchors would otherwise localize to '/en/#turbo', and
    that trailing slash is exactly what canonicalUrl() and the sitemap
    strip. */
 const sections = [
-    { label: t('nav.services'), href: localizePath(locale, '/#services') },
+    { label: t('nav.turbo'), href: localizePath(locale, '/#turbo') },
     { label: t('nav.process'), href: localizePath(locale, '/#process') },
     { label: t('nav.contact'), href: localizePath(locale, '/#contact') },
     { label: t('footer.privacy'), href: localizePath(locale, '/privacy') },
