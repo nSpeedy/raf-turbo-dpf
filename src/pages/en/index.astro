@@ -36,6 +36,11 @@ const faq = ['1', '2', '3', '4', '5', '6', '7', '8'] as const
 const injectorWork = ['d1', 'd2', 'd3', 'd4'] as const
 const injectorSymptoms = ['y1', 'y2', 'y3', 'y4', 'y5'] as const
 
+/* Particulate filter section — same shape as the injector block, same
+   reason: people arrive with a symptom, not a part name. */
+const dpfWork = ['d1', 'd2', 'd3', 'd4'] as const
+const dpfSymptoms = ['y1', 'y2', 'y3', 'y4', 'y5'] as const
+
 /* The hero's main image — the original photograph, not a cut-out. Its
    backdrop is near-white, not pure white, so the hero section is tinted
    to the photo's mean backdrop (`.hero-bg`) and the photo's outer edge is
@@ -182,7 +187,7 @@ const faqJsonLd = {
                 width="606"
                 height="620"
                 decoding="async"
-                class="absolute right-0 top-28 -z-10 h-auto w-64 translate-x-[35%] -scale-x-100 opacity-[0.12] min-[1280px]:left-0 min-[1280px]:right-auto min-[1280px]:top-auto min-[1280px]:bottom-0 min-[1280px]:scale-x-100 min-[1280px]:opacity-100 min-[1280px]:translate-y-[14%] min-[1280px]:w-[22rem] min-[1280px]:-translate-x-[52%] min-[1536px]:w-[26rem] min-[1536px]:-translate-x-[42%] min-[1800px]:w-[32rem] min-[1800px]:-translate-x-[30%]"
+                class="hidden min-[1280px]:block absolute left-0 bottom-0 -z-10 h-auto w-[22rem] translate-y-[14%] -translate-x-[52%] min-[1536px]:w-[26rem] min-[1536px]:-translate-x-[42%] min-[1800px]:w-[32rem] min-[1800px]:-translate-x-[30%]"
             />
 
             <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 xl:pl-28 lg:translate-x-6 min-[1280px]:translate-x-12 pt-14 pb-12 lg:py-24 lg:min-h-[70vh] flex flex-col lg:flex-row items-center gap-10 lg:gap-6">
@@ -225,15 +230,30 @@ const faqJsonLd = {
                      `fetchpriority="high"`: this is the hero's LCP
                      candidate and it is not lazy. -->
                 <div class="w-full lg:w-[46%] flex justify-center lg:justify-end">
-                    <img
-                        src={heroPhoto}
-                        alt={t('home.hero.photoAlt')}
-                        width="1080"
-                        height="924"
-                        fetchpriority="high"
-                        decoding="async"
-                        class="w-full max-w-sm sm:max-w-md lg:max-w-none h-auto photo-feather origin-right min-[1024px]:scale-[1.15] min-[1280px]:scale-[1.22] min-[1440px]:scale-[1.3] min-[1280px]:translate-x-[5rem] min-[1440px]:translate-x-36 min-[1536px]:translate-x-[10.5rem]"
-                    />
+                    <!-- Below xl there is no room beside the copy for the
+                         filter hanging off the left edge, so it joins the
+                         turbo here instead: the same two parts, one under
+                         the other's corner, on phone and tablet alike. Same
+                         file as the xl one, so it is downloaded once. -->
+                    <div class="relative w-full max-w-sm sm:max-w-md lg:max-w-none">
+                        <img
+                            src={heroPhoto}
+                            alt={t('home.hero.photoAlt')}
+                            width="1080"
+                            height="924"
+                            fetchpriority="high"
+                            decoding="async"
+                            class="w-full h-auto photo-feather origin-right min-[1024px]:scale-[1.15] min-[1280px]:scale-[1.22] min-[1440px]:scale-[1.3] min-[1280px]:translate-x-[5rem] min-[1440px]:translate-x-36 min-[1536px]:translate-x-[10.5rem]"
+                        />
+                        <img
+                            src="/images/photo-dpf-hero.webp"
+                            alt={t('home.hero.filterAlt')}
+                            width="606"
+                            height="620"
+                            decoding="async"
+                            class="min-[1280px]:hidden absolute -bottom-6 -left-2 sm:-left-6 h-auto w-28 sm:w-36 lg:w-40"
+                        />
+                    </div>
                 </div>
             </div>
         </section>
@@ -304,6 +324,80 @@ const faqJsonLd = {
                             </div>
                         </article>
                     ))}
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Filtry DPF ═══
+             Mirror of the injector panel below: same hairline frame, but
+             the tinted symptom column sits on the left from lg up (the
+             two blocks stacked would otherwise read as one pattern
+             repeated), and the photograph is the filter itself.
+
+             On a phone the DOM order is the reading order: heading, what
+             we do, the filter, then the symptoms and the call button.
+             `lg:order-first` only moves the tinted column; nothing is
+             duplicated for the other breakpoint.
+
+             The cut-out is on pure white, so it lives in the white column
+             — on the tinted one it would show as a lighter rectangle. -->
+        <section id="dpf" class="cv-auto scroll-mt-24 section-padding-small px-4 sm:px-6 bg-surface">
+            <div class="max-w-6xl mx-auto border border-line animate">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div class="p-8 sm:p-12 border-b border-line lg:border-b-0 lg:border-l">
+                        <h2 class="font-bold text-2xl sm:text-4xl tracking-tight text-fg text-balance">
+                            {t('home.dpf.title')}
+                        </h2>
+                        <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+                        <p class="mt-6 text-muted leading-relaxed text-pretty">{t('home.dpf.sub')}</p>
+
+                        <h3 class="mt-10 text-xs font-semibold uppercase tracking-wider text-dim">
+                            {t('home.dpf.doTitle')}
+                        </h3>
+                        <ul class="mt-5 space-y-3.5">
+                            {dpfWork.map((key) => (
+                                <li class="flex gap-3.5">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mt-1 flex-shrink-0 text-accent" aria-hidden="true">
+                                        <path d="m4.5 12.5 5 5 10-11"/>
+                                    </svg>
+                                    <span class="text-sm leading-relaxed text-muted">{t(`home.dpf.${key}`)}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <img
+                            src="/images/photo-dpf-hero.webp"
+                            alt={t('home.hero.filterAlt')}
+                            width="606"
+                            height="620"
+                            loading="lazy"
+                            decoding="async"
+                            class="mt-10 mx-auto lg:mx-0 w-56 sm:w-64 lg:w-52 h-auto animate animate-delay-200"
+                        />
+                    </div>
+
+                    <div class="p-8 sm:p-12 bg-surface-soft flex flex-col lg:order-first">
+                        <h3 class="font-semibold text-base text-fg">{t('home.dpf.symTitle')}</h3>
+
+                        <ul class="mt-6 border-t border-line divide-y divide-line">
+                            {dpfSymptoms.map((key) => (
+                                <li class="flex items-start gap-3.5 py-3.5 text-sm leading-relaxed text-muted">
+                                    <span class="mt-2 w-1.5 h-1.5 flex-shrink-0 bg-accent" aria-hidden="true"></span>
+                                    {t(`home.dpf.${key}`)}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div class="mt-auto pt-8">
+                            <p class="text-sm leading-relaxed text-dim text-pretty">{t('home.dpf.note')}</p>
+                            <a href={telHref} class="theme-cta rounded-control mt-7 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+                                    <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 5.1 5.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z"/>
+                                </svg>
+                                {t('home.dpf.cta')}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -479,6 +573,16 @@ const faqJsonLd = {
                         {t('home.why.title')}
                     </h2>
                     <span class="block w-12 h-0.5 mt-6 bg-accent" aria-hidden="true"></span>
+
+                    <!-- Only the top of the filter — rim and mesh face — fading
+                         out at the bottom edge, so it reads as a part rising
+                         out of the heading rather than a third copy of the
+                         photo. Desktop only: on a phone this column is just
+                         the heading and the picture would push the list down
+                         for nothing. Decorative, hence no alt. -->
+                    <div class="hidden lg:block mt-10 w-64 h-40 overflow-hidden [mask-image:linear-gradient(to_bottom,#000_55%,transparent)]" aria-hidden="true">
+                        <img src="/images/photo-dpf-hero.webp" alt="" width="606" height="620" loading="lazy" decoding="async" class="w-64 h-auto" />
+                    </div>
                 </div>
 
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10">

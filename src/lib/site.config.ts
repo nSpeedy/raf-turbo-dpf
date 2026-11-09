@@ -38,6 +38,7 @@ export const siteConfig: SiteConfig = {
     footerNav: [
         { labelKey: 'nav.home', path: '/' },
         { labelKey: 'nav.services', path: '/#services' },
+        { labelKey: 'nav.dpf', path: '/#dpf' },
         { labelKey: 'nav.injectors', path: '/#injectors' },
         { labelKey: 'nav.contact', path: '/#contact' },
     ],
