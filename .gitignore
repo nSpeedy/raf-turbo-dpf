@@ -30,3 +30,5 @@ pnpm-debug.log*
 lh-*.json
 lh-reports/
 lh-reports-mobile/
+
+.vercel/

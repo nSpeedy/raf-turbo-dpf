@@ -1,11 +1,11 @@
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
-import node from '@astrojs/node'
+import vercel from '@astrojs/vercel'
 import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
     output: 'server',
-    adapter: node({ mode: 'standalone' }),
+    adapter: vercel(),
     site: process.env.SITE_URL || 'http://localhost:4321',
     /* Inline stylesheets directly into the HTML — removes render-blocking
        CSS requests on initial paint. Our bundle is small enough that
